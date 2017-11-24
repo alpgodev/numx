@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project name="Tests NumX" default="all" basedir=".">
+	<!-- ======================================================= -->
+	<!-- Defines variables used by the other targets             -->
+	<!-- ======================================================= -->
+
+	<property name="ant.build.javac.source" value="1.7"/>
+	<property name="ant.build.javac.target" value="1.7"/>
+
+	<property name="name" value="Tests NumX"/>
+	<property name="debug" value="on"/>
+	<property name="verbose" value="off"/>
+		
+	<!-- ==================================================== -->
+	<!-- Deletes .class					  -->
+	<!-- ==================================================== -->
+	<target name="clean">
+		<delete>
+			<fileset dir="src/java" includes="*.class"/>
+		</delete>
+	</target>
+		
+	<!-- ==================================================== -->
+	<!-- Compiles .java				          -->
+	<!-- ==================================================== -->
+	<target name="compile" depends="clean">
+		<javac target="1.7" source="1.7" srcdir="src/java" destdir="src/java" debug="on" includes="TestNumX.java
+TestNumXLinearAlgebra.java 
+TestNumXlinalgChol.java 
+TestNumXlinalgNDM.java 
+TestNumXlinalgNormFrobenius.java 
+TestNumXlinalgNormInf.java 
+TestNumXlinalgNormL1.java 
+TestNumXlinalgPM.java 
+TestNumXlinalgPMC.java 
+TestNumXlinalgPMMT.java 
+TestNumXlinalgPMTM.java 
+TestNumXlinalgPMTV.java 
+TestNumXlinalgPMV.java 
+TestNumXlinalgPMX.java 
+TestNumXlinalgPVX.java 
+TestNumXlinalgRM.java 
+TestNumXlinalgSM.java 
+TestNumXlinalgSVD.java 
+TestNumXlinalgTM.java 
+TestNumXlinalgXM.java 
+TestNumXlinalgXV.java 
+TestNumXlinearalgebraTest.java 
+TestNumXModeling.java 
+TestNumXmodelingAPT.java 
+TestNumXmodelingAPTconstraint.java 
+TestNumXmodelingCoKurtosis.java 
+TestNumXmodelingCoSkewness.java 
+TestNumXmodelingCorr.java 
+TestNumXmodelingCorrExp.java 
+TestNumXmodelingCorrLack.java 
+TestNumXmodelingCov.java 
+TestNumXmodelingCovExp.java 
+TestNumXmodelingCovLack.java 
+TestNumXmodelingCovLength.java 
+TestNumXmodelingEM.java 
+TestNumXmodelingImpliedReturns.java 
+TestNumXmodelingLogReturns.java 
+TestNumXmodelingLogReturnsLack.java 
+TestNumXmodelingPCA.java 
+TestNumXmodelingReturns.java 
+TestNumXmodelingReturnsLack.java 
+TestNumXmodelingShrinkCov.java 
+TestNumXmodelingShrinkMeanBS.java 
+TestNumXmodelingShrinkMeanJS.java 
+TestNumXmodelingTest.java 
+TestNumXOptimization.java 
+TestNumXoptimCalEpsVar.java 
+TestNumXoptimConstSector.java 
+TestNumXoptimCovFiltering.java 
+TestNumXoptimCovFilteringX.java 
+TestNumXoptimEfficientFrontier.java 
+TestNumXoptimIndexTracking.java 
+TestNumXoptimIndexTrackingRfr.java 
+TestNumXoptimMeanVariance.java 
+TestNumXoptimMeanVarianceRfr.java 
+TestNumXoptimMeanVarianceTC.java 
+TestNumXoptimQP.java 
+TestNumXoptimRiskBudgeting.java 
+TestNumXoptimRiskBudgetingIT.java 
+TestNumXoptimRiskBudgetingRfr.java 
+TestNumXoptimSDLS.java 
+TestNumXoptimSDLSModeler.java 
+TestNumXoptimSDLScorr.java 
+TestNumXoptimSDLStrace.java 
+TestNumXoptimSharpeRatio.java 
+TestNumXoptimSharpeRatioRfr.java 
+TestNumXoptimizationTest.java 
+TestNumXReporting.java 
+TestNumXreportingExanteCC.java 
+TestNumXreportingExanteDRisk.java 
+TestNumXreportingExanteIPC.java 
+TestNumXreportingExanteIR.java 
+TestNumXreportingExanteKurtosis.java 
+TestNumXreportingExanteMaxVaR.java 
+TestNumXreportingExanteModifiedSharpeRatio.java 
+TestNumXreportingExanteModifiedVaR.java 
+TestNumXreportingExanteNormalCVaR.java 
+TestNumXreportingExanteNormalShortfall.java 
+TestNumXreportingExanteNormalVaR.java 
+TestNumXreportingExanteReturn.java 
+TestNumXreportingExanteSharpeRatio.java 
+TestNumXreportingExanteSkewness.java 
+TestNumXreportingExanteTE.java 
+TestNumXreportingExanteVolatility.java 
+TestNumXreportingExpostCorrCoef.java 
+TestNumXreportingExpostDownSide.java 
+TestNumXreportingExpostIR.java 
+TestNumXreportingExpostKurtosis.java 
+TestNumXreportingExpostMaxLoss.java 
+TestNumXreportingExpostMaxVaR.java 
+TestNumXreportingExpostModifiedSharpeRatio.java 
+TestNumXreportingExpostModifiedVaR.java 
+TestNumXreportingExpostNonParametricCVaR.java 
+TestNumXreportingExpostNonParametricVaR.java 
+TestNumXreportingExpostNormalCVaR.java 
+TestNumXreportingExpostNormalShortfall.java 
+TestNumXreportingExpostNormalVaR.java 
+TestNumXreportingExpostReturn.java 
+TestNumXreportingExpostSemiVolatility.java 
+TestNumXreportingExpostSharpeRatio.java 
+TestNumXreportingExpostSkewness.java 
+TestNumXreportingExpostSortinoRatio.java 
+TestNumXreportingExpostTE.java 
+TestNumXreportingExpostVolatility.java 
+TestNumXreportingExpostVolatilityExp.java 
+TestNumXreportingFutureValues.java 
+TestNumXreportingGaussianKernel.java 
+TestNumXreportingMonteCarloVaR.java 
+TestNumXreportingPastValues.java 
+TestNumXreportingPerformanceContribution.java 
+TestNumXreportingRollingPies.java 
+TestNumXreportingTest.java 
+TestNumXreportingTrackingErrorContribution.java 
+TestNumXreportingVaRContribution.java 
+TestNumXreportingVolatilityContribution.java 
+TestNumXSimulation.java 
+TestNumXsimulBMN.java 
+TestNumXsimulGARCH.java 
+TestNumXsimulGeometricBrownian.java 
+TestNumXsimulGeometricBrownianX.java 
+TestNumXsimulOrnsteinUhlenbeck.java 
+TestNumXsimulStandardBrownian.java 
+TestNumXsimulWiener.java 
+TestNumXsimulationTest.java 
+">
+			<classpath>
+				<pathelement location="../lib/numx.jar"/>
+			</classpath>
+		</javac>
+	</target>
+	
+
+	<!-- ==================================================== -->
+	<!-- Lauches tests				          -->
+	<!-- ==================================================== -->
+	<target name="test" depends="compile">
+		<java dir="src/java" classname="TestNumX" newenvironment="yes"
+			fork="yes" output="report/outputs.txt" append="true">
+			<classpath>
+				<pathelement location="../lib/numx.jar"/>
+				<pathelement location="src/java"/>
+			</classpath>
+			<arg value="${type}"/>
+			<arg value="report/NumX"/>
+		</java>
+	</target>
+
+	<!-- ==================================================== -->
+	<!-- Cleans, compiles ans lauches tests		          -->
+	<!-- ==================================================== -->
+	<target name="all" depends="test"/>
+	
+</project>
