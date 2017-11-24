@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project name="NumX" default="all" basedir=".">
+	<!-- ======================================================= -->
+	<!-- Defines variables used by the other targets             -->
+	<!-- ======================================================= -->
+
+	<property name="ant.build.javac.source" value="1.7"/>
+	<property name="ant.build.javac.target" value="1.7"/>
+
+	<property name="name" value="NumX"/>
+	<property name="debug" value="off"/>
+	<property name="verbose" value="off"/>
+		
+	<!-- ==================================================== -->
+	<!-- Deletes .class, .h and .jar					  -->
+	<!-- ==================================================== -->
+	<target name="clean">
+		<delete>
+			<fileset dir="." includes="com/numx/*.class,
+							com_numx_*.h,
+							../../../../lib/numx.jar,
+							../../../../lib/jee/numx.jar"/>
+		</delete>
+		<delete dir="../../../../lib/javadocnumx"/>
+	</target>
+		
+    <!-- ==================================================== -->
+    <!-- Compile .java and creates .h              	          -->
+    <!-- ==================================================== -->
+    <target name="compile">
+        <javac target="1.7" source="1.7" classpath="." srcdir="." destdir="."
+        includes="com/numx/*.java"/>
+        <javah classpath=".">
+                                    <class name="com.numx.NumXLinearAlgebra"/>
+                                                <class name="com.numx.NumXModeling"/>
+                                                <class name="com.numx.NumXOptimization"/>
+                                                <class name="com.numx.NumXReporting"/>
+                                                <class name="com.numx.NumXSimulation"/>
+                                </javah>
+    </target>
+    
+	<!-- ==================================================== -->
+	<!-- Compiles .java, creates .h and .jar	          -->
+	<!-- ==================================================== -->
+	<target name="createjar">
+		<delete dir="tmp"/>
+		                <mkdir dir="tmp"/>
+		                <copy todir="tmp/lib/dynamic/Mac OS X/x86_64/">
+		                   <fileset dir="../../../../lib/api/macosx">
+		                     <include name="*.dylib"/>
+		                   </fileset>
+		                </copy>
+		                <copy todir="tmp/lib/dynamic/Linux/amd64/">
+		                   <fileset dir="../../../../lib/api/linux">
+		                    <include name="*.so"/>
+		                   </fileset>
+		                </copy>
+	    <jar destfile="../../../../lib/numx.jar">
+		    <fileset dir=".">
+		        <include name="com/numx/*.class"/>
+		    </fileset>
+		    <fileset dir="tmp">
+		        <include name="**"/>
+		    </fileset>
+		</jar>
+		
+	</target>
+	
+	<!-- ==================================================== -->
+	<!-- Creates the API documentation                         -->
+	<!-- ===================================================== -->
+	<target name="javadoc">
+		<mkdir dir="../../../../lib/javadocnumx"/>
+		<javadoc classpath="." Public="true" 
+		     sourcepath="." 
+			 packagenames="com.numx"
+			 destdir="../../../../lib/javadocnumx/"
+             author="true" version="true" 
+			 use="true" 
+			 windowtitle="NumX Specifications" 
+			 doctitle="NumX APIs" 
+			 bottom="Copyright NumX">
+			<group title="NumX Packages" packages="com.numx.*"/>
+		</javadoc>
+	</target>
+	
+	<!-- ==================================================== -->
+	<!-- Creates jee version						          -->
+	<!-- ==================================================== -->
+	<target name="jee" depends="compile">
+		<javac target="1.7" source="1.7" classpath="jee/connector-1_5.jar;." srcdir="." destdir="."
+			includes="com/jee/common/*.java,
+					com/jee/numx/*.java"/>
+		<jar jarfile="jee/numx_ra.jar" basedir="."
+			includes="com/jee/common/*.class,
+					com/jee/numx/*.class"/>
+        <copy todir="jee">
+            <fileset dir="../../../../lib/macosx" includes="numx*-java-1.0.a libnumx*-java-1.0.jnilib"/>
+        </copy>
+        <copy file="../../../../lib/numx.jar" tofile="jee/numx.jar"/>
+        <copy file="jee/META-INF/numx_ra.xml" tofile="jee/META-INF/ra.xml"/>
+        <copy file="jee/META-INF/numx_jonas-ra.xml" tofile="jee/META-INF/jonas-ra.xml"/>
+		<mkdir dir="../../../../lib/jee"/>
+		<jar jarfile="../../../../lib/jee/numx_ra.rar" basedir="jee"
+			includes="numx.jar numx_ra.jar
+				META-INF/ra.xml
+				META-INF/jonas-ra.xml
+		"/>
+		<delete>
+			<fileset dir="jee" includes="*.dll *.so numx*.jar"/>
+			<fileset dir="." includes="jee/META-INF/ra.xml jee/META-INF/jonas-ra.xml"/>
+		</delete>
+	</target>
+	
+	<!-- ==================================================== -->
+	<!-- Cleans, compiles ans creates javadoc		          -->
+	<!-- ==================================================== -->
+    <target name="cleancompile" depends="clean, compile, javadoc">
+	</target>
+
+</project>
+
+
+
+
