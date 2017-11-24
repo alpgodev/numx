@@ -1,0 +1,406 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<VisualStudioProject
+	ProjectType="Visual C++"
+	#set( $prodName = ${prod.get_productShortNameLower()})
+	#set( $modName = ${mod.get_moduleNameLowerScore()} )
+	#set( $modNameLANG = "${modName}-${LANG}" )
+	#set( $ProdmodNameLANG = "${prodName}-${modName}-${LANG}" )
+	#set( $prodVersion = ${prod.get_productVersion()})
+	#set( $ProdmodNameLANGprodVersion = "${ProdmodNameLANG}-${prodVersion}")
+	Version="7.10"
+	Name="${ProdmodNameLANG}"
+	ProjectGUID="#*
+*##if ($LANG=="vb")#*
+	*#${ModProjectGUIDVB}#*
+*##elseif ($LANG=="c")#*
+	*#${ModProjectGUIDC}#*
+*##elseif ($LANG=="java")#*
+	*#${ModProjectGUIDJAVA}#*
+*##end#*
+*#"
+	Keyword="Win32Proj">
+	<Platforms>
+		<Platform
+			Name="Win32"/>
+	</Platforms>
+	<Configurations>
+		<Configuration
+			Name="Debug|Win32"
+			OutputDirectory="../../release/lib/win32"
+			IntermediateDirectory="$(ConfigurationName)"
+			ConfigurationType="2"
+			CharacterSet="2">
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="0"
+				AdditionalIncludeDirectories="../../include/api/utils;../../include/api/rne;../../include/api/protect#*
+*##if ($LANG=="java")#*
+	*#;../../include/api/jni#*
+*##end"
+				PreprocessorDefinitions="WIN32;_DEBUG;WINDOWS;#*
+*##if ($LANG=="vb")#*
+	*#VBDNET;#*
+*##elseif ($LANG=="c")#*
+	*#TRANSPOSE;#*
+*##end#*
+*#RELEASE_C"
+				MinimalRebuild="FALSE"
+				BasicRuntimeChecks="0"
+				RuntimeLibrary="5"
+				UsePrecompiledHeader="0"
+				WarningLevel="3"
+				Detect64BitPortabilityProblems="FALSE"
+				DebugInformationFormat="3"
+				CompileAs="1"/>
+			<Tool
+				Name="VCCustomBuildTool"/>
+			<Tool
+				Name="VCLinkerTool"
+				AdditionalDependencies="mkl_intel_c.lib mkl_sequential.lib mkl_core.lib rne_calelm.lib cryptlib.lib netapi32.lib rne_allocation.lib rne_alglin.lib rne_cluster.lib rne_montecarlo.lib rne_optim.lib rne_random.lib rne_socp.lib rne_statistics.lib libifcore.lib ifconsol.lib libm.lib"
+				OutputFile="$(OutDir)/${ProdmodNameLANGprodVersion}.dll"
+				LinkIncremental="1"
+				AdditionalLibraryDirectories="&quot;$(IFORT_COMPILER11)lib\ia32&quot;;&quot;$(IFORT_COMPILER11)mkl\ia32\lib&quot;;../../lib/win32/"
+				IgnoreDefaultLibraryNames="libcmt.lib;libcmtd.lib"
+				ModuleDefinitionFile="${ProdmodNameLANG}.def"
+				GenerateDebugInformation="TRUE"
+				AssemblyDebug="1"
+				ProgramDatabaseFile="$(OutDir)/$(ProjectName).pdb"
+				SubSystem="0"
+				OptimizeReferences="0"
+				EnableCOMDATFolding="0"
+				TargetMachine="0"/>
+			<Tool
+				Name="VCMIDLTool"/>
+			<Tool
+				Name="VCPostBuildEventTool"/>
+			<Tool
+				Name="VCPreBuildEventTool"/>
+			<Tool
+				Name="VCPreLinkEventTool"/>
+			<Tool
+				Name="VCResourceCompilerTool"/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"/>
+			<Tool
+				Name="VCWebDeploymentTool"/>
+			<Tool
+				Name="VCManagedWrapperGeneratorTool"/>
+			<Tool
+				Name="VCAuxiliaryManagedWrapperGeneratorTool"/>
+		</Configuration>
+		<Configuration
+			Name="Release|Win32"
+			OutputDirectory="../../release/lib/win32"
+			IntermediateDirectory="$(ConfigurationName)"
+			ConfigurationType="2"
+			CharacterSet="2">
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="3"
+				GlobalOptimizations="TRUE"
+				EnableIntrinsicFunctions="TRUE"
+				FavorSizeOrSpeed="1"
+				OptimizeForProcessor="3"
+				AdditionalIncludeDirectories="../../include/api/utils;../../include/api/rne;../../include/api/protect#*
+*##if ($LANG=="java")#*
+	*#;../../include/api/jni#*
+*##end"
+				PreprocessorDefinitions="WIN32;NDEBUG;WINDOWS;#*
+*##if ($LANG=="vb")#*
+	*#VBDNET;#*
+*##elseif ($LANG=="c")#*
+	*#TRANSPOSE;#*
+*##end#*
+*#RELEASE_C"  
+				MinimalRebuild="FALSE"
+				BasicRuntimeChecks="0"
+				RuntimeLibrary="4"
+				EnableEnhancedInstructionSet="2"
+				UsePrecompiledHeader="0"
+				BrowseInformation="0"
+				WarningLevel="3"
+				Detect64BitPortabilityProblems="FALSE"
+				DebugInformationFormat="3"
+				CallingConvention="0"
+				CompileAs="1"/>
+			<Tool
+				Name="VCCustomBuildTool"/>
+			<Tool
+				Name="VCLinkerTool"
+				AdditionalDependencies="mkl_intel_c.lib mkl_sequential.lib mkl_core.lib rne_calelm.lib cryptlib.lib netapi32.lib rne_allocation.lib rne_alglin.lib rne_cluster.lib rne_montecarlo.lib rne_optim.lib rne_random.lib rne_socp.lib rne_statistics.lib libifcore.lib ifconsol.lib libm.lib"
+				OutputFile="$(OutDir)/${ProdmodNameLANGprodVersion}.dll"
+				LinkIncremental="1"
+				AdditionalLibraryDirectories="&quot;$(IFORT_COMPILER11)lib\ia32&quot;;&quot;$(IFORT_COMPILER11)mkl\ia32\lib&quot;;../../lib/win32/"
+				IgnoreAllDefaultLibraries="FALSE"
+				IgnoreDefaultLibraryNames="libcmt.lib"
+				ModuleDefinitionFile="${ProdmodNameLANG}.def"
+				GenerateDebugInformation="FALSE"
+				ProgramDatabaseFile="$(OutDir)/$(ProjectName).pdb"
+				SubSystem="0"
+				OptimizeReferences="0"
+				EnableCOMDATFolding="0"
+				TargetMachine="0"/>
+			<Tool
+				Name="VCMIDLTool"/>
+			<Tool
+				Name="VCPostBuildEventTool"/>
+			<Tool
+				Name="VCPreBuildEventTool"/>
+			<Tool
+				Name="VCPreLinkEventTool"/>
+			<Tool
+				Name="VCResourceCompilerTool"/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"/>
+			<Tool
+				Name="VCWebDeploymentTool"/>
+			<Tool
+				Name="VCManagedWrapperGeneratorTool"/>
+			<Tool
+				Name="VCAuxiliaryManagedWrapperGeneratorTool"/>
+		</Configuration>
+		<Configuration
+			Name="NoCheckMacDebug|Win32"
+			OutputDirectory="../../release/lib/win32"
+			IntermediateDirectory="$(ConfigurationName)"
+			ConfigurationType="2"
+			CharacterSet="2">
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="0"
+				AdditionalIncludeDirectories="../../include/api/utils;../../include/api/rne;../../include/api/protect#*
+*##if ($LANG=="java")#*
+	*#;../../include/api/jni#*
+*##end"
+				PreprocessorDefinitions="WIN32;_DEBUG;WINDOWS;#*
+*##if ($LANG=="vb")#*
+	*#VBDNET;#*
+*##elseif ($LANG=="c")#*
+	*#TRANSPOSE;#*
+*##end#*
+*#RELEASE_C;NOCHECKMAC"
+				MinimalRebuild="FALSE"
+				BasicRuntimeChecks="0"
+				RuntimeLibrary="5"
+				UsePrecompiledHeader="0"
+				WarningLevel="3"
+				Detect64BitPortabilityProblems="FALSE"
+				DebugInformationFormat="3"
+				CompileAs="1"/>
+			<Tool
+				Name="VCCustomBuildTool"/>
+			<Tool
+				Name="VCLinkerTool"
+				AdditionalDependencies="mkl_intel_c.lib mkl_sequential.lib mkl_core.lib rne_calelm.lib cryptlib.lib netapi32.lib rne_allocation.lib rne_alglin.lib rne_cluster.lib rne_montecarlo.lib rne_optim.lib rne_random.lib rne_socp.lib rne_statistics.lib libifcore.lib ifconsol.lib libm.lib"
+				OutputFile="$(OutDir)/${ProdmodNameLANGprodVersion}.dll"
+				LinkIncremental="1"
+				AdditionalLibraryDirectories="&quot;$(IFORT_COMPILER11)lib\ia32&quot;;&quot;$(IFORT_COMPILER11)mkl\ia32\lib&quot;;../../lib/win32/"
+				IgnoreDefaultLibraryNames="libcmt.lib;libcmtd.lib"
+				ModuleDefinitionFile="${ProdmodNameLANG}.def"
+				GenerateDebugInformation="TRUE"
+				AssemblyDebug="1"
+				ProgramDatabaseFile="$(OutDir)/$(ProjectName).pdb"
+				SubSystem="0"
+				OptimizeReferences="0"
+				EnableCOMDATFolding="0"
+				TargetMachine="0"/>
+			<Tool
+				Name="VCMIDLTool"/>
+			<Tool
+				Name="VCPostBuildEventTool"/>
+			<Tool
+				Name="VCPreBuildEventTool"/>
+			<Tool
+				Name="VCPreLinkEventTool"/>
+			<Tool
+				Name="VCResourceCompilerTool"/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"/>
+			<Tool
+				Name="VCWebDeploymentTool"/>
+			<Tool
+				Name="VCManagedWrapperGeneratorTool"/>
+			<Tool
+				Name="VCAuxiliaryManagedWrapperGeneratorTool"/>
+		</Configuration>
+		<Configuration
+			Name="NoCheckMacRelease|Win32"
+			OutputDirectory="../../release/lib/win32"
+			IntermediateDirectory="$(ConfigurationName)"
+			ConfigurationType="2"
+			CharacterSet="2">
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="3"
+				GlobalOptimizations="TRUE"
+				EnableIntrinsicFunctions="TRUE"
+				FavorSizeOrSpeed="1"
+				OptimizeForProcessor="3"
+				AdditionalIncludeDirectories="../../include/api/utils;../../include/api/rne;../../include/api/protect#*
+*##if ($LANG=="java")#*
+	*#;../../include/api/jni#*
+*##end"
+				PreprocessorDefinitions="WIN32;NDEBUG;WINDOWS;#*
+*##if ($LANG=="vb")#*
+	*#VBDNET;#*
+*##elseif ($LANG=="c")#*
+	*#TRANSPOSE;#*
+*##end#*
+*#RELEASE_C;NOCHECKMAC"
+				MinimalRebuild="FALSE"
+				BasicRuntimeChecks="0"
+				RuntimeLibrary="4"
+				EnableEnhancedInstructionSet="2"
+				UsePrecompiledHeader="0"
+				BrowseInformation="0"
+				WarningLevel="3"
+				Detect64BitPortabilityProblems="FALSE"
+				DebugInformationFormat="3"
+				CallingConvention="0"
+				CompileAs="1"/>
+			<Tool
+				Name="VCCustomBuildTool"/>
+			<Tool
+				Name="VCLinkerTool"
+				AdditionalDependencies="mkl_intel_c.lib mkl_sequential.lib mkl_core.lib rne_calelm.lib cryptlib.lib netapi32.lib rne_allocation.lib rne_alglin.lib rne_cluster.lib rne_montecarlo.lib rne_optim.lib rne_random.lib rne_socp.lib rne_statistics.lib libifcore.lib ifconsol.lib libm.lib"
+				OutputFile="$(OutDir)/${ProdmodNameLANGprodVersion}.dll"
+				LinkIncremental="1"
+				AdditionalLibraryDirectories="&quot;$(IFORT_COMPILER11)lib\ia32&quot;;&quot;$(IFORT_COMPILER11)mkl\ia32\lib&quot;;../../lib/win32/"
+				IgnoreAllDefaultLibraries="FALSE"				
+				IgnoreDefaultLibraryNames="libcmt.lib"
+				ModuleDefinitionFile="${ProdmodNameLANG}.def"
+				GenerateDebugInformation="FALSE"
+				ProgramDatabaseFile="$(OutDir)/$(ProjectName).pdb"
+				SubSystem="0"
+				OptimizeReferences="0"
+				EnableCOMDATFolding="0"
+				TargetMachine="0"/>
+			<Tool
+				Name="VCMIDLTool"/>
+			<Tool
+				Name="VCPostBuildEventTool"/>
+			<Tool
+				Name="VCPreBuildEventTool"/>
+			<Tool
+				Name="VCPreLinkEventTool"/>
+			<Tool
+				Name="VCResourceCompilerTool"/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"/>
+			<Tool
+				Name="VCWebDeploymentTool"/>
+			<Tool
+				Name="VCManagedWrapperGeneratorTool"/>
+			<Tool
+				Name="VCAuxiliaryManagedWrapperGeneratorTool"/>
+		</Configuration>
+	</Configurations>
+	<References>
+	</References>
+	<Files>
+		<Filter
+			Name="Source Files"
+			Filter="cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx"
+			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}">
+#if (${mod.is_release()})
+#**##foreach ($func in $mod.functions)
+#*    *##if (${func.is_release()})
+#*        *##if (($LANG=="c") ||(!${func.is_onlyC()}))
+#*        *#			<File
+#*        *#				RelativePath="..\..\src\api\#*
+											*##if ($LANG=="java")#*
+												*#jni#*
+											*##else#*
+												*#c#*
+											*##end#*
+											*#\\${modName}\\${func.get_fortranFunction()}#*
+									    		*##if ($LANG=="java")
+#*       											*#jni.c">
+#*       										*##else 
+#*       											*#c.c">
+#*       								 		*##end
+#*        *#			</File>
+#*        *##end
+#*    *##end
+#**##end
+#end
+			<File
+				RelativePath="..\..\src\api\utils\rneutils.c">
+			</File>
+			<File
+				RelativePath="..\..\src\api\protect\decrypt-win.cpp">
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="2"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="2"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="NoCheckMacDebug|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="2"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="NoCheckMacRelease|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="2"/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\src\api\protect\sysinfo-win.cpp">
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="2"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="2"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="NoCheckMacDebug|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="2"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="NoCheckMacRelease|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="2"/>
+				</FileConfiguration>
+			</File>
+		</Filter>
+		<Filter
+			Name="Header Files"
+			Filter="h;hpp;hxx;hm;inl;inc;xsd"
+			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}">
+		</Filter>
+		<Filter
+			Name="Resource Files"
+			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx"
+			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}">
+		</Filter>
+	</Files>
+	<Globals>
+	</Globals>
+</VisualStudioProject>

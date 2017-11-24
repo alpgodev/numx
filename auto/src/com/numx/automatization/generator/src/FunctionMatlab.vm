@@ -1,0 +1,150 @@
+%=======================================================================
+%
+%		${func.get_functionName()}.m								version ${prod.get_productVersion()} 
+%
+%=======================================================================
+%						${func.get_functionName()}
+%							
+%	${func.get_functionShortDescription()}
+%	${func.get_functionDescription()}
+%
+%	Inputs :
+#**##foreach ($param in $func.parameters)
+#*    *##if (${param.is_inputParameter()})
+#*        *#%		${param.get_parameterName()}: #*
+	      *##if (${param.get_parameterType()} == "int")integer,#* 
+       *##elseif (${param.get_parameterType()} == "double")double,#*  
+       *##elseif (${param.get_parameterType()} == "int[]")integer array of dimension ${param.get_nbRows()},#* 
+       *##elseif (${param.get_parameterType()} == "double[]")double array of dimension ${param.get_nbRows()},#*  
+       *##elseif (${param.get_parameterType()} == "int[][]")integer array of dimension ${param.get_nbRows()} by ${param.get_nbColumns()},#* 
+       *##elseif (${param.get_parameterType()} == "double[][]")double array of dimension ${param.get_nbRows()} by ${param.get_nbColumns()},#*  
+       *##elseif (${param.get_parameterType()} == "function")function,#* 
+       *##end#*  
+      *#	${param.get_parameterDescription()}
+#*    *##end
+#**##end
+%
+%
+%	Outputs :
+%
+#**##foreach ($param in $func.parameters)
+#*    *##if (!${param.is_inputParameter()})
+#*        *#%		${param.get_parameterName()}: #*
+	      *##if (${param.get_parameterType()} == "int")integer,#*  
+      *##elseif (${param.get_parameterType()} == "double")double,#*   
+      *##elseif (${param.get_parameterType()} == "int[]")integer array of dimension ${param.get_nbRows()},#*   
+      *##elseif (${param.get_parameterType()} == "double[]")double array of dimension ${param.get_nbRows()},#*    
+      *##elseif (${param.get_parameterType()} == "int[][]")integer array of dimension ${param.get_nbRows()} by ${param.get_nbColumns()},#*
+      *##elseif (${param.get_parameterType()} == "double[][]")double array of dimension ${param.get_nbRows()} by ${param.get_nbColumns()},#*  
+      *##end#*    
+    *# ${param.get_parameterDescription()}
+#*    *##end
+#**##end
+%
+%
+%	Return :
+%		retcode	: integer, error code
+%				  = 0, successful exit,
+%				  != 0, see error codes list in reference manual.
+%	Call :
+%		${func.get_functionName()}
+%		
+%
+%=======================================================================
+#set ($diese="#")
+#set ($end="end")
+#set ($i=1)
+function [#*
+*##foreach ($param in $func.parameters)#*
+    *##if (!${param.is_inputParameter()})#* 
+	       *#${param.get_parameterName()}#*
+     	 *##if (!(${param.get_parameterOrder()} == ${func.parameters.size()}))#*
+          *#,  #*
+      *##end#*
+    *##end#*
+*##end#*
+*#]=${func.get_functionName()}(#*
+  *##foreach ($param in $func.parameters)
+#*    *##if (${param.is_inputParameter()})#*
+     	 *##if (!(${i} == 1))#*
+        	  *#, #*
+      	*##end#*
+	*#${param.get_parameterName()}#*
+*##set ($i=$i+1)#*
+    *##end
+#**##end
+)
+
+#set ($i=1)
+
+	% Initialization of outputs
+#**##foreach ($param in $func.parameters)
+#*    *##if (!${param.is_inputParameter()})
+#*        *##if (${param.get_parameterType()} == "int[]")
+#*            *#	${param.get_parameterName()} = zeros(${param.get_nbTestRows()}, 1);
+#*        *##elseif (${param.get_parameterType()} == "int[][]")
+#*            *#	${param.get_parameterName()} = zeros(${param.get_nbTestRows()}, ${param.get_nbTestColumns()});
+#*        *##elseif (${param.get_parameterType()} == "double[]")
+#*            *#	${param.get_parameterName()} = zeros(${param.get_nbTestRows()}, 1);
+#*        *##elseif (${param.get_parameterType()} == "double[][]")
+#*            *#	${param.get_parameterName()} = zeros(${param.get_nbTestRows()}, ${param.get_nbTestColumns()});
+#*        *##end
+#*    *##end
+#**##end
+		
+	% Initialization of inputs
+#**##foreach ($param in $func.parameters)
+#*	*#	${param.get_parameterName()}_in = ${param.get_parameterName()}';
+#**##end			
+			
+	% transpose matrices for runtime 
+#**##foreach ($param in $func.parameters)
+#*    *##if (${param.is_inputParameter()})
+#*        *##if (${param.get_parameterType()} == "int[][]")
+#*            *#	${param.get_parameterName()}_in = ${param.get_parameterName()}_in';
+#*        *##elseif (${param.get_parameterType()} == "double[][]")
+#*            *#	${param.get_parameterName()}_in = ${param.get_parameterName()}_in';
+#*        *##end
+#*    *##end
+#**##end
+
+
+#set( $modName = ${mod.get_moduleNameLowerScore()} )
+#set( $modPath = "X:/numx/release/lib/win32/${modName}")
+#set( $prodShortName = ${prod.get_productShortNameLower()} )
+#set( $prodCName = "${prodShortName}_${modName}_c" )
+#set( $libName = "${prodCName}_matlab")
+#set ($i=1)
+
+	% test dynamic link
+	 
+	if (libisloaded('$libName')==1)
+		% CALL C interface of ${func.get_functionName()}
+		[res #*
+*##foreach ($param in $func.parameters)
+#*
+	*#, #*        *#${param.get_parameterName()}#*
+*##end#*
+		*#]=calllib('$libName','${func.get_functionName()}', #*
+*##foreach ($param in $func.parameters)#*
+    *##if (!(${i} == 1))#*
+		*#, #*
+    *##end#*
+	*#${param.get_parameterName()}_in#*
+	*##set ($i=$i+1)#*
+*##end#*
+*#); 
+	end
+
+	% transpose matrices for runtime 
+#**##foreach ($param in $func.parameters)
+#*    *##if (${param.is_inputParameter()})
+#*        *##if (${param.get_parameterType()} == "int[][]")
+#*            *#	${param.get_parameterName()} = ${param.get_parameterName()}';
+#*        *##elseif (${param.get_parameterType()} == "double[][]")
+#*            *#	${param.get_parameterName()} = ${param.get_parameterName()}';
+#*        *##end
+#*    *##end
+#**##end
+
+$end

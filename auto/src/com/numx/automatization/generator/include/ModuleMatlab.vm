@@ -1,0 +1,52 @@
+/*=======================================================================
+
+	${prod.get_productName()} - ${mod.get_moduleName()} module
+	C header file for Matlab (c)					version ${prod.get_productVersion()}
+
+	Copyright (c) $year NumX
+	All rights reserved.
+
+	This software is the confidential and proprietary information
+	of NumX. You shall not disclose such Confidential
+	Information and shall use it only in accordance with the terms
+	of the licence agreement you entered into with NumX.
+
+==========================================================================*/
+
+#set($diese="#")
+/* C header functions are declared here */   
+${diese}ifdef WINDOWS 
+${diese}include <math.h>
+${diese}endif /*WINDOWS*/
+
+#foreach ($func in $mod.functions)
+#set ($i=1)
+#**##if (${func.is_release()})
+
+#**#/**********************************************************************************
+#**#								${func.get_functionName()}
+#**#							
+#**#	${func.get_functionShortDescription()}
+#**#	${func.get_functionDescription()}
+#**#
+#**#***********************************************************************************/
+
+int ${func.get_functionName()}(#*
+	*##foreach ($param in $func.parameters)#*
+		*##if (!(${i} == 1))#*
+			*#, #*
+		*##end#*
+		*##set ($i=$i+1)#*
+		*##if (${param.get_parameterType()} == "int") int * #* 
+	    *##elseif (${param.get_parameterType()} == "double") double * #* 
+	    *##elseif (${param.get_parameterType()} == "int[]") int * #* 
+        *##elseif (${param.get_parameterType()} == "double[]") double * #* 
+        *##elseif (${param.get_parameterType()} == "int[][]") int * #* 
+        *##elseif (${param.get_parameterType()} == "double[][]") double  * #* 
+        *##elseif (${param.get_parameterType()} == "function") function #* 
+        *##end#*
+		*#${param.get_parameterName()}#*
+	*##end#*
+*#);
+#**##end
+#end

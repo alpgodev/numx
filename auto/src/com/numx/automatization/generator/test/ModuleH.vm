@@ -1,0 +1,10 @@
+#set ($diese="#")
+${diese}pragma once
+
+class Test${prod.get_productShortName()}${mod.get_moduleNameNoSpace()}
+{
+public:
+	Test${prod.get_productShortName()}${mod.get_moduleNameNoSpace()}(void);
+	~Test${prod.get_productShortName()}${mod.get_moduleNameNoSpace()}(void);
+	bool test(string inputPath, string refPath, string outputModuleDir);
+};

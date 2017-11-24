@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project name="numx" default="all" basedir=".">
+    
+    <property name="ant.build.javac.source" value="1.7"/>
+    <property name="ant.build.javac.target" value="1.7"/>
+
+	<!--
+	Target List
+     
+		clean
+		compile
+		all
+		
+		toHTML
+		
+		C_API (generates .c .h)
+		C_TEST
+        C_API_VS2003
+		C_TEST_VS2003
+		
+		VB_API
+		VB_TEST
+		VB_TEST_VS2003
+        VB_API_VS2003
+		
+		Java_API
+        Java_TEST
+		Java_API_VS2003
+		
+	-->
+
+
+	<!-- ======================================================= -->
+	<!-- Defines variables used by the other targets             -->
+	<!-- ======================================================= -->
+
+	<property name="name" value="numx"/>
+	<property name="debug" value="on"/>
+	<property name="verbose" value="off"/>
+		
+	<!-- ==================================================== -->
+	<!-- Clean: delete .class, .h and .jar					  -->
+	<!-- ==================================================== -->
+	<target name="clean">
+		<delete>
+			<fileset dir="." includes="auto.jar"/>
+		</delete>
+		<delete dir="classes"/>
+	</target>
+		
+	<!-- ==================================================== -->
+	<!-- Compile	-->
+	<!-- ==================================================== -->
+	<target name="compile">
+		<mkdir dir="classes"/>
+		<javac target="1.7" source="1.7" srcdir="src" destdir="classes" debug="on"
+			includes="**/*.java">
+			<classpath>
+				<pathelement location="lib/velocity-dep.jar"/>
+			</classpath>
+		</javac>
+		<jar jarfile="auto.jar" 
+            	basedir="classes"
+            	includes="**/*.class">
+            <fileset dir="src" includes="**/*.vm"/>
+        </jar>
+	</target>
+	
+	<!-- ==================================================== -->
+	<!-- Cleans, compiles ans creates javadoc		          -->
+	<!-- ==================================================== -->
+	<target name="all" depends="clean, generateFiles"/>
+	
+	<target name="jdbc2xml" depends="compile" 
+		description="under windows it migrates meta data from JDBC to xml files">
+		<java classname="com.numx.automatization.jdbc.JDBC2XML" newenvironment="yes" 
+			fork="yes" classpath="auto.jar">
+			<arg value="../docs/descriptor"/>
+		</java>
+	</target>
+
+	<target name="generate" depends="compile"
+		description="Launch generation of wrappers for C, Java and VBA">
+		<java classname="com.numx.automatization.generator.ModifyComment" newenvironment="yes" 
+			fork="yes" classpath="auto.jar">
+			<arg value="../docs/descriptor"/>
+		</java>
+	</target>
+
+	<target name="print" depends="compile"
+		description="Print the meta data">
+		<java classname="com.numx.automatization.xml.XMLParser" newenvironment="yes" 
+			fork="yes" classpath="auto.jar">
+			<arg value="../docs/descriptor"/>
+		</java>
+	</target>
+	
+	<target name="generateFiles" depends="compile"
+		description="Launch generation of wrappers for each language">
+		<java classname="com.numx.automatization.generator.FileGenerator" newenvironment="yes" 
+			fork="yes" maxmemory="500m"
+			>
+			<classpath>
+				<pathelement location="auto.jar"/>
+				<pathelement location="lib/velocity-dep.jar"/>
+			</classpath>
+			<arg value="../docs/descriptor"/>
+			<arg value=".."/>
+		</java>
+	</target>
+	
+	<target name="toHTML" depends="compile"
+		description="Generates HTML web page with products description">
+		<java classname="com.numx.automatization.generator.HTMLGenerator" newenvironment="yes" 
+			fork="yes">
+			<classpath>
+				<pathelement location="auto.jar"/>
+				<pathelement location="lib/velocity-dep.jar"/>
+			</classpath>
+			<arg value="../docs/descriptor"/>
+			<arg value=".."/>
+		</java>
+	</target>
+	
+    <!-- C API Generator -->
+	<target name="C_API" depends="compile"
+		description="Launch generation of C (API) wrappers">
+		<java classname="com.numx.automatization.generator.C_API_Generator" newenvironment="yes" 
+			fork="yes" maxmemory="190m"
+			>
+			<classpath>
+				<pathelement location="auto.jar"/>
+				<pathelement location="lib/velocity-dep.jar"/>
+			</classpath>
+			<arg value="../docs/descriptor"/>
+			<arg value=".."/>
+		</java>
+	</target>
+	
+    <!--
+	<target name="C_API_VS2003" depends="compile"
+		description="Launch generation of C (VS2003) wrappers">
+		<java classname="com.numx.automatization.generator.C_API_VS2003_Generator" newenvironment="yes" 
+			fork="yes" maxmemory="190m"
+			>
+			<classpath>
+				<pathelement location="auto.jar"/>
+				<pathelement location="lib/velocity-dep.jar"/>
+			</classpath>
+			<arg value="../docs/descriptor"/>
+			<arg value=".."/>
+		</java>
+	</target>
+     -->
+	
+    <!-- C TEST Generator -->
+	<target name="C_TEST" depends="compile"
+		description="Launch generation of C (TEST) wrappers">
+		<java classname="com.numx.automatization.generator.C_TEST_Generator" newenvironment="yes" 
+			fork="yes" maxmemory="190m"
+			>
+			<classpath>
+				<pathelement location="auto.jar"/>
+				<pathelement location="lib/velocity-dep.jar"/>
+			</classpath>
+			<arg value="../docs/descriptor"/>
+			<arg value=".."/>
+		</java>
+	</target>
+	
+    <!--
+	<target name="C_TEST_VS2003" depends="compile"
+		description="Launch generation of C (VS2003 TEST) wrappers">
+		<java classname="com.numx.automatization.generator.C_TEST_VS2003_Generator" newenvironment="yes" 
+			fork="yes" maxmemory="190m"
+			>
+			<classpath>
+				<pathelement location="auto.jar"/>
+				<pathelement location="lib/velocity-dep.jar"/>
+			</classpath>
+			<arg value="../docs/descriptor"/>
+			<arg value=".."/>
+		</java>
+	</target>
+     -->
+	
+    <!-- VBA API Generator
+	<target name="VB_API" depends="compile"
+		description="Launch generation of VBA (API) wrappers">
+		<java classname="com.numx.automatization.generator.VB_API_Generator" newenvironment="yes" 
+			fork="yes" maxmemory="190m"
+			>
+			<classpath>
+				<pathelement location="auto.jar"/>
+				<pathelement location="lib/velocity-dep.jar"/>
+			</classpath>
+			<arg value="../docs/descriptor"/>
+			<arg value=".."/>
+		</java>
+	</target>
+	-->
+    
+    <!--
+	<target name="VB_API_VS2003" depends="compile"
+		description="Launch generation of VBA (VS2003) wrappers">
+		<java classname="com.numx.automatization.generator.VB_API_VS2003_Generator" newenvironment="yes" 
+			fork="yes" maxmemory="190m"
+			>
+			<classpath>
+				<pathelement location="auto.jar"/>
+				<pathelement location="lib/velocity-dep.jar"/>
+			</classpath>
+			<arg value="../docs/descriptor"/>
+			<arg value=".."/>
+		</java>
+	</target>
+     -->
+	
+    <!-- VBA TEST Generator
+	<target name="VB_TEST" depends="compile"
+		description="Launch generation of VBA (TEST) wrappers">
+		<java classname="com.numx.automatization.generator.VB_TEST_Generator" newenvironment="yes" 
+			fork="yes" maxmemory="190m"
+			>
+			<classpath>
+				<pathelement location="auto.jar"/>
+				<pathelement location="lib/velocity-dep.jar"/>
+			</classpath>
+			<arg value="../docs/descriptor"/>
+			<arg value=".."/>
+		</java>
+	</target>
+     -->
+	
+    <!--
+	<target name="VB_TEST_VS2003" depends="compile"
+		description="Launch generation of VBA (VS2003 TEST) wrappers">
+		<java classname="com.numx.automatization.generator.VB_TEST_VS2003_Generator" newenvironment="yes" 
+			fork="yes" maxmemory="190m"
+			>
+			<classpath>
+				<pathelement location="auto.jar"/>
+				<pathelement location="lib/velocity-dep.jar"/>
+			</classpath>
+			<arg value="../docs/descriptor"/>
+			<arg value=".."/>
+		</java>
+	</target>
+     -->
+	
+    <!-- Java API Generator -->
+	<target name="Java_API" depends="compile"
+		description="Launch generation of Java (API) wrappers">
+		<java classname="com.numx.automatization.generator.Java_API_Generator" newenvironment="yes" 
+			fork="yes" maxmemory="190m"
+			>
+			<classpath>
+				<pathelement location="auto.jar"/>
+				<pathelement location="lib/velocity-dep.jar"/>
+			</classpath>
+			<arg value="../docs/descriptor"/>
+			<arg value=".."/>
+		</java>
+	</target>
+    
+	<!--
+	<target name="Java_API_VS2003" depends="compile"
+		description="Launch generation of Java (VS2003 TEST) wrappers">
+		<java classname="com.numx.automatization.generator.Java_API_VS2003_Generator" newenvironment="yes" 
+			fork="yes" maxmemory="190m"
+			>
+			<classpath>
+				<pathelement location="auto.jar"/>
+				<pathelement location="lib/velocity-dep.jar"/>
+			</classpath>
+			<arg value="../docs/descriptor"/>
+			<arg value=".."/>
+		</java>
+	</target>
+     -->
+	
+    <!-- Java Test -->
+	<target name="Java_TEST" depends="compile"
+		description="Launch generation of Java (TEST) wrappers">
+		<java classname="com.numx.automatization.generator.Java_TEST_Generator" newenvironment="yes" 
+			fork="yes" maxmemory="190m"
+			>
+			<classpath>
+				<pathelement location="auto.jar"/>
+				<pathelement location="lib/velocity-dep.jar"/>
+			</classpath>
+			<arg value="../docs/descriptor"/>
+			<arg value=".."/>
+		</java>
+	</target>
+	
+</project>
+
+
+
+

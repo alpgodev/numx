@@ -1,0 +1,72 @@
+/*
+ *   
+ *    Copyright (c) $year NumX
+ *    All rights reserved.
+ *
+ *    This software is the confidential and proprietary information
+ *    of NumX. You shall not disclose such Confidential Information
+ *    and shall use it only in accordance with the terms of the
+ *    licence agreement you entered into with NumX.
+ *
+ */
+
+import java.io.File;
+
+public class Test${prod.get_productShortName()} {
+
+    /**
+     * Main
+     * 
+     * @param args the first argument must be "", "modules" or "details"
+     */
+    public static void main( String[] args ) {
+
+		boolean OK = false;
+		boolean allOK = true;
+		String output = null;
+
+		if (args.length != 0) 
+		{
+			if (args[0].equals("details")) 
+			{
+				Utilities.setShowDetails(true);
+			} 
+			else if (args[0].equals("modules")) {
+				Utilities.setShowModules(true);
+            }
+		}
+		if (args.length > 1) {
+			output = args[1];
+		}
+		
+		String inputPath = "../../data/input/";
+		String refPath = "../../data/ref/";
+
+		System.out.print("\n---------- Testing ${prod.get_productName()} for Java ----------\n");
+
+		File outputDir = new File("../../report/"+"${prod.get_productShortName()}", "java");
+		if (!outputDir.exists()) {
+			outputDir.mkdirs();
+		}
+#foreach ($mod in $prod.modules)
+		{
+#**##if (!${mod.is_onlyC()} && ${mod.is_release()})
+			/***** ${mod.get_moduleName()} *****/
+			File outputModuleDir = new File(outputDir, "${mod.get_moduleNameLowerScore()}");
+			if (!outputModuleDir.exists()) {
+				outputModuleDir.mkdirs();
+			}
+			Test${prod.get_productShortName()}${mod.get_moduleNameNoSpace()} moduleTest = new Test${prod.get_productShortName()}${mod.get_moduleNameNoSpace()}();
+			OK = moduleTest.test(inputPath + "${mod.get_moduleNameLowerScore()}/", refPath + "${mod.get_moduleNameLowerScore()}/", outputModuleDir);
+			Utilities.printModuleResult(OK, "----Test ${prod.get_productShortName()} ${mod.get_moduleName()} module----");
+			allOK = OK && allOK;
+#**##end
+		}
+#end
+		Utilities.printResult(allOK, "------Test ${prod.get_productName()} for Java------");
+		
+		System.out.print("\n----------------------------------------------\n");
+
+    }
+}
+

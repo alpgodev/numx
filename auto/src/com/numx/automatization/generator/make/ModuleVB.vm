@@ -1,0 +1,7 @@
+LIBRARY ${prod.get_productShortNameLower()}-${mod.get_moduleNameLowerScore()}-vb-${prod.get_productVersion()}.dll
+EXPORTS
+#foreach ($func in $mod.functions)
+#**##if (!${func.is_onlyC()} && ${func.is_release()})
+#*    *#${func.get_functionName()}
+#**##end
+#end

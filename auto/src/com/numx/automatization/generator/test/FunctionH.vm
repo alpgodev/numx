@@ -1,0 +1,13 @@
+#set ($diese = "#")
+${diese}pragma once
+
+${diese}include "TestNumXfunctions.h"
+
+class Test${func.get_functionName()} : public TestNumXfunctions
+{
+public:
+	Test${func.get_functionName()}(void);
+	~Test${func.get_functionName()}(void);
+	virtual bool test(string inputPath, string refPath, string fileName, FunctionTestResult * testRes) const;
+	virtual void addFailureMessage(FunctionTestResult * res, string msg) const;
+};

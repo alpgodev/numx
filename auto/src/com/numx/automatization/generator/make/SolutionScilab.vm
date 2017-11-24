@@ -1,0 +1,35 @@
+// dynamic link with NumX Library
+//
+// You have a library into a dynamic link library file (.dll) on Windows or a shared object file (.so) on UNIX and Linux. 
+// At run-time, the library is loaded into memory and made accessible to all applications. 
+// The Scilab Interface to Generic DLLs enables you to interact with functions in dynamic link libraries directly from Scilab.
+// 
+// author: Yann Vernaz
+
+// NumX path
+//numxpath = "C:/numx/lib/macosx/";
+#set( $numxpath = "C:/workspace/numx/")
+#set( $numxLib = "${numxpath}release/lib/macosx/")
+
+#set($scilabPath = "C:/workspace/numx/src/api/scilab/")
+#set( $prodName = ${prod.get_productShortNameLower()})
+
+// link library $prodName
+
+#foreach ($mod in $prod.modules)
+#if (${mod.is_release()})
+#set( $modName = ${mod.get_moduleNameLowerScore()} )
+#set( $modPath = "C:/workspace/numx/lib/macosx/${modName}")
+#set( $prodShortName = ${prod.get_productShortNameLower()} )
+// $modName  
+#foreach ($func in $mod.functions)
+#set( $funcName = ${func.get_functionName()})
+#if (${func.is_release()})
+disp("Loading function ${func.get_functionName()} of the $modName module")
+link(strcat(["${normLib}","${prod.get_productShortNameLower()}-${mod.get_moduleNameLowerScore()}-c-${prod.get_productVersion()}.dll"]),"${funcName}","C");
+getf("${scilabPath}${modName}/${funcName}.sci");
+
+#end
+#end
+#end
+#end

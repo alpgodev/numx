@@ -1,0 +1,37 @@
+package com.jee.${prod.get_productShortNameLower()};
+
+#foreach($mod in $prod.modules)
+#**##if (!${mod.is_onlyC()} && ${mod.is_release()})
+import com.jee.${prod.get_productShortNameLower()}.${prod.get_productShortName()}${mod.get_moduleNameNoSpace()};
+#**##end
+#end
+
+public class ${prod.get_productShortName()}Connection 
+{
+#foreach($mod in $prod.modules)
+#**##if (!${mod.is_onlyC()} && ${mod.is_release()})
+	private ${prod.get_productShortName()}${mod.get_moduleNameNoSpace()} ${mod.get_moduleNameLowerNoSpace()};
+#**##end
+#end
+
+	public ${prod.get_productShortName()}Connection() {	
+#foreach($mod in $prod.modules)
+#**##if (!${mod.is_onlyC()} && ${mod.is_release()})
+		${mod.get_moduleNameLowerNoSpace()} = new ${prod.get_productShortName()}${mod.get_moduleNameNoSpace()}();
+#**##end
+#end
+	}
+
+#foreach($mod in $prod.modules)
+#**##if (!${mod.is_onlyC()} && ${mod.is_release()})
+	public ${prod.get_productShortName()}${mod.get_moduleNameNoSpace()} get${prod.get_productShortName()}${mod.get_moduleNameNoSpace()}() {
+		return ${mod.get_moduleNameLowerNoSpace()};
+	}
+
+	public void set${prod.get_productShortName()}${mod.get_moduleNameNoSpace()}(${prod.get_productShortName()}${mod.get_moduleNameNoSpace()} ${mod.get_moduleNameLowerNoSpace()}) {
+		this.${mod.get_moduleNameLowerNoSpace()} = ${mod.get_moduleNameLowerNoSpace()};
+	}
+
+#**##end
+#end
+}

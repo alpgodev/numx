@@ -1,0 +1,31 @@
+package com.numx.jee.${prod.get_productShortNameLower()};
+
+import javax.resource.ResourceException;
+import javax.resource.spi.ConnectionManager;
+import javax.resource.spi.ConnectionRequestInfo;
+import javax.resource.spi.ManagedConnection;
+import javax.security.auth.Subject;
+
+import com.jee.common.AbstractManagedConnectionFactory;
+import com.jee.${prod.get_productShortNameLower()}.${prod.get_productShortName()}ConnectionFactory;
+
+public final class ${prod.get_productShortName()}ManagedConnectionFactory extends AbstractManagedConnectionFactory {
+
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 119790143132947468L;
+
+	public final Object createConnectionFactory(final ConnectionManager connectionManager) throws ResourceException {
+        return new ${prod.get_productShortName()}ConnectionFactory();
+    }
+
+    public final Object createConnectionFactory() throws ResourceException {
+        return new ${prod.get_productShortName()}ConnectionFactory();
+    }
+
+    public final ManagedConnection createManagedConnection(final Subject subject, final ConnectionRequestInfo connectionRequestInfo) throws ResourceException {
+        return new ${prod.get_productShortName()}ManagedConnection();
+    }
+
+}

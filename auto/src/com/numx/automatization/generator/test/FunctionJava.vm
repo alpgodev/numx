@@ -1,0 +1,377 @@
+import java.io.IOException;
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
+import java.io.LineNumberReader;
+import java.util.StringTokenizer;
+import java.io.OutputStreamWriter;
+import java.io.FileOutputStream;
+
+import com.${prod.get_productShortNameLower()}.${prod.get_productShortName()}${mod.get_moduleNameNoSpace()};
+
+public class Test${func.get_functionName()} extends TestNumXfunctions {
+
+	public Test${func.get_functionName()}() {
+	}
+
+	public boolean test(String inputPath, String refPath, String fileName, TestNumXfunctions.FunctionTestResult testRes) {
+		try {
+			/* Reading inputs */
+			LineNumberReader lnr = new LineNumberReader( new InputStreamReader(
+														 new FileInputStream( 
+														 inputPath + fileName ) )
+														);
+
+			String line;
+			StringTokenizer tokens;
+			// Fixed parameters
+#**##foreach ($param in $func.parameters)
+#*	*##if (${param.is_inputParameter()})
+#*		*##foreach ($sum in $param.get_Sums())
+#*					*#	int	${sum.get_sumName()} = 0;
+#*		*##end
+#*	*##end
+#**##end#*
+			
+*##foreach ($param in $func.parameters)#*
+  *##if (${param.is_inputParameter()})#*
+      *#
+#*    *##if (${param.get_parameterType()} == "int")
+#*        *#			line = lnr.readLine();
+#*        *#			int ${param.get_parameterName()} = Integer.parseInt(line);
+#*    *##elseif (${param.get_parameterType()} == "double")
+#*        *#			line = lnr.readLine();
+#*        *#			double ${param.get_parameterName()} = Double.parseDouble( line );
+#*    *##elseif (${param.get_parameterType()} == "int[]")
+#*        *#			int[] ${param.get_parameterName()};
+#*        *##if (${param.is_zeroLength()})
+#*            *#			if (${param.get_nbTestRows()} == 0) {
+#*            *#			${param.get_parameterName()} = new int[1];
+#*            *#			line = lnr.readLine();
+#*            *#			${param.get_parameterName()}[0] = Integer.parseInt(line);
+#*            *#			} else {
+#*        *##end
+#*        *#			${param.get_parameterName()} = new int[${param.get_nbTestRows()}];
+#*        *#			line = lnr.readLine();
+#*        *#			tokens = new StringTokenizer( line, " " );
+#*        *#			for ( int i=0; i<${param.get_nbTestRows()}; i++ ) {
+#*        *#				${param.get_parameterName()}[i] = Integer.parseInt( tokens.nextToken() );
+#*        *#			}
+#*        *##if (${param.is_zeroLength()})
+#*            *#			}
+#*        *##end
+#*    *##elseif (${param.get_parameterType()} == "double[]")
+#*        *#			double[] ${param.get_parameterName()};
+#*        *##if (${param.is_zeroLength()})
+#*            *#			if (${param.get_nbTestRows()} == 0) {
+#*            *#			${param.get_parameterName()} = new double[1];
+#*            *#			line = lnr.readLine();
+#*            *#			${param.get_parameterName()}[0] = Double.parseDouble( line );
+#*            *#			} else {
+#*        *##end
+#*        *#			${param.get_parameterName()} = new double[${param.get_nbTestRows()}];
+#*        *#			line = lnr.readLine();
+#*        *#			tokens = new StringTokenizer( line, " " );
+#*        *#			for ( int i=0; i<${param.get_nbTestRows()}; i++ ) {
+#*        *#				${param.get_parameterName()}[i] = Double.parseDouble( tokens.nextToken() );
+#*        *#			}
+#*        *##if (${param.is_zeroLength()})
+#*            *#			}
+#*        *##end
+#*    *##elseif (${param.get_parameterType()} == "int[][]")			
+#*        *#			int[] ${param.get_parameterName()};
+#*        *##if (${param.is_zeroLength()})
+#*            *#			if ((${param.get_nbTestRows()})*(${param.get_nbTestColumns()}) == 0) {
+#*            *#			${param.get_parameterName()} = new int[1];
+#*            *#			line = lnr.readLine();
+#*            *#			${param.get_parameterName()}[0] = Integer.parseInt(line);
+#*            *#			} else {
+#*        *##end
+#*        *#			${param.get_parameterName()} = new int[(${param.get_nbTestRows()})*(${param.get_nbTestColumns()})];
+#*        *#			for ( int i=0; i<${param.get_nbTestRows()}; i++ ) {
+#*        *#				line = lnr.readLine();
+#*        *#				tokens = new StringTokenizer( line, " " );
+#*        *#				for ( int j=0; j<${param.get_nbTestColumns()}; j++ ) {
+#*        *#					${param.get_parameterName()}[i*(${param.get_nbTestColumns()})+j] = Integer.parseInt( tokens.nextToken() );
+#*        *#				}
+#*        *#			}
+#*        *##if (${param.is_zeroLength()})
+#*            *#			}
+#*        *##end
+#*    *##elseif (${param.get_parameterType()} == "double[][]")			
+#*        *#			double[] ${param.get_parameterName()};	
+#*        *##if (${param.is_zeroLength()})
+#*            *#			if ((${param.get_nbTestRows()})*(${param.get_nbTestColumns()}) == 0) {
+#*            *#			${param.get_parameterName()} = new double[1];
+#*            *#			line = lnr.readLine();
+#*            *#			${param.get_parameterName()}[0] = Double.parseDouble( line );
+#*            *#			} else {
+#*        *##end
+#*        *#			${param.get_parameterName()} = new double[(${param.get_nbTestRows()})*(${param.get_nbTestColumns()})];
+#*        *#			for ( int i=0; i<${param.get_nbTestRows()}; i++ ) {
+#*        *#				line = lnr.readLine();
+#*        *#				tokens = new StringTokenizer( line, " " );
+#*        *#				for ( int j=0; j<${param.get_nbTestColumns()}; j++ ) {
+#*        *#					${param.get_parameterName()}[i*(${param.get_nbTestColumns()})+j] = Double.parseDouble( tokens.nextToken() );
+#*        *#				}
+#*        *#			}
+#*        *##if (${param.is_zeroLength()})
+#*            *#			}
+#*        *##end
+#*    *##end
+#*	  *##foreach ($sum in $param.get_Sums())
+#*		  *##if ((${param.get_parameterType()} == "int[]")||(${param.get_parameterType()} == "double[]") )
+#*				*##if (${sum.get_sumType()} == "normal")	
+#*					*#		for (int i=0; i < ${param.get_nbTestRows()}; i++){
+#*					*#			${sum.get_sumName()} += ${sum.get_sumValue()};
+#*					*#		}
+#*				*##elseif (${sum.get_sumType()} == "equalCond")	
+#*					*#		for (int i=0; i < ${param.get_nbTestRows()}; i++){
+#*					*#			if (${sum.get_condValue1()} ${sum.get_condType()} ${sum.get_condValue2()}){
+#*					*#					${sum.get_sumName()} = ${sum.get_sumValue()};
+#*					*#			}
+#*					*#		}
+#*				*##elseif (${sum.get_sumType()} == "sumCond")	
+#*					*#		for (int i=0; i < ${param.get_nbTestRows()}; i++){
+#*					*#			if (${sum.get_condValue1()} ${sum.get_condType()} ${sum.get_condValue2()}){
+#*					*#					${sum.get_sumName()} += ${sum.get_sumValue()};
+#*					*#			}
+#*					*#		}
+#*				*##end
+#*		  *##elseif ((${param.get_parameterType()} == "int[][]")||(${param.get_parameterType()} == "double[][]") )
+#*				*##if (${sum.get_sumType()} == "normal")	
+#*					*#		for (int i=0; i < ${param.get_nbTestRows()}; i++){
+#*					*#			for(int j=0;j< ${param.get_nbTestColumns()}; j++){
+#*					*#				${sum.get_sumName()} += ${sum.get_sumValue()};
+#*					*#			}
+#*					*#		}
+#*				*##elseif (${sum.get_sumType()} == "equalCond")	
+#*					*#		for (int i=0; i < ${param.get_nbTestRows()}; i++){
+#*					*#			for(int j=0;j< ${param.get_nbTestColumns()}; j++){
+#*					*#				if (${sum.get_condValue1()} ${sum.get_condType()} ${sum.get_condValue2()}){
+#*					*#					${sum.get_sumName()} = ${sum.get_sumValue()};
+#*					*#				}
+#*					*#			}
+#*					*#		}
+#*				*##elseif (${sum.get_sumType()} == "sumCond")	
+#*					*#		for (int i=0; i < ${param.get_nbTestRows()}; i++){
+#*					*#			for(int j=0;j< ${param.get_nbTestColumns()}; j++){
+#*					*#				if (${sum.get_condValue1()} ${sum.get_condType()} ${sum.get_condValue2()}){
+#*					*#					${sum.get_sumName()} += ${sum.get_sumValue()};
+#*					*#				}
+#*					*#			}
+#*					*#		}
+#*				*##end
+#*		   *##end
+#*    *##end
+#**##end
+#end
+
+			lnr.close();
+
+			/* Declaration of outputs */
+			int res;	
+#foreach ($param in $func.parameters)
+#**##if (!${param.is_inputParameter()})
+#*    *##if (${param.get_parameterType()} == "int[]")
+#*        *#			int[] ${param.get_parameterName()};
+#*        *##if (${param.is_zeroLength()})
+#*            *#			if (${param.get_nbTestRows()} == 0) {
+#*            *#			${param.get_parameterName()} = new int[1];
+#*            *#			} else {
+#*        *##end
+#*        *#			${param.get_parameterName()} = new int[${param.get_nbTestRows()}];
+#*        *##if (${param.is_zeroLength()})
+#*            *#			}
+#*        *##end
+#*    *##elseif (${param.get_parameterType()} == "double[]")
+#*        *#			double[] ${param.get_parameterName()};
+#*        *##if (${param.is_zeroLength()})
+#*            *#			if (${param.get_nbTestRows()} == 0) {
+#*            *#			${param.get_parameterName()} = new double[1];
+#*            *#			} else {
+#*        *##end
+#*        *#			${param.get_parameterName()} = new double[${param.get_nbTestRows()}];
+#*        *##if (${param.is_zeroLength()})
+#*            *#			}
+#*        *##end
+#*    *##elseif (${param.get_parameterType()} == "int[][]")
+#*        *#			int[] ${param.get_parameterName()};
+#*        *##if (${param.is_zeroLength()})
+#*            *#			if ((${param.get_nbTestRows()})*(${param.get_nbTestColumns()}) == 0) {
+#*            *#			${param.get_parameterName()} = new int[1];
+#*            *#			} else {
+#*        *##end
+#*        *#			${param.get_parameterName()} = new int[(${param.get_nbTestRows()})*(${param.get_nbTestColumns()})];
+#*        *##if (${param.is_zeroLength()})
+#*            *#			}
+#*        *##end
+#*    *##elseif (${param.get_parameterType()} == "double[][]")
+#*        *#			double[] ${param.get_parameterName()};
+#*        *##if (${param.is_zeroLength()})
+#*            *#			if ((${param.get_nbTestRows()})*(${param.get_nbTestColumns()}) == 0) {
+#*            *#			${param.get_parameterName()} = new double[1];
+#*            *#			} else {
+#*        *##end
+#*        *#			${param.get_parameterName()} = new double[(${param.get_nbTestRows()})*(${param.get_nbTestColumns()})];
+#*        *##if (${param.is_zeroLength()})
+#*            *#			}
+#*        *##end
+#*    *##end
+#**##end
+#end
+
+			/* Call of function */
+			res = ${prod.get_productShortName()}${mod.get_moduleNameNoSpace()}.${func.get_functionName()}(#*
+*##foreach ($param in $func.parameters)
+#**##if (${param.get_parameterOrder()} % 3 == 1)
+#*    *#
+#*    *#				#*
+  *##end#*
+  *#${param.get_parameterName()}#*
+  *##if (!(${param.get_parameterOrder()} == ${func.parameters.size()}))#*
+      *#, #*
+  *##end
+#end);
+
+			/* Reading reference outputs */
+			lnr = new LineNumberReader( new InputStreamReader(
+														 new FileInputStream( 
+														 refPath + fileName ) )
+														);
+
+			line = lnr.readLine();
+			int resRef = Integer.parseInt(line);
+#foreach ($param in $func.parameters)
+#**##if ((!${param.is_inputParameter()}) && (${param.get_parameterName()} == "info"))
+#*    *#
+#*        *#			line = lnr.readLine();
+#*        *#			tokens = new StringTokenizer( line, " " );
+#*        *#			int[] ${param.get_parameterName()}Ref = new int[${param.get_nbTestRows()}];
+#*        *#			for ( int i=0; i<${param.get_nbTestRows()}; i++ ) {
+#*        *#				${param.get_parameterName()}Ref[i] = Integer.parseInt( tokens.nextToken() );
+#*        *#			}
+#**##end
+#end
+#foreach ($param in $func.parameters)
+#**##if ((!${param.is_inputParameter()}) && (!${param.is_random()}) && !(${param.get_parameterName()} == "info"))
+#*    *#
+#*    *##if (${param.get_parameterType()} == "int[]")
+#*        *#			int[] ${param.get_parameterName()}Ref;
+#*        *##if (${param.is_zeroLength()})
+#*            *#			if (${param.get_nbTestRows()} == 0) {
+#*            *#			${param.get_parameterName()}Ref = new int[1];
+#*            *#			line = lnr.readLine();
+#*            *#			${param.get_parameterName()}Ref[0] = Integer.parseInt(line);
+#*            *#			} else {
+#*        *##end
+#*        *#			${param.get_parameterName()}Ref = new int[${param.get_nbTestRows()}];
+#*        *#			line = lnr.readLine();
+#*        *#			tokens = new StringTokenizer( line, " " );
+#*        *#			for ( int i=0; i<${param.get_nbTestRows()}; i++ ) {
+#*        *#				${param.get_parameterName()}Ref[i] = Integer.parseInt( tokens.nextToken() );
+#*        *#			}
+#*        *##if (${param.is_zeroLength()})
+#*            *#			}
+#*        *##end
+#*    *##elseif (${param.get_parameterType()} == "double[]")
+#*        *#			double[] ${param.get_parameterName()}Ref;
+#*        *##if (${param.is_zeroLength()})
+#*            *#			if (${param.get_nbTestRows()} == 0) {
+#*            *#			${param.get_parameterName()}Ref = new double[1];
+#*            *#			line = lnr.readLine();
+#*            *#			${param.get_parameterName()}Ref[0] = Double.parseDouble( line );
+#*            *#			} else {
+#*        *##end
+#*        *#			${param.get_parameterName()}Ref = new double[${param.get_nbTestRows()}];
+#*        *#			line = lnr.readLine();
+#*        *#			tokens = new StringTokenizer( line, " " );
+#*        *#			for ( int i=0; i<${param.get_nbTestRows()}; i++ ) {
+#*        *#				${param.get_parameterName()}Ref[i] = Double.parseDouble( tokens.nextToken() );
+#*        *#			}
+#*        *##if (${param.is_zeroLength()})
+#*            *#			}
+#*        *##end
+#*    *##elseif (${param.get_parameterType()} == "int[][]")		
+#*        *#			int[] ${param.get_parameterName()}Ref;
+#*        *##if (${param.is_zeroLength()})
+#*            *#		if ((${param.get_nbTestRows()})*(${param.get_nbTestColumns()}) == 0) {
+#*            *#		${param.get_parameterName()}Ref = new int[1];
+#*            *#		line = lnr.readLine();
+#*            *#		${param.get_parameterName()}Ref[0] = Integer.parseInt(line);
+#*            *#		} else {
+#*        *##end
+#*        *#			${param.get_parameterName()}Ref = new int[(${param.get_nbTestRows()})*(${param.get_nbTestColumns()})];
+#*        *#			for ( int i=0; i<${param.get_nbTestRows()}; i++ ) {
+#*        *#				line = lnr.readLine();
+#*        *#				tokens = new StringTokenizer( line, " " );
+#*        *#				for ( int j=0; j<${param.get_nbTestColumns()}; j++ ) {
+#*        *#					${param.get_parameterName()}Ref[i*(${param.get_nbTestColumns()})+j] = Integer.parseInt( tokens.nextToken() );
+#*        *#				}
+#*        *#			}
+#*        *##if (${param.is_zeroLength()})
+#*            *#			}
+#*        *##end
+#*    *##elseif (${param.get_parameterType()} == "double[][]")	
+#*        *#			double[] ${param.get_parameterName()}Ref;		
+#*        *##if (${param.is_zeroLength()})
+#*            *#		if ((${param.get_nbTestRows()})*(${param.get_nbTestColumns()}) == 0) {
+#*            *#		${param.get_parameterName()}Ref = new double[1];
+#*            *#		line = lnr.readLine();
+#*            *#		${param.get_parameterName()}Ref[0] = Double.parseDouble( line );
+#*            *#		} else {
+#*        *##end
+#*        *#			${param.get_parameterName()}Ref = new double[(${param.get_nbTestRows()})*(${param.get_nbTestColumns()})];
+#*        *#			for ( int i=0; i<${param.get_nbTestRows()}; i++ ) {
+#*        *#				line = lnr.readLine();
+#*        *#				tokens = new StringTokenizer( line, " " );
+#*        *#				for ( int j=0; j<${param.get_nbTestColumns()}; j++ ) {
+#*        *#					${param.get_parameterName()}Ref[i*(${param.get_nbTestColumns()})+j] = Double.parseDouble( tokens.nextToken() );
+#*        *#				}
+#*        *#			}
+#*        *##if (${param.is_zeroLength()})
+#*            *#			}
+#*        *##end
+#*    *##end
+#**##end
+#end
+			lnr.close();
+
+			/* Comparing outputs with reference ouputs */
+			if (res != resRef) {
+				addFailureMessage(testRes, "Problem with res");
+				return false;
+			}#*
+*##foreach ($param in $func.parameters)#*
+  *##if ((!${param.is_inputParameter()}) && (${param.get_parameterName()} == "info"))#*
+      *#  if (!Utilities.equals(info, infoRef)) {
+#*    *#				addFailureMessage(testRes, "Problem with info");
+#*    *#				return false;
+#*    *#			}#*
+  *##end#*
+*##end#*
+*##foreach ($param in $func.parameters)#*
+  *##if ((!${param.is_inputParameter()}) && (!${param.is_random()}) && !(${param.get_parameterName()} == "info"))#*
+      *##if ((${param.get_parameterType()} == "int[]") || (${param.get_parameterType()} == "double[]"))#*
+          *# if (!Utilities.equals(${param.get_parameterName()}, ${param.get_parameterName()}Ref)) {
+#*        *#				addFailureMessage(testRes, "Problem with ${param.get_parameterName()}");
+#*        *#				return false;
+#*        *#			}#*
+      *##elseif ((${param.get_parameterType()} == "int[][]") || (${param.get_parameterType()} == "double[][]"))#*
+          *# if (!Utilities.equals(${param.get_parameterName()}, ${param.get_parameterName()}Ref)) {
+#*        *#				addFailureMessage(testRes, "Problem with ${param.get_parameterName()}");
+#*        *#				return false;
+#*        *#			}#*
+      *##end#*
+  *##end#*
+*##end
+
+		} catch ( IOException e ) {
+			System.out.println( e.getMessage() );
+			return false;
+		}
+		
+		return true;
+	}
+
+}
+

@@ -1,0 +1,489 @@
+#set ($diese = "#")
+${diese}include "StdAfx.h"
+${diese}include "Test${func.get_functionName()}.h"
+${diese}include "Utilities.h"
+${diese}include <time.h>
+
+#set ($i=1)
+#**##foreach ($param in $func.parameters)
+#*	*##if (${param.get_parameterType()} == "function")
+#*		*#
+#*		#if ($i < 1)	*#					
+#*		*#${diese}ifndef F77_ADD_UNDERSCORE
+#*		*#${diese} define F77_ADD_UNDERSCORE 1
+#*		*#${diese}endif
+#*		*#
+#*		*#${diese}if F77_ADD_UNDERSCORE
+#*		*#${diese} define F77_FUNCTION(f) f${diese}${diese}_
+#*		*#${diese} define F77_FUNCTION2(f) f${diese}${diese}__
+#*		*#${diese}else
+#*		*#${diese} define F77_FUNCTION(f) f
+#*		*#${diese} define F77_FUNCTION2(f) f
+#*		*#${diese}endif
+#*		#endif		*#	
+#*		*##if (${param.get_parameterName()} == "userpo")
+#*					#set ($i = $i + 1)*#
+#*					*#	/*
+#*					*# *
+#*					*# */
+#*					*#extern void F77_FUNCTION(${param.get_parameterName()}${func.get_fortranFunction()})(int* n, int* nbstep, double* trails, double* maturity,
+#*					*#								int* iusdat, double* dusdat, int* iuwork, double* duwork,
+#*					*#								double* payoff, int* info) {
+#*					*#	*info = 0;
+#*					*#	*payoff = 0.0;
+#*					*#}
+#*		*##elseif (${param.get_parameterName()} == "simul")
+#*					#set ($i = $i + 1)*#
+#*					*#	/*
+#*					*# *
+#*					*# */
+#*					*#extern void F77_FUNCTION(${param.get_parameterName()}${func.get_fortranFunction()})(int *indic,
+#*					*#								void (*F77_FUNCTION(simext))(int*, int*, double*, int*, double*, int*, int*, int*, double*, double*, double*, int*),
+#*					*#								int *n, double *x, double *f, double *g, int *izs, double *dzs) {
+#*					*#	/* Objective function */
+#*					*#	f[0] = 100*pow(x[1] - x[0]*x[0],2) + pow(1-x[0],2);
+#*					*#	/* Gradients functions */ 
+#*					*#	g[0] = 2*(x[0]-1) + 400*x[0]*(x[0]*x[0] -x[1]);
+#*					*#	g[1] = 200*(x[1]-x[0]*x[0]);
+#*					*#}
+#*		*##elseif (${param.get_parameterName()} == "simext")
+#*					#set ($i = $i + 1) *#
+#*					*#	/*
+#*					*# *
+#*					*# */
+#*					*#extern void F77_FUNCTION(${param.get_parameterName()}${func.get_fortranFunction()})(int *nfct, int *mxopt, double *xopt, int *spadim, double *grid, int* liudat, int* iudata, int* ldudat, double* dudata, double *funct, double *jacob, int *info) {
+#*					*#	double z;
+#*					*#	double r;
+#*					*#	double tmp;
+#*					*#	int i,j;
+#*					*#	for (i=0; i<*nfct; i++) {
+#*					*#		z = grid[i];
+#*					*#		
+#*					*#		tmp = xopt[*mxopt-1];
+#*					*#		for (j=*mxopt-2; j>=0; j--) {
+#*					*#			tmp = tmp*z + xopt[j];
+#*					*#		}
+#*					*#
+#*					*#		funct[i] = tmp;
+#*					*#
+#*					*#		r = 1;
+#*					*#		for (j=0; j<*mxopt; j++) {
+#*					*#			jacob[j*(*nfct)+i] = r;
+#*					*#			r = r * z;
+#*					*#		}
+#*					*#	}
+#*					*#	*info = 0;
+#*					*#}
+#*		*##end  
+#*	*##end
+#**##end
+	
+
+
+Test${func.get_functionName()}::Test${func.get_functionName()}(void)
+{
+}
+
+Test${func.get_functionName()}::~Test${func.get_functionName()}(void)
+{
+}
+
+void Test${func.get_functionName()}::addFailureMessage(FunctionTestResult *res, string msg) const {
+
+		if (res[0].failureMessage == "") {
+			res[0].failureMessage = msg;
+		} else {
+			res[0].failureMessage += ". " + msg;
+		}
+		printf("\n %s", msg.c_str());
+}
+
+
+bool Test${func.get_functionName()}::test(string inputPath, string refPath, string fileName, FunctionTestResult * testRes) const {
+	
+	int i,j;
+	string rstring;
+	bool result = true;
+	
+	// Fixed parameters
+#**##foreach ($param in $func.parameters)
+#*	*##if (${param.is_inputParameter()})
+#*		*##foreach ($sum in $param.get_Sums())
+#*					*#	int	${sum.get_sumName()} = 0;
+#*		*##end
+#*	*##end
+#**##end
+	
+	/* Reading inputs */
+	ifstream inputFile;	
+	inputFile.open((inputPath+fileName).c_str(),ios::in);
+	if (inputFile.is_open()) {#*
+*##foreach ($param in $func.parameters)#*
+  *##if (${param.is_inputParameter()})#*
+      *#
+#*    *##if (${param.get_parameterType()} == "int")
+#*        *#		int ${param.get_parameterName()};
+#*        *#		inputFile>>rstring;
+#*        *#		${param.get_parameterName()} = atoi(rstring.c_str());
+#*    *##elseif (${param.get_parameterType()} == "double")
+#*        *#		double ${param.get_parameterName()};
+#*        *#		inputFile>>rstring;
+#*        *#		${param.get_parameterName()} = atof(rstring.c_str());
+#*    *##elseif (${param.get_parameterType()} == "int[]")
+#*        *#		int * ${param.get_parameterName()};
+#*        *##if (${param.is_zeroLength()})
+#*            *#		if (${param.get_nbTestRows()} == 0) {
+#*            *#		${param.get_parameterName()} = new int[1];
+#*            *#		inputFile>>rstring;
+#*            *#		${param.get_parameterName()}[0] = atoi(rstring.c_str());
+#*            *#		} else {
+#*        *##end
+#*        *#		${param.get_parameterName()} = new int[${param.get_nbTestRows()}];
+#*        *#		for (i=0; i<${param.get_nbTestRows()}; i++) {
+#*        *#			inputFile>>rstring;
+#*        *#			${param.get_parameterName()}[i] = atoi(rstring.c_str());
+#*        *#		}
+#*        *##if (${param.is_zeroLength()})
+#*            *#		}
+#*        *##end
+#*    *##elseif (${param.get_parameterType()} == "double[]")
+#*        *#		double * ${param.get_parameterName()};
+#*        *##if (${param.is_zeroLength()})
+#*            *#		if (${param.get_nbTestRows()} == 0) {
+#*            *#		${param.get_parameterName()} = new double[1];
+#*            *#		inputFile>>rstring;
+#*            *#		${param.get_parameterName()}[0] = atof(rstring.c_str());
+#*            *#		} else {
+#*        *##end
+#*        *#		${param.get_parameterName()} = new double[${param.get_nbTestRows()}];
+#*        *#		for (i=0; i<${param.get_nbTestRows()}; i++) {
+#*        *#			inputFile>>rstring;
+#*        *#			${param.get_parameterName()}[i] = atof(rstring.c_str());
+#*        *#		}
+#*        *##if (${param.is_zeroLength()})
+#*            *#		}
+#*        *##end
+#*    *##elseif (${param.get_parameterType()} == "int[][]")
+#*        *#		int * ${param.get_parameterName()};
+#*        *##if (${param.is_zeroLength()})
+#*            *#		if ((${param.get_nbTestRows()})*(${param.get_nbTestColumns()}) == 0) {
+#*            *#		${param.get_parameterName()} = new int[1];
+#*            *#		inputFile>>rstring;
+#*            *#		${param.get_parameterName()}[0] = atoi(rstring.c_str());
+#*            *#		} else {
+#*        *##end
+#*        *#		${param.get_parameterName()} = new int[(${param.get_nbTestRows()})*(${param.get_nbTestColumns()})];
+#*        *#		for (i=0; i<${param.get_nbTestRows()}; i++) {
+#*        *#			for (j=0; j<${param.get_nbTestColumns()}; j++) {
+#*        *#				inputFile>>rstring;
+#*        *#				${param.get_parameterName()}[i*(${param.get_nbTestColumns()})+j] = atoi(rstring.c_str());
+#*        *#			}
+#*        *#		}
+#*        *##if (${param.is_zeroLength()})
+#*            *#		}
+#*        *##end
+#*    *##elseif (${param.get_parameterType()} == "double[][]")
+#*        *#		double * ${param.get_parameterName()};
+#*        *##if (${param.is_zeroLength()})
+#*            *#		if ((${param.get_nbTestRows()})*(${param.get_nbTestColumns()}) == 0) {
+#*            *#		${param.get_parameterName()} = new double[1];
+#*            *#		inputFile>>rstring;
+#*            *#		${param.get_parameterName()}[0] = atof(rstring.c_str());
+#*            *#		} else {
+#*        *##end
+#*        *#		${param.get_parameterName()} = new double[(${param.get_nbTestRows()})*(${param.get_nbTestColumns()})];
+#*        *#		for (i=0; i<${param.get_nbTestRows()}; i++) {
+#*        *#			for (j=0; j<${param.get_nbTestColumns()}; j++) {
+#*        *#				inputFile>>rstring;
+#*        *#				${param.get_parameterName()}[i*(${param.get_nbTestColumns()})+j] = atof(rstring.c_str());
+#*        *#			}
+#*        *#		}
+#*        *##if (${param.is_zeroLength()})
+#*            *#		}
+#*        *##end
+#*    *##end
+#*	  *##foreach ($sum in $param.get_Sums())
+#*		  *##if ((${param.get_parameterType()} == "int[]")||(${param.get_parameterType()} == "double[]") )
+#*				*##if (${sum.get_sumType()} == "normal")	
+#*					*#		for (i=0; i < ${param.get_nbTestRows()}; i++){
+#*					*#			${sum.get_sumName()} += ${sum.get_sumValue()};
+#*					*#		}
+#*				*##elseif (${sum.get_sumType()} == "equalCond")	
+#*					*#		for (i=0; i < ${param.get_nbTestRows()}; i++){
+#*					*#			if (${sum.get_condValue1()} ${sum.get_condType()} ${sum.get_condValue2()}){
+#*					*#					${sum.get_sumName()} = ${sum.get_sumValue()};
+#*					*#			}
+#*					*#		}
+#*				*##elseif (${sum.get_sumType()} == "sumCond")	
+#*					*#		for (i=0; i < ${param.get_nbTestRows()}; i++){
+#*					*#			if (${sum.get_condValue1()} ${sum.get_condType()} ${sum.get_condValue2()}){
+#*					*#					${sum.get_sumName()} += ${sum.get_sumValue()};
+#*					*#			}
+#*					*#		}
+#*				*##end
+#*		  *##elseif ((${param.get_parameterType()} == "int[][]")||(${param.get_parameterType()} == "double[][]") )
+#*				*##if (${sum.get_sumType()} == "normal")	
+#*					*#		for (i=0; i < ${param.get_nbTestRows()}; i++){
+#*					*#			for(j=0;j< ${param.get_nbTestColumns()}; j++){
+#*					*#				${sum.get_sumName()} += ${sum.get_sumValue()};
+#*					*#			}
+#*					*#		}
+#*				*##elseif (${sum.get_sumType()} == "equalCond")	
+#*					*#		for (i=0; i < ${param.get_nbTestRows()}; i++){
+#*					*#			for(j=0;j< ${param.get_nbTestColumns()}; j++){
+#*					*#				if (${sum.get_condValue1()} ${sum.get_condType()} ${sum.get_condValue2()}){
+#*					*#					${sum.get_sumName()} = ${sum.get_sumValue()};
+#*					*#				}
+#*					*#			}
+#*					*#		}
+#*				*##elseif (${sum.get_sumType()} == "sumCond")	
+#*					*#		for (i=0; i < ${param.get_nbTestRows()}; i++){
+#*					*#			for(j=0;j< ${param.get_nbTestColumns()}; j++){
+#*					*#				if (${sum.get_condValue1()} ${sum.get_condType()} ${sum.get_condValue2()}){
+#*					*#					${sum.get_sumName()} += ${sum.get_sumValue()};
+#*					*#				}
+#*					*#			}
+#*					*#		}
+#*				*##end
+#*		   *##end
+#*    *##end      
+#**##end
+#end
+
+		inputFile.close();
+
+		/* Declaration of outputs */
+		int res;	
+#foreach ($param in $func.parameters)
+#**##if (!${param.is_inputParameter()})
+#*    *##if (${param.get_parameterType()} == "int[]")
+#*        *#		int * ${param.get_parameterName()};
+#*        *##if (${param.is_zeroLength()})
+#*            *#		if (${param.get_nbTestRows()} == 0) {
+#*            *#		${param.get_parameterName()} = new int[1];
+#*            *#		} else {
+#*        *##end
+#*        *#		${param.get_parameterName()} = new int[${param.get_nbTestRows()}];
+#*        *##if (${param.is_zeroLength()})
+#*            *#		}
+#*        *##end
+#*    *##elseif (${param.get_parameterType()} == "double[]")
+#*        *#		double * ${param.get_parameterName()};
+#*        *##if (${param.is_zeroLength()})
+#*            *#		if (${param.get_nbTestRows()} == 0) {
+#*            *#		${param.get_parameterName()} = new double[1];
+#*            *#		} else {
+#*        *##end
+#*        *#		${param.get_parameterName()} = new double[${param.get_nbTestRows()}];
+#*        *##if (${param.is_zeroLength()})
+#*            *#		}
+#*        *##end
+#*    *##elseif (${param.get_parameterType()} == "int[][]")
+#*        *#		int * ${param.get_parameterName()};
+#*        *##if (${param.is_zeroLength()})
+#*            *#		if ((${param.get_nbTestRows()})*(${param.get_nbTestColumns()}) == 0) {
+#*            *#		${param.get_parameterName()} = new int[1];
+#*            *#		} else {
+#*        *##end
+#*        *#		${param.get_parameterName()} = new int[(${param.get_nbTestRows()})*(${param.get_nbTestColumns()})];
+#*        *##if (${param.is_zeroLength()})
+#*            *#		}
+#*        *##end
+#*    *##elseif (${param.get_parameterType()} == "double[][]")
+#*        *#		double * ${param.get_parameterName()};
+#*        *##if (${param.is_zeroLength()})
+#*            *#		if ((${param.get_nbTestRows()})*(${param.get_nbTestColumns()}) == 0) {
+#*            *#		${param.get_parameterName()} = new double[1];
+#*            *#		} else {
+#*        *##end
+#*        *#		${param.get_parameterName()} = new double[(${param.get_nbTestRows()})*(${param.get_nbTestColumns()})];
+#*        *##if (${param.is_zeroLength()})
+#*            *#		}
+#*        *##end
+#*    *##end
+#**##end
+#end
+		
+		time_t seconds;
+		double time; 
+	  	seconds = clock();
+	  	
+		/* Call of function */
+		res = ${func.get_functionName()}(#*
+*##foreach ($param in $func.parameters)
+#**##if (${param.get_parameterOrder()} % 3 == 1)
+#*    *#
+#*    *#			#*
+  *##end#*
+  *##if ((${param.get_parameterType()} == "int") || (${param.get_parameterType()} == "double"))
+#*    *#&${param.get_parameterName()}#*
+  *##elseif (${param.get_parameterType()} == "function")
+#*    *#F77_FUNCTION(${param.get_parameterName()}${func.get_fortranFunction()})#*
+  *##else
+#*    *#${param.get_parameterName()}#*
+  *##end#*
+  *##*
+  *##if (!(${param.get_parameterOrder()} == ${func.parameters.size()}))#*
+      *#, #*
+  *##end
+#end);
+
+#foreach ($param in $func.parameters)
+#**##if ((${param.is_inputParameter()}) && !((${param.get_parameterType()} == "int") || (${param.get_parameterType()} == "double") || (${param.get_parameterType()} == "function")))
+#*    *#		delete[] ${param.get_parameterName()};
+#**##end
+#end
+		time = (clock() - seconds) * 1.e-3;
+		
+		testRes[0].time = time;
+		/* Reading reference outputs */
+		ifstream refFile;	
+		refFile.open((refPath+fileName).c_str(),ios::in);
+		if (refFile.is_open()) {
+
+			int resRef;
+			refFile>>rstring;
+			resRef = atoi(rstring.c_str());
+			
+#foreach ($param in $func.parameters)
+#**##if ((!${param.is_inputParameter()}) && (${param.get_parameterName()} == "info"))
+#*    *#			int * ${param.get_parameterName()}Ref = new int[${param.get_nbTestRows()}];
+#*    *#			for (i=0; i<${param.get_nbTestRows()}; i++) {
+#*    *#				refFile>>rstring;
+#*    *#				${param.get_parameterName()}Ref[i] = atoi(rstring.c_str());
+#*    *#			}
+#**##end
+#end
+#foreach ($param in $func.parameters)
+#**##if ((!${param.is_inputParameter()}) && (!${param.is_random()}) && !(${param.get_parameterName()} == "info"))
+#*    *#
+#*    *##if (${param.get_parameterType()} == "int[]")
+#*        *#			int * ${param.get_parameterName()}Ref;
+#*        *##if (${param.is_zeroLength()})
+#*            *#			if (${param.get_nbTestRows()} == 0) {
+#*            *#			${param.get_parameterName()}Ref = new int[1];
+#*            *#			refFile>>rstring;
+#*            *#			${param.get_parameterName()}Ref[0] = atoi(rstring.c_str());
+#*            *#			} else {
+#*        *##end
+#*        *#			${param.get_parameterName()}Ref = new int[${param.get_nbTestRows()}];
+#*        *#			for (i=0; i<${param.get_nbTestRows()}; i++) {
+#*        *#				refFile>>rstring;
+#*        *#				${param.get_parameterName()}Ref[i] = atoi(rstring.c_str());
+#*        *#			}
+#*        *##if (${param.is_zeroLength()})
+#*            *#			}
+#*        *##end
+#*    *##elseif (${param.get_parameterType()} == "double[]")
+#*        *#			double * ${param.get_parameterName()}Ref;
+#*        *##if (${param.is_zeroLength()})
+#*            *#			if (${param.get_nbTestRows()} == 0) {
+#*            *#			${param.get_parameterName()}Ref = new double[1];
+#*            *#			refFile>>rstring;
+#*            *#			${param.get_parameterName()}Ref[0] = atof(rstring.c_str());
+#*            *#			} else {
+#*        *##end
+#*        *#			${param.get_parameterName()}Ref = new double[${param.get_nbTestRows()}];
+#*        *#			for (i=0; i<${param.get_nbTestRows()}; i++) {
+#*        *#				refFile>>rstring;
+#*        *#				${param.get_parameterName()}Ref[i] = atof(rstring.c_str());
+#*        *#			}
+#*        *##if (${param.is_zeroLength()})
+#*            *#			}
+#*        *##end
+#*    *##elseif (${param.get_parameterType()} == "int[][]")
+#*        *#			int * ${param.get_parameterName()}Ref;
+#*        *##if (${param.is_zeroLength()})
+#*            *#			if ((${param.get_nbTestRows()})*(${param.get_nbTestColumns()}) == 0) {
+#*            *#			${param.get_parameterName()}Ref = new int[1];
+#*            *#			refFile>>rstring;
+#*            *#			${param.get_parameterName()}Ref[0] = atoi(rstring.c_str());
+#*            *#			} else {
+#*        *##end
+#*        *#			${param.get_parameterName()}Ref = new int[(${param.get_nbTestRows()})*(${param.get_nbTestColumns()})];
+#*        *#			for (i=0; i<${param.get_nbTestRows()}; i++) {
+#*        *#				for (j=0; j<${param.get_nbTestColumns()}; j++) {
+#*        *#					refFile>>rstring;
+#*        *#					${param.get_parameterName()}Ref[i*(${param.get_nbTestColumns()})+j] = atoi(rstring.c_str());
+#*        *#				}
+#*        *#			}
+#*        *##if (${param.is_zeroLength()})
+#*            *#			}
+#*        *##end
+#*    *##elseif (${param.get_parameterType()} == "double[][]")
+#*        *#			double * ${param.get_parameterName()}Ref;
+#*        *##if (${param.is_zeroLength()})
+#*            *#			if ((${param.get_nbTestRows()})*(${param.get_nbTestColumns()}) == 0) {
+#*            *#			${param.get_parameterName()}Ref = new double[1];
+#*            *#			refFile>>rstring;
+#*            *#			${param.get_parameterName()}Ref[0] = atof(rstring.c_str());
+#*            *#			} else {
+#*        *##end
+#*        *#			${param.get_parameterName()}Ref = new double[(${param.get_nbTestRows()})*(${param.get_nbTestColumns()})];
+#*        *#			for (i=0; i<${param.get_nbTestRows()}; i++) {
+#*        *#				for (j=0; j<${param.get_nbTestColumns()}; j++) {
+#*        *#					refFile>>rstring;
+#*        *#					${param.get_parameterName()}Ref[i*(${param.get_nbTestColumns()})+j] = atof(rstring.c_str());
+#*        *#				}
+#*        *#			}
+#*        *##if (${param.is_zeroLength()})
+#*            *#			}
+#*        *##end
+#*    *##end
+#**##end
+#end
+
+			refFile.close();
+
+			/* Comparing outputs with reference ouputs */
+			if (res != resRef) {
+				addFailureMessage(testRes, "Problem with res. ");
+				result = false;
+			}#*
+*##foreach ($param in $func.parameters)#*
+  *##if ((!${param.is_inputParameter()}) && (${param.get_parameterName()} == "info"))#*
+      *# if (!Utilities::equals(1, info, infoRef)) {
+#*    *#				addFailureMessage(testRes, "Problem with info. ");
+#*    *#				result = false;
+#*    *#			}#*
+  *##end#*
+*##end#*
+*##foreach ($param in $func.parameters)#*
+  *##if ((!${param.is_inputParameter()}) && (!${param.is_random()}) && !(${param.get_parameterName()} == "info"))#*
+      *##if ((${param.get_parameterType()} == "int[]") || (${param.get_parameterType()} == "double[]"))#*
+          *# if (((res ==0))&&((*info >=0)) && (!Utilities::equals(${param.get_nbTestRows()}, ${param.get_parameterName()}, ${param.get_parameterName()}Ref))) {
+#*        *#				addFailureMessage(testRes, "Problem with ${param.get_parameterName()}. ");
+#*        *#				result = false;
+#*        *#			}#*
+      *##elseif ((${param.get_parameterType()} == "int[][]") || (${param.get_parameterType()} == "double[][]"))#*
+          *# if (((res ==0))&&((*info >=0)) &&(!Utilities::equals((${param.get_nbTestRows()})*(${param.get_nbTestColumns()}), ${param.get_parameterName()}, ${param.get_parameterName()}Ref))) {
+#*        *#				addFailureMessage(testRes, "Problem with ${param.get_parameterName()}. ");
+#*        *#				result = false;
+#*        *#			}#*
+      *##end#*
+  *##end#*
+*##end
+
+
+#foreach ($param in $func.parameters)
+#**##if ((!${param.is_inputParameter()}) && (!${param.is_random()}))
+#*    *#			delete[] ${param.get_parameterName()}Ref;
+#**##end
+#end
+		} else {
+			cout<<"File "<<refPath+fileName<<" not found";
+			result = false;
+		}
+
+#foreach ($param in $func.parameters)
+#**##if (!${param.is_inputParameter()})
+#*    *#		delete[] ${param.get_parameterName()};
+#**##end
+#end
+	} else {
+		cout<<"File "<<inputPath+fileName<<" not found";
+		result = false;
+	}
+
+	return result;
+}

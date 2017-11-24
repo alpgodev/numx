@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE MAN SYSTEM "file://C:\PROGRA~1\scilab-4.1.2\man/manrev.dtd">
+<MAN>
+  <LANGUAGE>eng</LANGUAGE>
+  <TITLE>${func.get_functionName()}</TITLE>
+  <TYPE>Scilab Function  </TYPE>
+  <DATE> $year </DATE>
+  <SHORT_DESCRIPTION name="${func.get_functionName()}">  ${func.get_functionShortDescription()}</SHORT_DESCRIPTION>
+
+  <CALLING_SEQUENCE>
+  <CALLING_SEQUENCE_ITEM>#set ($diese="#")
+#set ($i=1)
+ [#*
+*##foreach ($param in $func.parameters)#*
+    *##if (!${param.is_inputParameter()})#* 
+	       *#${param.get_parameterName()}#*
+     	 *##if (!(${param.get_parameterOrder()} == ${func.parameters.size()}))#*
+          *#,  #*
+      *##end#*
+    *##end#*
+*##end#*
+*#]=${func.get_functionName()}(#*
+  *##foreach ($param in $func.parameters)
+#*    *##if (${param.is_inputParameter()})#*
+     	 *##if (!(${i} == 1))#*
+        	  *#, #*
+      	*##end#*
+	*#${param.get_parameterName()}#*
+*##set ($i=$i+1)#*
+    *##end
+#**##end
+)</CALLING_SEQUENCE_ITEM>
+  </CALLING_SEQUENCE>
+
+  <PARAM>
+  <PARAM_INDENT>
+ 
+
+#**##foreach ($param in $func.parameters)
+<PARAM_ITEM>
+ <PARAM_NAME>${param.get_parameterName()}</PARAM_NAME>
+    <PARAM_DESCRIPTION>
+       <SP> #*
+	*##if (${param.get_parameterType()} == "int")integer,#* 
+       *##elseif (${param.get_parameterType()} == "double")double,#*  
+       *##elseif (${param.get_parameterType()} == "int[]")integer array of dimension ${param.get_nbRows()},#* 
+       *##elseif (${param.get_parameterType()} == "double[]")double array of dimension ${param.get_nbRows()},#*  
+       *##elseif (${param.get_parameterType()} == "int[][]")integer array of dimension ${param.get_nbRows()} by ${param.get_nbColumns()},#* 
+       *##elseif (${param.get_parameterType()} == "double[][]")double array of dimension ${param.get_nbRows()} by ${param.get_nbColumns()},#*  
+       *##elseif (${param.get_parameterType()} == "function")function,#* 
+       *##end#*  
+      *#	${param.get_parameterDescription()}
+       </SP>
+    </PARAM_DESCRIPTION>
+    </PARAM_ITEM>
+#**##end
+
+</PARAM_INDENT>
+ </PARAM>
+
+  <DESCRIPTION>
+     <DESCRIPTION_INDENT>
+     <DESCRIPTION_ITEM>
+     <P> ${func.get_functionDescription()}
+     </P>
+     </DESCRIPTION_ITEM>
+     </DESCRIPTION_INDENT>
+  </DESCRIPTION>
+
+  <EXAMPLE><![CDATA[. ]]></EXAMPLE>
+
+  <SEE_ALSO>
+    <SEE_ALSO_ITEM> <LINK> .</LINK> </SEE_ALSO_ITEM>
+  </SEE_ALSO>
+
+  <AUTHORS>
+    <AUTHORS_ITEM label=' Copyright (c) $year NumX'>
+    </AUTHORS_ITEM>
+  </AUTHORS>
+
+  <BIBLIO>
+    <SP>
+    .
+    </SP>
+  </BIBLIO>
+
+  <USED_FUNCTIONS>
+     <SP>
+     	${func.get_functionName()}
+     </SP>
+  </USED_FUNCTIONS>
+</MAN>

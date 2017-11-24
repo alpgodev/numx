@@ -1,0 +1,23 @@
+package com.jee.${prod.get_productShortNameLower()};
+
+import com.jee.common.AbstractConnectionFactory;
+
+public final class ${prod.get_productShortName()}ConnectionFactory extends AbstractConnectionFactory {
+
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 7207378007805200106L;
+
+	private ${prod.get_productShortName()}Connection ${prod.get_productShortNameLower()};
+	
+	public ${prod.get_productShortName()}ConnectionFactory() {
+		${prod.get_productShortNameLower()} = new ${prod.get_productShortName()}Connection();
+		
+	}
+	
+	public final ${prod.get_productShortName()}Connection getConnection() {
+        return ${prod.get_productShortNameLower()};
+    }
+    
+}

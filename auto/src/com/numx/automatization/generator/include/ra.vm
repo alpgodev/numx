@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<connector xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/connector_1_5.xsd" version="1.5">
+	<vendor-name>NumX</vendor-name>
+	<eis-type>${prod.get_productShortName()}Connection</eis-type>
+	<resourceadapter-version>${prod.get_productVersion()}</resourceadapter-version>
+	<resourceadapter>
+		<resourceadapter-class>com.jee.${prod.get_productShortNameLower()}.${prod.get_productShortName()}ResourceAdapter</resourceadapter-class>
+		<outbound-resourceadapter>
+			<connection-definition>
+				<managedconnectionfactory-class>com.jee.${prod.get_productShortNameLower()}.${prod.get_productShortName()}ManagedConnectionFactory</managedconnectionfactory-class>
+				<connectionfactory-interface>com.jee.common.AbstractConnectionFactory</connectionfactory-interface>
+				<connectionfactory-impl-class>com.jee.${prod.get_productShortNameLower()}.${prod.get_productShortName()}ConnectionFactory</connectionfactory-impl-class>
+				<connection-interface>com.jee.common.AbstractConnection</connection-interface>
+				<connection-impl-class>com.jee.${prod.get_productShortNameLower()}.${prod.get_productShortName()}Connection</connection-impl-class>
+			</connection-definition>
+			<transaction-support>NoTransaction</transaction-support>
+			<reauthentication-support>false</reauthentication-support>
+		</outbound-resourceadapter>
+	</resourceadapter>
+</connector>

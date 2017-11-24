@@ -1,0 +1,299 @@
+Public Class Test${func.get_functionName()} : Inherits TestNumXfunctions
+
+    Public Overrides Function test(ByVal inputPath As String, ByVal refPath As String, ByVal fileName As String) As Boolean
+
+        Dim i, j As Integer
+
+        ' Reading inputs
+        Dim inputFileNum As Integer
+        inputFileNum = FreeFile()
+        FileOpen(inputFileNum, inputPath & fileName, OpenMode.Input)
+#foreach ($param in $func.parameters)#*
+  *##if (${param.is_inputParameter()})#*
+      *#
+#*    *##if (${param.get_parameterType()} == "int")
+#*        *#    	Dim ${param.get_parameterName()} As Integer
+#*        *#    	Input(inputFileNum, ${param.get_parameterName()})
+#*    *##elseif (${param.get_parameterType()} == "double")
+#*        *#    	Dim ${param.get_parameterName()} As Double
+#*        *#    	Input(inputFileNum, ${param.get_parameterName()})
+#*    *##elseif (${param.get_parameterType()} == "int[]")
+#*        *#		Dim ${param.get_parameterName()}() As Integer
+#*        *##if (${param.is_zeroLength()})
+#*            *#    	If ${param.get_nbRows()} = 0 Then
+#*            *#    	ReDim ${param.get_parameterName()}(0)
+#*            *#    	Input(inputFileNum, ${param.get_parameterName()}(0))
+#*            *#    	Else
+#*        *##end
+#*        *#    	ReDim ${param.get_parameterName()}((${param.get_nbRows()}) - 1)
+#*        *#    	For i = 0 To (${param.get_nbRows()}) - 1
+#*        *#    	    Input(inputFileNum, ${param.get_parameterName()}(i))
+#*        *#    	Next i
+#*        *##if (${param.is_zeroLength()})
+#*            *#    	End If
+#*        *##end
+#*    *##elseif (${param.get_parameterType()} == "double[]")
+#*        *#		Dim ${param.get_parameterName()}() As Double
+#*        *##if (${param.is_zeroLength()})
+#*            *#    	If ${param.get_nbRows()} = 0 Then
+#*            *#    	ReDim ${param.get_parameterName()}(0)
+#*            *#    	Input(inputFileNum, ${param.get_parameterName()}(0))
+#*            *#    	Else
+#*        *##end
+#*        *#    	ReDim ${param.get_parameterName()}((${param.get_nbRows()}) - 1)
+#*        *#    	For i = 0 To (${param.get_nbRows()}) - 1
+#*        *#    	    Input(inputFileNum, ${param.get_parameterName()}(i))
+#*        *#    	Next i
+#*        *##if (${param.is_zeroLength()})
+#*            *#    	End If
+#*        *##end
+#*    *##elseif (${param.get_parameterType()} == "int[][]")
+#*        *#		Dim ${param.get_parameterName()}(,) As Integer
+#*        *##if (${param.is_zeroLength()})
+#*            *#    	If ((${param.get_nbRows()}) * (${param.get_nbColumns()})) = 0 Then
+#*            *#    	ReDim ${param.get_parameterName()}(0, 0)
+#*            *#    	Input(inputFileNum, ${param.get_parameterName()}(0, 0))
+#*            *#    	Else
+#*        *##end
+#*        *#    	ReDim ${param.get_parameterName()}((${param.get_nbRows()}) - 1, (${param.get_nbColumns()}) - 1)
+#*        *#    	For i = 0 To (${param.get_nbRows()}) - 1
+#*        *#    	    For j = 0 To (${param.get_nbColumns()}) - 1
+#*        *#    	        Input(inputFileNum, ${param.get_parameterName()}(i, j))
+#*        *#    	    Next j
+#*        *#    	Next i
+#*        *##if (${param.is_zeroLength()})
+#*            *#    	End If
+#*        *##end
+#*    *##elseif (${param.get_parameterType()} == "double[][]")
+#*        *#		Dim ${param.get_parameterName()}(,) As Double
+#*        *##if (${param.is_zeroLength()})
+#*            *#    	If ((${param.get_nbRows()}) * (${param.get_nbColumns()})) = 0 Then
+#*            *#    	ReDim ${param.get_parameterName()}(0, 0)
+#*            *#    	Input(inputFileNum, ${param.get_parameterName()}(0, 0))
+#*            *#    	Else
+#*        *##end
+#*        *#    	ReDim ${param.get_parameterName()}((${param.get_nbRows()}) - 1, (${param.get_nbColumns()}) - 1)
+#*        *#    	For i = 0 To (${param.get_nbRows()}) - 1
+#*        *#    	    For j = 0 To (${param.get_nbColumns()}) - 1
+#*        *#    	        Input(inputFileNum, ${param.get_parameterName()}(i, j))
+#*        *#    	    Next j
+#*        *#    	Next i
+#*        *##if (${param.is_zeroLength()})
+#*            *#    	End If
+#*        *##end
+#*    *##end
+#**##end
+#end
+      
+        FileClose(inputFileNum)
+
+        ' Declaration of outputs
+        Dim res As Integer
+#foreach ($param in $func.parameters)
+#**##if (!${param.is_inputParameter()})
+#*    *##if (${param.get_parameterType()} == "int[]")
+#*        *#		Dim ${param.get_parameterName()}() As Integer
+#*        *##if (${param.is_zeroLength()})
+#*            *#    	If ${param.get_nbRows()} = 0 Then
+#*            *#    	ReDim ${param.get_parameterName()}(0)
+#*            *#    	Else
+#*        *##end
+#*        *#    	ReDim ${param.get_parameterName()}((${param.get_nbRows()}) - 1)
+#*        *##if (${param.is_zeroLength()})
+#*            *#    	End If
+#*        *##end
+#*    *##elseif (${param.get_parameterType()} == "double[]")
+#*        *#		Dim ${param.get_parameterName()}() As Double
+#*        *##if (${param.is_zeroLength()})
+#*            *#    	If ${param.get_nbRows()} = 0 Then
+#*            *#    	ReDim ${param.get_parameterName()}(0)
+#*            *#    	Else
+#*        *##end
+#*        *#    	ReDim ${param.get_parameterName()}((${param.get_nbRows()}) - 1)
+#*        *##if (${param.is_zeroLength()})
+#*            *#    	End If
+#*        *##end
+#*    *##elseif (${param.get_parameterType()} == "int[][]")
+#*        *#		Dim ${param.get_parameterName()}(,) As Integer
+#*        *##if (${param.is_zeroLength()})
+#*            *#    	If ((${param.get_nbRows()}) * (${param.get_nbColumns()})) = 0 Then
+#*            *#    	ReDim ${param.get_parameterName()}(0, 0)
+#*            *#    	Else
+#*        *##end
+#*        *#    	ReDim ${param.get_parameterName()}((${param.get_nbRows()}) - 1, (${param.get_nbColumns()}) - 1)
+#*        *##if (${param.is_zeroLength()})
+#*            *#    	End If
+#*        *##end
+#*    *##elseif (${param.get_parameterType()} == "double[][]")
+#*        *#		Dim ${param.get_parameterName()}(,) As Double
+#*        *##if (${param.is_zeroLength()})
+#*            *#    	If ((${param.get_nbRows()}) * (${param.get_nbColumns()})) = 0 Then
+#*            *#    	ReDim ${param.get_parameterName()}(0, 0)
+#*            *#    	Else
+#*        *##end
+#*        *#    	ReDim ${param.get_parameterName()}((${param.get_nbRows()}) - 1, (${param.get_nbColumns()}) - 1)
+#*        *##if (${param.is_zeroLength()})
+#*            *#    	End If
+#*        *##end
+#*    *##end
+#**##end
+#end
+
+        ' Call of function
+        res = ${prod.get_productShortName()}${mod.get_moduleNameNoSpace()}.${func.get_functionName()}( #*
+*##foreach ($param in $func.parameters)
+#**##if (${param.get_parameterOrder()} % 3 == 1)
+#*    *#_
+#*    *#        	#*
+  *##end#*
+  *#${param.get_parameterName()}#*
+  *##if ((${param.get_parameterType()} == "int[]") || (${param.get_parameterType()} == "double[]"))
+#*    *#(0)#*
+  *##elseif ((${param.get_parameterType()} == "int[][]") || (${param.get_parameterType()} == "double[][]"))
+#*    *#(0, 0)#*
+  *##end#*
+  *##if (!(${param.get_parameterOrder()} == ${func.parameters.size()}))#*
+      *#, #*
+  *##end
+#end)
+
+        ' Reading reference outputs
+        Dim refFileNum As Integer
+        refFileNum = FreeFile()
+        FileOpen(refFileNum, refPath & fileName, OpenMode.Input)
+
+        Dim resRef As Integer
+        Input(refFileNum, resRef)
+#foreach ($param in $func.parameters)
+#**##if ((!${param.is_inputParameter()}) && (${param.get_parameterName()} == "info"))
+#*    *#
+#*        *#    	Dim ${param.get_parameterName()}Ref((${param.get_nbRows()}) - 1) As Integer
+#*        *#    	For i = 0 To (${param.get_nbRows()}) - 1
+#*        *#    	    Input(refFileNum, ${param.get_parameterName()}Ref(i))
+#*        *#    	Next i
+#**##end
+#end
+#foreach ($param in $func.parameters)
+#**##if ((!${param.is_inputParameter()}) && (!${param.is_random()}) && !(${param.get_parameterName()} == "info"))
+#*    *#
+#*    *##if (${param.get_parameterType()} == "int[]")
+#*        *#		Dim ${param.get_parameterName()}Ref() As Integer
+#*        *##if (${param.is_zeroLength()})
+#*            *#    	If ${param.get_nbRows()} = 0 Then
+#*            *#    	ReDim ${param.get_parameterName()}Ref(0)
+#*            *#    	Input(refFileNum, ${param.get_parameterName()}Ref(0))
+#*            *#    	Else
+#*        *##end
+#*        *#    	ReDim ${param.get_parameterName()}Ref((${param.get_nbRows()}) - 1)
+#*        *#    	For i = 0 To (${param.get_nbRows()}) - 1
+#*        *#    	    Input(refFileNum, ${param.get_parameterName()}Ref(i))
+#*        *#    	Next i
+#*        *##if (${param.is_zeroLength()})
+#*            *#    	End If
+#*        *##end
+#*    *##elseif (${param.get_parameterType()} == "double[]")
+#*        *#		Dim ${param.get_parameterName()}Ref() As Double
+#*        *##if (${param.is_zeroLength()})
+#*            *#    If ${param.get_nbRows()} = 0 Then
+#*            *#    ReDim ${param.get_parameterName()}Ref(0)
+#*            *#    Input(refFileNum, ${param.get_parameterName()}Ref(0))
+#*            *#    Else
+#*        *##end
+#*        *#    	ReDim ${param.get_parameterName()}Ref((${param.get_nbRows()}) - 1)
+#*        *#    	For i = 0 To (${param.get_nbRows()}) - 1
+#*        *#    	    Input(refFileNum, ${param.get_parameterName()}Ref(i))
+#*        *#    	Next i
+#*        *##if (${param.is_zeroLength()})
+#*            *#    	End If
+#*        *##end
+#*    *##elseif (${param.get_parameterType()} == "int[][]")
+#*        *#		Dim ${param.get_parameterName()}Ref(,) As Integer
+#*        *##if (${param.is_zeroLength()})
+#*            *#    	If ((${param.get_nbRows()}) * (${param.get_nbColumns()})) = 0 Then
+#*            *#    	ReDim ${param.get_parameterName()}Ref(0, 0)
+#*            *#    	Input(refFileNum, ${param.get_parameterName()}Ref(0, 0))
+#*            *#    	Else
+#*        *##end
+#*        *#    	ReDim ${param.get_parameterName()}Ref((${param.get_nbRows()}) - 1, (${param.get_nbColumns()}) - 1)
+#*        *#    	For i = 0 To (${param.get_nbRows()}) - 1
+#*        *#    	    For j = 0 To (${param.get_nbColumns()}) - 1
+#*        *#    	        Input(refFileNum, ${param.get_parameterName()}Ref(i, j))
+#*        *#    	    Next j
+#*        *#    	Next i
+#*        *##if (${param.is_zeroLength()})
+#*            *#    	End If
+#*        *##end
+#*    *##elseif (${param.get_parameterType()} == "double[][]")
+#*        *#		Dim ${param.get_parameterName()}Ref(,) As Double
+#*        *##if (${param.is_zeroLength()})
+#*            *#    	If ((${param.get_nbRows()}) * (${param.get_nbColumns()})) = 0 Then
+#*            *#    	ReDim ${param.get_parameterName()}Ref(0, 0)
+#*            *#    	Input(refFileNum, ${param.get_parameterName()}Ref(0, 0))
+#*            *#    	Else
+#*        *##end
+#*        *#    	ReDim ${param.get_parameterName()}Ref((${param.get_nbRows()}) - 1, (${param.get_nbColumns()}) - 1)
+#*        *#    	For i = 0 To (${param.get_nbRows()}) - 1
+#*        *#    	    For j = 0 To (${param.get_nbColumns()}) - 1
+#*        *#    	        Input(refFileNum, ${param.get_parameterName()}Ref(i, j))
+#*        *#    	    Next j
+#*        *#    	Next i
+#*        *##if (${param.is_zeroLength()})
+#*            *#    	End If
+#*        *##end
+#*    *##end
+#**##end
+#end
+
+        FileClose(refFileNum)
+
+        ' Comparing outputs with reference ouputs
+        If res <> resRef Then
+            PrintLine(outputFileNum, "")
+            Print(outputFileNum, "Problem with res")
+            Return False#*
+*##foreach ($param in $func.parameters)#*
+  *##if ((!${param.is_inputParameter()}) && (${param.get_parameterName()} == "info"))#*
+      *#
+#*    *#    	ElseIf Utilities.equalsIntTab(info, infoRef) = False Then
+#*    *#        	PrintLine(outputFileNum, "")
+#*    *#        	Print(outputFileNum, "Problem with ${param.get_parameterName()}")
+#*    *#        	Return False#*
+  *##end#*
+*##end#*
+*##foreach ($param in $func.parameters)#*
+  *##if ((!${param.is_inputParameter()}) && (!${param.is_random()}) && !(${param.get_parameterName()} == "info"))#*
+      *##if (${param.get_parameterType()} == "int[]")#*
+          *#
+#*        *#    	ElseIf Utilities.equalsIntTab(${param.get_parameterName()}, ${param.get_parameterName()}Ref) = False Then
+#*        *#        	PrintLine(outputFileNum, "")
+#*        *#        	Print(outputFileNum, "Problem with ${param.get_parameterName()}")
+#*        *#        	Return False#*
+      *##elseif (${param.get_parameterType()} == "double[]")#*
+          *#
+#*        *#    	ElseIf Utilities.equalsTab(${param.get_parameterName()}, ${param.get_parameterName()}Ref) = False Then
+#*        *#        	PrintLine(outputFileNum, "")
+#*        *#        	Print(outputFileNum, "Problem with ${param.get_parameterName()}")
+#*        *#        	Return False#*
+      *##elseif (${param.get_parameterType()} == "int[][]")#*
+          *#
+#*        *#    	ElseIf Utilities.equalsIntMat(${param.get_parameterName()}, ${param.get_parameterName()}Ref) = False Then
+#*        *#        	PrintLine(outputFileNum, "")
+#*        *#        	Print(outputFileNum, "Problem with ${param.get_parameterName()}")
+#*        *#        	Return False#*
+      *##elseif (${param.get_parameterType()} == "double[][]")#*
+          *#
+#*        *#    	ElseIf Utilities.equalsMat(${param.get_parameterName()}, ${param.get_parameterName()}Ref) = False Then
+#*        *#        	PrintLine(outputFileNum, "")
+#*        *#        	Print(outputFileNum, "Problem with ${param.get_parameterName()}")
+#*        *#        	Return False#*
+      *##end#*
+  *##end#*
+*##end
+
+        Else
+            Return True
+        End If
+
+    End Function
+
+End Class

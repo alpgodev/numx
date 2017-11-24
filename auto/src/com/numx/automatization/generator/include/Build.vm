@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project name="${prod.get_productShortName()}" default="all" basedir=".">
+	<!-- ======================================================= -->
+	<!-- Defines variables used by the other targets             -->
+	<!-- ======================================================= -->
+
+	<property name="ant.build.javac.source" value="1.7"/>
+	<property name="ant.build.javac.target" value="1.7"/>
+
+	<property name="name" value="${prod.get_productShortName()}"/>
+	<property name="debug" value="off"/>
+	<property name="verbose" value="off"/>
+		
+	<!-- ==================================================== -->
+	<!-- Deletes .class, .h and .jar					  -->
+	<!-- ==================================================== -->
+	<target name="clean">
+		<delete>
+			<fileset dir="." includes="com/${prod.get_productShortNameLower()}/*.class,
+							com_${prod.get_productShortNameLower()}_*.h,
+							../../../../lib/${prod.get_productShortNameLower()}.jar,
+							../../../../lib/jee/${prod.get_productShortNameLower()}.jar"/>
+		</delete>
+		<delete dir="../../../../lib/javadoc${prod.get_productShortNameLower()}"/>
+	</target>
+		
+    <!-- ==================================================== -->
+    <!-- Compile .java and creates .h              	          -->
+    <!-- ==================================================== -->
+    <target name="compile">
+        <javac target="1.7" source="1.7" classpath="." srcdir="." destdir="."
+        includes="com/${prod.get_productShortNameLower()}/*.java"/>
+        <javah classpath=".">
+            #foreach ($mod in $prod.modules)
+            #**##if (!${mod.is_onlyC()} && ${mod.is_release()})
+            <class name="com.${prod.get_productShortNameLower()}.${prod.get_productShortName()}${mod.get_moduleNameNoSpace()}"/>
+            #**##end
+            #end
+        </javah>
+    </target>
+    
+	<!-- ==================================================== -->
+	<!-- Compiles .java, creates .h and .jar	          -->
+	<!-- ==================================================== -->
+	<target name="createjar">
+		<delete dir="tmp"/>
+		                <mkdir dir="tmp"/>
+		                <copy todir="tmp/lib/dynamic/Mac OS X/x86_64/">
+		                   <fileset dir="../../../../lib/api/macosx">
+		                     <include name="*.dylib"/>
+		                   </fileset>
+		                </copy>
+		                <copy todir="tmp/lib/dynamic/Linux/amd64/">
+		                   <fileset dir="../../../../lib/api/linux">
+		                    <include name="*.so"/>
+		                   </fileset>
+		                </copy>
+	    <jar destfile="../../../../lib/${prod.get_productShortNameLower()}.jar">
+		    <fileset dir=".">
+		        <include name="com/${prod.get_productShortNameLower()}/*.class"/>
+		    </fileset>
+		    <fileset dir="tmp">
+		        <include name="**"/>
+		    </fileset>
+		</jar>
+		
+	</target>
+	
+	<!-- ==================================================== -->
+	<!-- Creates the API documentation                         -->
+	<!-- ===================================================== -->
+	<target name="javadoc">
+		<mkdir dir="../../../../lib/javadoc${prod.get_productShortNameLower()}"/>
+		<javadoc classpath="." Public="true" 
+		     sourcepath="." 
+			 packagenames="com.${prod.get_productShortNameLower()}"
+			 destdir="../../../../lib/javadoc${prod.get_productShortNameLower()}/"
+             author="true" version="true" 
+			 use="true" 
+			 windowtitle="${prod.get_productShortName()} Specifications" 
+			 doctitle="${prod.get_productShortName()} APIs" 
+			 bottom="Copyright NumX">
+			<group title="${prod.get_productShortName()} Packages" packages="com.${prod.get_productShortNameLower()}.*"/>
+		</javadoc>
+	</target>
+	
+	<!-- ==================================================== -->
+	<!-- Creates jee version						          -->
+	<!-- ==================================================== -->
+	<target name="jee" depends="compile">
+		<javac target="1.7" source="1.7" classpath="jee/connector-1_5.jar;." srcdir="." destdir="."
+			includes="com/jee/common/*.java,
+					com/jee/${prod.get_productShortNameLower()}/*.java"/>
+		<jar jarfile="jee/${prod.get_productShortNameLower()}_ra.jar" basedir="."
+			includes="com/jee/common/*.class,
+					com/jee/${prod.get_productShortNameLower()}/*.class"/>
+        <copy todir="jee">
+            <fileset dir="../../../../lib/macosx" includes="${prod.get_productShortNameLower()}*-java-${prod.get_productVersion()}.a lib${prod.get_productShortNameLower()}*-java-${prod.get_productVersion()}.jnilib"/>
+        </copy>
+        <copy file="../../../../lib/${prod.get_productShortNameLower()}.jar" tofile="jee/${prod.get_productShortNameLower()}.jar"/>
+        <copy file="jee/META-INF/${prod.get_productShortNameLower()}_ra.xml" tofile="jee/META-INF/ra.xml"/>
+        <copy file="jee/META-INF/${prod.get_productShortNameLower()}_jonas-ra.xml" tofile="jee/META-INF/jonas-ra.xml"/>
+		<mkdir dir="../../../../lib/jee"/>
+		<jar jarfile="../../../../lib/jee/${prod.get_productShortNameLower()}_ra.rar" basedir="jee"
+			includes="${prod.get_productShortNameLower()}.jar ${prod.get_productShortNameLower()}_ra.jar
+				META-INF/ra.xml
+				META-INF/jonas-ra.xml
+		"/>
+		<delete>
+			<fileset dir="jee" includes="*.dll *.so ${prod.get_productShortNameLower()}*.jar"/>
+			<fileset dir="." includes="jee/META-INF/ra.xml jee/META-INF/jonas-ra.xml"/>
+		</delete>
+	</target>
+	
+	<!-- ==================================================== -->
+	<!-- Cleans, compiles ans creates javadoc		          -->
+	<!-- ==================================================== -->
+    <target name="cleancompile" depends="clean, compile, javadoc">
+	</target>
+
+</project>
+
+
+
+

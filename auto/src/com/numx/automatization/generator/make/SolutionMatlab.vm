@@ -1,0 +1,48 @@
+% dynamic link with NumX Library
+%
+% You have a library into a dynamic link library file (.dll) on Windows or a shared object file (.so) on UNIX and Linux. 
+% At run-time, the library is loaded into memory and made accessible to all applications. 
+% The Scilab Interface to Generic DLLs enables you to interact with functions in dynamic link libraries directly from Scilab.
+% 
+% author: Thibault MINNI
+
+% NumX path
+#set( $numxpath = "C:/workspace/numx/")
+#set( $numxLib = "${numxpath}lib/macosx/")
+
+#set($matlabPath = "C:/workspace/numx/src/api/matlab/")
+#set( $prodName = ${prod.get_productShortNameLower()})
+
+% link library $prodName
+addpath( '$numxLib');
+addpath( '$matlabPath');
+#foreach ($mod in $prod.modules)
+#if (${mod.is_release()})
+#set( $modName = ${mod.get_moduleNameLowerScore()} )
+#set( $modNameMatlab = ${mod.get_moduleNameLowerScore()} )
+#if ( $modNameMatlab == 'linear-algebra')
+		#set( $modNameMatlab = 'linear_algebra' )
+#end
+#set( $modPath = "${matlabPath}${modName}")
+#set( $prodShortName = ${prod.get_productShortNameLower()} )
+#set( $prodCName = "${prodShortName}_${modNameMatlab}_c" )
+#set( $prodCNameH = "${prodShortName}-${modName}-c" )
+#set( $libName = "${prodCName}")
+#*if (libisloaded('$prodCName')==0)*#
+disp(' Loading library ${modName}...');
+loadlibrary('${libName}_matlab',#*
+			*#'${numxLib}${prodCNameH}.h');
+disp(' Library ${modName} loaded...');
+addpath( '$modPath');	
+disp(' Library ${modName} path added...');		
+#*
+#foreach ($func in $mod.functions)
+#set( $funcName = ${func.get_functionName()})
+#if (${func.is_release()})
+disp('Loading function ${func.get_functionName()} of the $modName module')
+load '${matlabPath}/${modName}/${funcName}.m'
+#end
+#end
+*#	
+#end
+#end			

@@ -1,0 +1,64 @@
+#if (${prod.get_productShortName()} == "NumX")
+#**##set ($prodname="NumX")
+#end
+#if (${prod.get_productShortName()} == "RNE")
+#**##set ($prodname="RNE")
+#end
+Attribute VB_Name = "Test${prod.get_productShortName()}"
+Public outputFileNum As Integer
+
+Sub Main()
+
+    Dim args As String
+    args = ""
+    
+    Dim OK As Boolean
+    OK = False
+    Dim allOK As Boolean
+    allOK = True
+    
+    Utilities.setShowDetails (False)
+    Utilities.setShowModules (False)
+    
+    If Command = "details" Then
+        Utilities.setShowDetails (True)
+    ElseIf Command = "modules" Then
+        Utilities.setShowModules (True)
+    End If
+    
+    Dim inputPath As String
+    inputPath = "..\..\..\data\input\"
+    Dim refPath As String
+    refPath = "..\..\..\data\ref\"
+    Dim outputDir As String
+    outputDir = "..\..\..\report\"+"${prod.get_productShortName()}"
+    If Dir$(outputDir, vbDirectory) = vbNullString Then
+        MkDir outputDir
+    End If
+    outputDir = outputDir +"\vb\"
+    If Dir$(outputDir, vbDirectory) = vbNullString Then
+        MkDir outputDir
+    End If
+    
+    outputFileNum = FreeFile
+    Open "..\..\..\report\outputs.txt" For Append As outputFileNum
+    
+    Print #outputFileNum, ""
+    Print #outputFileNum, "---------- Testing ${prod.get_productName()} for VB ----------"
+    
+#foreach ($mod in $prod.modules)
+#**##if (!${mod.is_onlyC()} && ${mod.is_release()})
+    '***** ${mod.get_moduleName()} *****
+    OK = Test${prod.get_productShortName()}${mod.get_moduleNameNoSpace()}.test(inputPath & "${mod.get_moduleNameLowerScore()}\", refPath & "${mod.get_moduleNameLowerScore()}\", outputDir & "${mod.get_moduleNameLowerScore()}\")
+    Utilities.printModuleResult result:=OK, msg:="----Test ${prod.get_productShortName()} ${mod.get_moduleName()} module----"
+    allOK = OK And allOK
+	
+#**##end
+#end
+    Utilities.printResult result:=allOK, msg:="------Test ${prod.get_productName()} for VB------"
+        
+    Print #outputFileNum, ""
+    Print #outputFileNum, "--------------------------------------------"
+    
+    Close #outputFileNum
+End Sub

@@ -1,0 +1,425 @@
+#set ($diese = "#")
+Attribute VB_Name = "Test${func.get_functionName()}"
+Function test(inputPath As String, refPath As String, fileName As String, failureMessage As String) As Boolean
+    Dim i, j As Integer
+    
+    ' Reading inputs
+    Dim inputFileNum As Integer    
+    inputFileNum = FreeFile
+    Open inputPath & fileName For Input As inputFileNum    
+ 
+#**##foreach ($param in $func.parameters)
+#*	*##if (${param.is_inputParameter()})
+#*		*##foreach ($sum in $param.get_Sums())
+#*					*#	Dim	${sum.get_sumName()} As Long 
+#*		*##end
+#*	*##end
+#**##end    
+#foreach ($param in $func.parameters)#*
+  *##if (${param.is_inputParameter()})#*
+      *#
+#*    *##if (${param.get_parameterType()} == "int")
+#*        *#    Dim ${param.get_parameterName()} As Long
+#*        *#    Input ${diese}inputFileNum, ${param.get_parameterName()}
+#*    *##elseif (${param.get_parameterType()} == "double")
+#*        *#    Dim ${param.get_parameterName()} As Double
+#*        *#    Input ${diese}inputFileNum, ${param.get_parameterName()}
+#*    *##elseif (${param.get_parameterType()} == "int[]")
+#*        *#    Dim ${param.get_parameterName()}() As Long
+#*        *##if (${param.is_zeroLength()})
+#*            *#    If ${param.get_nbTestRows()} = 0 Then
+#*            *#    ReDim ${param.get_parameterName()}(1 To 1) As Long
+#*            *#    Input ${diese}inputFileNum, ${param.get_parameterName()}(1)
+#*            *#    Else
+#*        *##end
+#*        *#    ReDim ${param.get_parameterName()}(1 To ${param.get_nbTestRows()}) As Long
+#*        *#    For i = 1 To ${param.get_nbTestRows()}
+#*        *#        Input ${diese}inputFileNum, ${param.get_parameterName()}(i)
+#*        *#    Next i
+#*        *##if (${param.is_zeroLength()})
+#*            *#    End If
+#*        *##end
+#*    *##elseif (${param.get_parameterType()} == "double[]")
+#*        *#    Dim ${param.get_parameterName()}() As Double
+#*        *##if (${param.is_zeroLength()})
+#*            *#    If ${param.get_nbTestRows()} = 0 Then
+#*            *#    ReDim ${param.get_parameterName()}(1 To 1) As Double
+#*            *#    Input ${diese}inputFileNum, ${param.get_parameterName()}(1)
+#*            *#    Else
+#*        *##end
+#*        *#    ReDim ${param.get_parameterName()}(1 To ${param.get_nbTestRows()}) As Double
+#*        *#    For i = 1 To ${param.get_nbTestRows()}
+#*        *#        Input ${diese}inputFileNum, ${param.get_parameterName()}(i)
+#*        *#    Next i
+#*        *##if (${param.is_zeroLength()})
+#*            *#    End If
+#*        *##end
+#*    *##elseif (${param.get_parameterType()} == "int[][]")
+#*        *#    Dim ${param.get_parameterName()}() As Long
+#*        *##if (${param.is_zeroLength()})
+#*            *#    If ((${param.get_nbTestRows()}) * (${param.get_nbTestColumns()})) = 0 Then
+#*            *#    ReDim ${param.get_parameterName()}(1 To 1, 1 To 1) As Long
+#*            *#    Input ${diese}inputFileNum, ${param.get_parameterName()}(1, 1)
+#*            *#    Else
+#*        *##end
+#*        *#    ReDim ${param.get_parameterName()}(1 To ${param.get_nbTestRows()}, 1 To ${param.get_nbTestColumns()}) As Long
+#*        *#    For i = 1 To ${param.get_nbTestRows()}
+#*        *#        For j = 1 To ${param.get_nbTestColumns()}
+#*        *#            Input ${diese}inputFileNum, ${param.get_parameterName()}(i, j)
+#*        *#        Next j
+#*        *#    Next i
+#*        *##if (${param.is_zeroLength()})
+#*            *#    End If
+#*        *##end
+#*    *##elseif (${param.get_parameterType()} == "double[][]")
+#*        *#    Dim ${param.get_parameterName()}() As Double
+#*        *##if (${param.is_zeroLength()})
+#*            *#    If ((${param.get_nbTestRows()}) * (${param.get_nbTestColumns()})) = 0 Then
+#*            *#    ReDim ${param.get_parameterName()}(1 To 1, 1 To 1) As Double
+#*            *#    Input ${diese}inputFileNum, ${param.get_parameterName()}(1, 1)
+#*            *#    Else
+#*        *##end
+#*        *#    ReDim ${param.get_parameterName()}(1 To ${param.get_nbTestRows()}, 1 To ${param.get_nbTestColumns()}) As Double
+#*        *#    For i = 1 To ${param.get_nbTestRows()}
+#*        *#        For j = 1 To ${param.get_nbTestColumns()}
+#*        *#            Input ${diese}inputFileNum, ${param.get_parameterName()}(i, j)
+#*        *#        Next j
+#*        *#    Next i
+#*        *##if (${param.is_zeroLength()})
+#*            *#    End If
+#*        *##end
+#*    *##end
+#*	  *##foreach ($sum in $param.get_Sums())	
+#*		  *#${sum.get_sumName()} = 0
+#*		  *##if ((${param.get_parameterType()} == "int[]")||(${param.get_parameterType()} == "double[]") )
+#*				*##if (${sum.get_sumType()} == "normal")
+#*					*#For i = 1 To ${param.get_nbTestRows()}
+#*					*#	${sum.get_sumName()} = ${sum.get_sumName()} + ${sum.get_sumValueVB()}
+#*					*#Next i
+#*				*##elseif (${sum.get_sumType()} == "equalCond")	
+#*					*#For i = 1 To ${param.get_nbTestRows()}
+#*					*#	If (${sum.get_condValue1VB()} ${sum.get_condType()} ${sum.get_condValue2VB()}) Then
+#*					*#		${sum.get_sumName()} = ${sum.get_sumValueVB()}
+#*					*#	End If 
+#*					*#Next i
+#*				*##elseif (${sum.get_sumType()} == "sumCond")	
+#*					*#For i = 1 To ${param.get_nbTestRows()}
+#*					*#	If (${sum.get_condValue1VB()} ${sum.get_condType()} ${sum.get_condValue2VB()}) Then
+#*					*#		${sum.get_sumName()} = ${sum.get_sumName()} + ${sum.get_sumValueVB()}
+#*					*#	End If 
+#*					*#Next i
+#*				*##end
+#*		  *##elseif ((${param.get_parameterType()} == "int[][]")||(${param.get_parameterType()} == "double[][]") )
+#*				*##if (${sum.get_sumType()} == "normal")	
+#*					*#For i = 1 To ${param.get_nbTestRows()}
+#*					*#	For j = 1 To ${param.get_nbTestColumns()}
+#*					*#		${sum.get_sumName()} = ${sum.get_sumName()} + ${sum.get_sumValueVB()}
+#*					*#	Next j
+#*					*#Next i
+#*				*##elseif (${sum.get_sumType()} == "equalCond")	
+#*					*#For i = 1 To ${param.get_nbTestRows()}
+#*					*#	For j = 1 To ${param.get_nbTestColumns()}
+#*					*#		If (${sum.get_condValue1VB()} ${sum.get_condType()} ${sum.get_condValue2VB()})
+#*					*#			${sum.get_sumName()} = ${sum.get_sumValueVB()}
+#*					*#		End If 
+#*					*#	Next j
+#*					*#Next i
+#*				*##elseif (${sum.get_sumType()} == "sumCond")	
+#*					*#For i = 1 To ${param.get_nbTestRows()}
+#*					*#	For j = 1 To ${param.get_nbTestColumns()}
+#*					*#		If (${sum.get_condValue1VB()} ${sum.get_condType()} ${sum.get_condValue2VB()}) Then
+#*					*#			${sum.get_sumName()} = ${sum.get_sumName()} + ${sum.get_sumValueVB()}
+#*					*#		End If 
+#*					*#	Next j
+#*					*#Next i
+#*				*##end
+#*		   *##end
+#*    *##end  
+#**##end    
+#end
+
+    Close ${diese}inputFileNum
+    
+    ' Declaration of outputs
+    Dim res As Long    
+#foreach ($param in $func.parameters)
+#**##if (!${param.is_inputParameter()})
+#*    *##if (${param.get_parameterType()} == "int[]")
+#*        *#    Dim ${param.get_parameterName()}() As Long
+#*        *##if (${param.is_zeroLength()})
+#*            *#    If ${param.get_nbTestRows()} = 0 Then
+#*            *#    ReDim ${param.get_parameterName()}(1 To 1) As Long
+#*            *#    Else
+#*        *##end
+#*        *#    ReDim ${param.get_parameterName()}(1 To ${param.get_nbTestRows()}) As Long
+#*        *##if (${param.is_zeroLength()})
+#*            *#    End If
+#*        *##end
+#*    *##elseif (${param.get_parameterType()} == "double[]")
+#*        *#    Dim ${param.get_parameterName()}() As Double
+#*        *##if (${param.is_zeroLength()})
+#*            *#    If ${param.get_nbTestRows()} = 0 Then
+#*            *#    ReDim ${param.get_parameterName()}(1 To 1) As Double
+#*            *#    Else
+#*        *##end
+#*        *#    ReDim ${param.get_parameterName()}(1 To ${param.get_nbTestRows()}) As Double
+#*        *##if (${param.is_zeroLength()})
+#*            *#    End If
+#*        *##end
+#*    *##elseif (${param.get_parameterType()} == "int[][]")
+#*        *#    Dim ${param.get_parameterName()}() As Long
+#*        *##if (${param.is_zeroLength()})
+#*            *#    If ((${param.get_nbTestRows()}) * (${param.get_nbTestColumns()})) = 0 Then
+#*            *#    ReDim ${param.get_parameterName()}(1 To 1, 1 To 1) As Long
+#*            *#    Else
+#*        *##end
+#*        *#    ReDim ${param.get_parameterName()}(1 To ${param.get_nbTestRows()}, 1 To ${param.get_nbTestColumns()}) As Long
+#*        *##if (${param.is_zeroLength()})
+#*            *#    End If
+#*        *##end
+#*    *##elseif (${param.get_parameterType()} == "double[][]")
+#*        *#    Dim ${param.get_parameterName()}() As Double
+#*        *##if (${param.is_zeroLength()})
+#*            *#    If ((${param.get_nbTestRows()}) * (${param.get_nbTestColumns()})) = 0 Then
+#*            *#    ReDim ${param.get_parameterName()}(1 To 1, 1 To 1) As Double
+#*            *#    Else
+#*        *##end
+#*        *#    ReDim ${param.get_parameterName()}(1 To ${param.get_nbTestRows()}, 1 To ${param.get_nbTestColumns()}) As Double
+#*        *##if (${param.is_zeroLength()})
+#*            *#    End If
+#*        *##end
+#*    *##end
+#**##end
+#end
+    
+    ' Call of function
+    res = ${func.get_functionName()}( #*
+*##foreach ($param in $func.parameters)
+#**##if (${param.get_parameterOrder()} % 3 == 1)
+#*    *#_
+#*    *#        #*
+  *##end#*
+  *#${param.get_parameterName()}#*
+  *##if ((${param.get_parameterType()} == "int[]") || (${param.get_parameterType()} == "double[]"))
+#*    *#(1)#*
+  *##elseif ((${param.get_parameterType()} == "int[][]") || (${param.get_parameterType()} == "double[][]"))
+#*    *#(1, 1)#*
+  *##end#*
+  *##if (!(${param.get_parameterOrder()} == ${func.parameters.size()}))#*
+      *#, #*
+  *##end
+#end)
+    
+    ' Reading reference outputs
+    Dim refFileNum As Integer
+    refFileNum = FreeFile
+    Open refPath & fileName For Input As refFileNum
+    
+    Dim resRef As Long
+    Input ${diese}refFileNum, resRef
+#foreach ($param in $func.parameters)
+#**##if ((!${param.is_inputParameter()}) && (${param.get_parameterName()} == "info"))
+#*    *#    Dim ${param.get_parameterName()}Ref() As Long
+#*    *#    ReDim ${param.get_parameterName()}Ref(1 To ${param.get_nbTestRows()}) As Long
+#*    *#    For i = 1 To ${param.get_nbTestRows()}
+#*    *#        Input ${diese}refFileNum, ${param.get_parameterName()}Ref(i)
+#*    *#    Next i
+#**##end
+#end
+#foreach ($param in $func.parameters)
+#**##if ((!${param.is_inputParameter()}) && (!${param.is_random()}) && !(${param.get_parameterName()} == "info"))
+#*    *#
+#*    *##if (${param.get_parameterType()} == "int[]")
+#*        *#    Dim ${param.get_parameterName()}Ref() As Long
+#*        *##if (${param.is_zeroLength()})
+#*            *#    If ${param.get_nbTestRows()} = 0 Then
+#*            *#    ReDim ${param.get_parameterName()}Ref(1 To 1) As Long
+#*            *#    Input ${diese}refFileNum, ${param.get_parameterName()}Ref(1)
+#*            *#    Else
+#*        *##end
+#*        *#    ReDim ${param.get_parameterName()}Ref(1 To ${param.get_nbTestRows()}) As Long
+#*        *#    For i = 1 To ${param.get_nbTestRows()}
+#*        *#        Input ${diese}refFileNum, ${param.get_parameterName()}Ref(i)
+#*        *#    Next i
+#*        *##if (${param.is_zeroLength()})
+#*            *#    End If
+#*        *##end
+#*    *##elseif (${param.get_parameterType()} == "double[]")
+#*        *#    Dim ${param.get_parameterName()}Ref() As Double
+#*        *##if (${param.is_zeroLength()})
+#*            *#    If ${param.get_nbTestRows()} = 0 Then
+#*            *#    ReDim ${param.get_parameterName()}Ref(1 To 1) As Double
+#*            *#    Input ${diese}refFileNum, ${param.get_parameterName()}Ref(1)
+#*            *#    Else
+#*        *##end
+#*        *#    ReDim ${param.get_parameterName()}Ref(1 To ${param.get_nbTestRows()}) As Double
+#*        *#    For i = 1 To ${param.get_nbTestRows()}
+#*        *#        Input ${diese}refFileNum, ${param.get_parameterName()}Ref(i)
+#*        *#    Next i
+#*        *##if (${param.is_zeroLength()})
+#*            *#    End If
+#*        *##end
+#*    *##elseif (${param.get_parameterType()} == "int[][]")
+#*        *#    Dim ${param.get_parameterName()}Ref() As Long
+#*        *##if (${param.is_zeroLength()})
+#*            *#    If ((${param.get_nbTestRows()}) * (${param.get_nbTestColumns()})) = 0 Then
+#*            *#    ReDim ${param.get_parameterName()}Ref(1 To 1, 1 To 1) As Long
+#*            *#    Input ${diese}refFileNum, ${param.get_parameterName()}Ref(1, 1)
+#*            *#    Else
+#*        *##end
+#*        *#    ReDim ${param.get_parameterName()}Ref(1 To ${param.get_nbTestRows()}, 1 To ${param.get_nbTestColumns()}) As Long
+#*        *#    For i = 1 To ${param.get_nbTestRows()}
+#*        *#        For j = 1 To ${param.get_nbTestColumns()}
+#*        *#            Input ${diese}refFileNum, ${param.get_parameterName()}Ref(i, j)
+#*        *#        Next j
+#*        *#    Next i
+#*        *##if (${param.is_zeroLength()})
+#*            *#    End If
+#*        *##end
+#*    *##elseif (${param.get_parameterType()} == "double[][]")
+#*        *#    Dim ${param.get_parameterName()}Ref() As Double
+#*        *##if (${param.is_zeroLength()})
+#*            *#    If ((${param.get_nbTestRows()}) * (${param.get_nbTestColumns()})) = 0 Then
+#*            *#    ReDim ${param.get_parameterName()}Ref(1 To 1, 1 To 1) As Double
+#*            *#    Input ${diese}refFileNum, ${param.get_parameterName()}Ref(1, 1)
+#*            *#    Else
+#*        *##end
+#*        *#    ReDim ${param.get_parameterName()}Ref(1 To ${param.get_nbTestRows()}, 1 To ${param.get_nbTestColumns()}) As Double
+#*        *#    For i = 1 To ${param.get_nbTestRows()}
+#*        *#        For j = 1 To ${param.get_nbTestColumns()}
+#*        *#            Input ${diese}refFileNum, ${param.get_parameterName()}Ref(i, j)
+#*        *#        Next j
+#*        *#    Next i
+#*        *##if (${param.is_zeroLength()})
+#*            *#    End If
+#*        *##end
+#*    *##end
+#**##end
+#end
+    Close ${diese}refFileNum
+    failureMessage = ""
+    ' Comparing outputs with reference ouputs
+    test = True
+    If (res <> resRef) Then
+        Print ${diese}outputFileNum, ""
+        Print ${diese}outputFileNum, "Problem with res"
+        failureMessage = " Problem with res. "
+        test = False
+    End If#*
+*##foreach ($param in $func.parameters)#*
+  *##if ((!${param.is_inputParameter()}) && (${param.get_parameterName()} == "info"))#*
+      *#
+#*    *#    If Utilities.equalsIntTab(info, infoRef) = False Then
+#*    *#        Print ${diese}outputFileNum, ""
+#*    *#        Print ${diese}outputFileNum, "Problem with ${param.get_parameterName()}"
+#*    *#		failureMessage = failureMessage & " Problem with ${param.get_parameterName()}. "
+#*    *#        test = False
+#*    *#    End If#*
+  *##end#*
+*##end#*
+*##foreach ($param in $func.parameters)#*
+  *##if ((!${param.is_inputParameter()}) && (!${param.is_random()}) && !(${param.get_parameterName()} == "info"))#*
+      *##if (${param.get_parameterType()} == "int[]")#*
+          *#
+#*        *#    If Utilities.equalsIntTab(${param.get_parameterName()}, ${param.get_parameterName()}Ref) = False Then
+#*        *#        Print ${diese}outputFileNum, ""
+#*        *#        Print ${diese}outputFileNum, "Problem with ${param.get_parameterName()}"
+#*        *#        failureMessage = failureMessage & " Problem with ${param.get_parameterName()}. "
+#*        *#        test = False
+#*        *#    End If#*
+      *##elseif (${param.get_parameterType()} == "double[]")#*
+          *#
+#*        *#    If Utilities.equalsTab(${param.get_parameterName()}, ${param.get_parameterName()}Ref) = False Then
+#*        *#        Print ${diese}outputFileNum, ""
+#*        *#        Print ${diese}outputFileNum, "Problem with ${param.get_parameterName()}"
+#*        *#        failureMessage = failureMessage & " Problem with ${param.get_parameterName()}. "
+#*        *#        test = False
+#*        *#    End If#*
+      *##elseif (${param.get_parameterType()} == "int[][]")#*
+          *#
+#*        *#    If Utilities.equalsIntMat(${param.get_parameterName()}, ${param.get_parameterName()}Ref) = False Then
+#*        *#        Print ${diese}outputFileNum, ""
+#*        *#        Print ${diese}outputFileNum, "Problem with ${param.get_parameterName()}"
+#*        *#        failureMessage = failureMessage & " Problem with ${param.get_parameterName()}. "
+#*        *#        test = False
+#*        *#    End If#*
+      *##elseif (${param.get_parameterType()} == "double[][]")#*
+          *#
+#*        *#    If Utilities.equalsMat(${param.get_parameterName()}, ${param.get_parameterName()}Ref) = False Then
+#*        *#        Print ${diese}outputFileNum, ""
+#*        *#        Print ${diese}outputFileNum, "Problem with ${param.get_parameterName()}"
+#*        *#        failureMessage = failureMessage & " Problem with ${param.get_parameterName()}. "       
+#*        *#        test = False
+#*        *#    End If#*
+      *##end#*
+  *##end#*
+*##end
+
+End Function
+
+Function testAll(inputPath As String, refPath As String, configName As String, outputModuleDir As String) As Boolean
+    Dim result As Boolean
+    result = True
+    Dim nbTests As Integer
+    nbTests = 0
+    Dim nbFailures As Integer
+    nbFailures = 0
+    Dim configFileName As String
+    configFileName = inputPath & configName & "/" & configName & ".txt"
+    'reading list of input files
+    Dim inputFileNum As Integer
+    inputFileNum = FreeFile
+    Open configFileName For Input As inputFileNum
+    Dim fileName As String
+    Dim failureMessage As String
+    Dim timeLengths() As Variant
+    Dim before, first, length As Variant 
+    ReDim failureMessages(1 To 1000) As String
+    ReDim fileNames(1 To 1000) As String
+    ReDim timeLengths(1 To 1000) As Variant
+    
+    first = Timer
+    Do While EOF(inputFileNum) = False
+        Input #inputFileNum, fileName
+        nbTests = nbTests + 1
+        fileNames(nbTests) = fileName
+        before = Timer
+        If test(inputPath & configName & "/", refPath & configName & "/", fileName, failureMessage) = False Then
+            Print #outputFileNum, " in " & fileName
+            nbFailures = nbFailures + 1
+            result = False
+            failureMessages(nbTests) = failureMessage
+        Else
+        	failureMessages(nbTests) = ""
+        End If
+        timeLengths(nbTests) = Timer - before 
+    Loop
+    Close #inputFileNum
+    
+    length = Timer - first
+    Dim configNameVB As String
+    configNameVB = configName & "-vb"
+    Dim reportXML As String
+    reportXML = outputModuleDir & configName & ".xml"
+      Dim reportFileNum As Integer
+    reportFileNum = FreeFile
+    Open reportXML For Output As reportFileNum
+    
+    Print #reportFileNum, "	<testsuite name="" " &configNameVB & " "" tests="" "  &nbTests & " "" failures="" " &nbFailures & " "" error=""0"" times="""& Str(length) &""">"
+    For j = 1 To nbTests
+        
+                Print #reportFileNum, "		<testcase name = "" " &fileNames(j) & " "" time = """ &Str(timeLengths(j))  & """ >"
+                If (failureMessages(j) <> "") Then
+                                                Print #reportFileNum, "				<failure message="" " &failureMessages(j) & " "" type="" ""/>"
+                
+                End If
+                Print #reportFileNum, "		</testcase>"
+    Next j
+    Print #reportFileNum, "	</testsuite>"
+    Close #reportFileNum
+  	
+  
+    Utilities.printDetailResult result:=result, msg:=configName & ": " & nbTests & " tests proceeded"
+
+    testAll = result
+End Function

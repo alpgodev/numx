@@ -1,0 +1,50 @@
+#if (${prod.get_productShortName()} == "NumX")
+#**##set ($prodname="NumX")
+#end
+#if (${prod.get_productShortName()} == "RNE")
+#**##set ($prodname="RNE")
+#end
+Attribute VB_Name = "Test${prod.get_productShortName()}${mod.get_moduleNameNoSpace()}"
+Function test(inputPath As String, refPath As String, outputModuleDir As String) As Boolean
+    
+    Dim allOK As Boolean
+    allOK = True
+    
+    If ${prodname}${mod.get_moduleNameLowerNoSpace()}Test <> 0 Then
+        allOK = False
+         Dim fileXML As String
+        fileXML = outputModuleDir + "${prodname}${mod.get_moduleNameLowerNoSpace()}.xml"
+       
+        outputFileNum = FreeFile
+        Open fileXML For Append As outputFileNum
+        If (Dir(fileXML)) = "${prodname}${mod.get_moduleNameLowerNoSpace()}.xml" Then
+            
+        Else
+            intMsg = MsgBox(" the file does not exists ")
+        End If
+        Print #outputFileNum, "<testsuites>"
+        Print #outputFileNum, "		<testsuite name=""${prodname}${mod.get_moduleNameLowerNoSpace()}"" tests="" ""  failures=""1"" error=""0"" times=""" & time & """>"
+        Print #outputFileNum, "			<failure message=""Call of ${prodname} ${mod.get_moduleName()} module"" type="" ""/>"
+        Print #outputFileNum, "		</testsuite>"
+        Print #outputFileNum, "</testsuites>"
+        Close #outputFileNum
+   
+    End If
+    
+    Utilities.printDetailResult result:=allOK, msg:="Call of ${prod.get_productShortName()} ${mod.get_moduleName()} module"
+    
+    If allOK Then
+    	If Dir$(outputModuleDir, vbDirectory) = vbNullString Then
+        	MkDir outputModuleDir
+    	End If
+#foreach ($func in $mod.functions)
+#**##if (${func.is_release()} && !${func.is_onlyC()} && ${func.get_functionName()} != "${prodname}${mod.get_moduleNameLowerNoSpace()}Test")
+#*    *#		allOK = Test${func.get_functionName()}.testAll(inputPath, refPath, "${func.get_functionName()}", outputModuleDir) And allOK
+#*    *#
+#**##end
+#end
+    End If
+    
+    test = allOK
+    
+End Function

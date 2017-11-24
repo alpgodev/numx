@@ -1,0 +1,22 @@
+package com.numx.jee.${prod.get_productShortNameLower()};
+
+import javax.resource.ResourceException;
+import javax.resource.spi.ConnectionRequestInfo;
+import javax.security.auth.Subject;
+
+import com.jee.common.AbstractManagedConnection;
+import com.jee.${prod.get_productShortNameLower()}.${prod.get_productShortName()}Connection;
+
+public class ${prod.get_productShortName()}ManagedConnection extends AbstractManagedConnection {
+
+	private ${prod.get_productShortName()}Connection ${prod.get_productShortNameLower()};
+	
+	public ${prod.get_productShortName()}ManagedConnection() {
+		${prod.get_productShortNameLower()} = new ${prod.get_productShortName()}Connection();		
+	}
+	
+    public final Object getConnection(final Subject subject, final ConnectionRequestInfo cxRequestInfo) throws ResourceException {
+        return ${prod.get_productShortNameLower()};
+    }
+    
+}

@@ -1,0 +1,90 @@
+/*
+ *    ${prod.get_productName()} - ${mod.get_moduleName()} module
+ *	  Java class for jee									version ${prod.get_productVersion()}
+ *
+ *    Copyright (c) $year NumX
+ *    All rights reserved.
+ *
+ *    This software is the confidential and proprietary information
+ *    of NumX. You shall not disclose such Confidential
+ *    Information and shall use it only in accordance with the terms
+ *    of the licence agreement you entered into with NumX.
+ *
+ */
+package com.jee.${prod.get_productShortNameLower()};
+
+import java.io.Serializable;
+
+/**
+ * This class represents ${prod.get_productName()} - ${mod.get_moduleName()} library
+ * @version ${prod.get_productVersion()}
+ * @author "NumX"
+ */
+public class ${prod.get_productShortName()}${mod.get_moduleNameNoSpace()} implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1403129131750988938L;
+
+#foreach ($func in $mod.functions)
+#**##if (!${func.is_onlyC()} && ${func.is_release()})
+#*    *#
+#*    *#	/**
+#*    *#	 * ${func.get_functionShortDescription()}
+#*    *#	 * ${func.get_functionDescription()}
+#*    *#	 * 
+#*    *##foreach ($param in $func.parameters)
+#*        *#	 * @param ${param.get_parameterName()} #*
+          *##if (!${param.is_inputParameter()})#*
+              *#(output) #*
+          *##end#*
+          *##if (${param.get_parameterType()} == "int")an <code>integer</code>,
+#*        *##elseif (${param.get_parameterType()} == "double")a <code>double</code>,
+#*        *##elseif (${param.get_parameterType()} == "int[]")an <code>integer array of dimension ${param.get_nbRows()}</code>,
+#*        *##elseif (${param.get_parameterType()} == "double[]")a <code>double array of dimension ${param.get_nbRows()}</code>,
+#*        *##elseif (${param.get_parameterType()} == "int[][]")an <code>integer array of dimension ${param.get_nbRows()} by ${param.get_nbColumns()}</code>,
+#*        *##elseif (${param.get_parameterType()} == "double[][]")a <code>double array of dimension ${param.get_nbRows()} by ${param.get_nbColumns()}</code>,
+#*        *##end
+#*        *#	 *		  ${param.get_parameterDescription()}
+#*    *##end
+#*    *#	 * @return an <code>integer</code>, error code
+#*    *#	 * 		  = 0, successful exit,
+#*    *#	 * 		  != 0, see error codes list
+#*    *#	 */
+#*    *#	public int ${func.get_functionName()}(#*
+      *##foreach ($param in $func.parameters)
+#*        *##if (${param.get_parameterOrder()} % 3 == 1)
+#*            *#
+#*            *#		#*
+          *##end#*
+          *##if (${param.get_parameterType()} == "int")
+#*            *#int#*
+          *##elseif ((${param.get_parameterType()} == "int[]") || (${param.get_parameterType()} == "int[][]"))
+#*            *#int[]#*
+          *##elseif (${param.get_parameterType()} == "double")
+#*            *#double#*
+          *##elseif ((${param.get_parameterType()} == "double[]") || (${param.get_parameterType()} == "double[][]"))
+#*            *#double[]#*
+          *##end#*
+          *# ${param.get_parameterName()}#*
+          *##if (!(${param.get_parameterOrder()} == ${func.parameters.size()}))#*
+              *#, #*
+          *##end
+#*    *##end) {
+#*    *#		return com.${prod.get_productShortNameLower()}.${prod.get_productShortName()}${mod.get_moduleNameNoSpace()}.${func.get_functionName()}(#*
+      *##foreach ($param in $func.parameters)
+#*        *##if (${param.get_parameterOrder()} % 3 == 1)
+#*            *#
+#*            *#			#*
+          *##end#*
+          *#${param.get_parameterName()}#*
+          *##if (!(${param.get_parameterOrder()} == ${func.parameters.size()}))#*
+              *#, #*
+          *##end
+#*    *##end);
+#*    *#	}
+#**##end
+#end
+
+}

@@ -1,0 +1,12 @@
+package com.jee.${prod.get_productShortNameLower()};
+
+import com.jee.common.AbstractResourceAdapter;
+
+public final class ${prod.get_productShortName()}ResourceAdapter extends AbstractResourceAdapter {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5601026180175998402L;
+
+}

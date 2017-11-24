@@ -1,0 +1,131 @@
+#if (${prod.get_productShortName()} == "NumX")
+#**##set ($prodname="NumX")
+#end
+#if (${prod.get_productShortName()} == "RNE")
+#**##set ($prodname="RNE")
+#end
+<VisualStudioProject>
+    <VisualBasic
+        ProjectType = "Local"
+        ProductVersion = "7.10.3077"
+        SchemaVersion = "2.0"
+        ProjectGuid = "{9E7EEBF1-C4ED-4EA5-B175-A29D0DF97E8D}"
+    >
+        <Build>
+            <Settings
+                ApplicationIcon = ""
+                AssemblyKeyContainerName = ""
+                AssemblyName = "${prod.get_productShortName()}"
+                AssemblyOriginatorKeyFile = ""
+                AssemblyOriginatorKeyMode = "None"
+                DefaultClientScript = "JScript"
+                DefaultHTMLPageLayout = "Grid"
+                DefaultTargetSchema = "IE50"
+                DelaySign = "false"
+                OutputType = "Exe"
+                OptionCompare = "Binary"
+                OptionExplicit = "On"
+                OptionStrict = "Off"
+                RootNamespace = "${prod.get_productShortNameLower()}"
+                StartupObject = "${prod.get_productShortNameLower()}.Test${prod.get_productShortName()}"
+            >
+                <Config
+                    Name = "Debug"
+                    BaseAddress = "285212672"
+                    ConfigurationOverrideFile = ""
+                    DefineConstants = ""
+                    DefineDebug = "true"
+                    DefineTrace = "true"
+                    DebugSymbols = "true"
+                    IncrementalBuild = "true"
+                    Optimize = "false"
+                    OutputPath = ".\"
+                    RegisterForComInterop = "false"
+                    RemoveIntegerChecks = "false"
+                    TreatWarningsAsErrors = "false"
+                    WarningLevel = "1"
+                />
+                <Config
+                    Name = "Release"
+                    BaseAddress = "285212672"
+                    ConfigurationOverrideFile = ""
+                    DefineConstants = ""
+                    DefineDebug = "false"
+                    DefineTrace = "true"
+                    DebugSymbols = "false"
+                    IncrementalBuild = "false"
+                    Optimize = "true"
+                    OutputPath = "bin\"
+                    RegisterForComInterop = "false"
+                    RemoveIntegerChecks = "false"
+                    TreatWarningsAsErrors = "false"
+                    WarningLevel = "1"
+                />
+            </Settings>
+            <References>
+                <Reference
+                    Name = "System"
+                    AssemblyName = "System"
+                />
+                <Reference
+                    Name = "System.Data"
+                    AssemblyName = "System.Data"
+                />
+                <Reference
+                    Name = "System.XML"
+                    AssemblyName = "System.Xml"
+                />
+            </References>
+            <Imports>
+                <Import Namespace = "Microsoft.VisualBasic" />
+                <Import Namespace = "System" />
+                <Import Namespace = "System.Collections" />
+                <Import Namespace = "System.Data" />
+                <Import Namespace = "System.Diagnostics" />
+            </Imports>
+        </Build>
+        <Files>
+            <Include>
+                <File
+                    RelPath = "Test${prod.get_productShortName()}.vb"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+#foreach ($mod in $prod.modules)
+#**##if (!${mod.is_onlyC()} && ${mod.is_release()})
+#*    *#                <File
+#*    *#                    RelPath = "${prod.get_productShortName()}${mod.get_moduleNameNoSpace()}.vb"
+#*    *#                    SubType = "Code"
+#*    *#                    BuildAction = "Compile"
+#*    *#                />
+#*    *#                <File
+#*    *#                    RelPath = "Test${prod.get_productShortName()}${mod.get_moduleNameNoSpace()}.vb"
+#*    *#                    SubType = "Code"
+#*    *#                    BuildAction = "Compile"
+#*    *#                />
+#*    *##foreach ($func in $mod.functions)
+#*        *##if (!${func.is_onlyC()} && ${func.is_release()} && ${func.get_functionName()} != "${prodname}${mod.get_moduleNameLowerNoSpace()}Test")
+#*            *#                <File
+#*            *#                    RelPath = "Test${func.get_functionName()}.vb"
+#*            *#                    SubType = "Code"
+#*            *#                    BuildAction = "Compile"
+#*            *#                />
+#*        *##end
+#*    *##end
+#**##end
+#end
+                <File
+                    RelPath = "TestNumXfunctions.vb"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Utilities.vb"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+            </Include>
+        </Files>
+    </VisualBasic>
+</VisualStudioProject>
+

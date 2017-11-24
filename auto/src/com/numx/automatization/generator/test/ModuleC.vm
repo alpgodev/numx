@@ -1,0 +1,68 @@
+#set ($diese="#")
+#if (${prod.get_productShortName()} == "NumX")
+#**##set ($prodname="NumX")
+#end
+#if (${prod.get_productShortName()} == "RNE")
+#**##set ($prodname="RNE")
+#end
+${diese}include "StdAfx.h"
+${diese}include "Test${prod.get_productShortName()}${mod.get_moduleNameNoSpace()}.h"
+${diese}include "Utilities.h"
+${diese}include <iostream>
+${diese}include <fstream>
+${diese}include <time.h>
+//${diese}include <windows.h>
+using namespace std;
+
+#foreach ($func in $mod.functions)
+#**##if (${func.is_release()} && ${func.get_functionName()} != "${prodname}${mod.get_moduleNameLowerNoSpace()}Test")
+#*    *#${diese}include "Test${func.get_functionName()}.h"
+#**##end
+#end
+
+Test${prod.get_productShortName()}${mod.get_moduleNameNoSpace()}::Test${prod.get_productShortName()}${mod.get_moduleNameNoSpace()}(void)
+{
+}
+
+Test${prod.get_productShortName()}${mod.get_moduleNameNoSpace()}::~Test${prod.get_productShortName()}${mod.get_moduleNameNoSpace()}(void)
+{
+}
+
+bool Test${prod.get_productShortName()}${mod.get_moduleNameNoSpace()}::test(string inputPath, string refPath, string outputModuleDir) {
+	bool allOK = true;
+	//CreateDirectory(outputModuleDir.c_str(), NULL);
+	
+	if (${prodname}${mod.get_moduleNameLowerNoSpace()}Test() != 0) {
+		allOK = false;
+		time_t seconds;
+		double time; 
+  		seconds = clock();
+  		time = seconds ;
+		//times = time Calendar.getInstance().getTimeInMillis() - time;
+		allOK = false;
+		string outputFile = outputModuleDir +"${prodname}${mod.get_moduleNameLowerNoSpace()}.xml";
+		//create the xml report to indicate the library problem
+		ofstream report;
+	    report.open (outputFile.c_str());
+        report << "<testsuites>\n";
+        report << "\t<testsuite name=\"${prodname}${mod.get_moduleNameLowerNoSpace()}\" tests=\"\" failures=\"1\" error=\"0\" times=\"  time  \">\n";
+        report << "\t\t<failure message=\"Call of ${prodname} ${mod.get_moduleName()} module\" type=\"\"/>\n";
+        report << "\t</testsuite>\n";
+        report << "</testsuites>\n\n";
+	    report.close();
+	}
+	Utilities::printDetailResult(allOK, "Call of ${prod.get_productShortName()} ${mod.get_moduleName()} module");
+	
+	if (allOK) {
+	
+#foreach ($func in $mod.functions)
+#**##if (${func.is_release()} && ${func.get_functionName()} != "${prodname}${mod.get_moduleNameLowerNoSpace()}Test")
+#*    *#		Test${func.get_functionName()} t${func.get_functionName()};
+#*    *#		allOK = t${func.get_functionName()}.testAll(inputPath, refPath, "${func.get_functionName()}", outputModuleDir) && allOK;
+#*    *#
+#**##end
+#end
+	}
+
+	return allOK;
+}

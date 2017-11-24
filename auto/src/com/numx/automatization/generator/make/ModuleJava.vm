@@ -1,0 +1,7 @@
+LIBRARY ${prod.get_productShortNameLower()}-${mod.get_moduleNameLowerScore()}-java-${prod.get_productVersion()}.dll
+EXPORTS
+#foreach ($func in $mod.functions)
+#**##if (!${func.is_onlyC()} && ${func.is_release()})
+#*    *#Java_com_numx_${prod.get_productShortNameLower()}_${prod.get_productShortName()}${mod.get_moduleNameNoSpace()}_${func.get_functionName()}
+#**##end
+#end

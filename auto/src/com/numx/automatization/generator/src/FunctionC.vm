@@ -1,0 +1,515 @@
+/*=======================================================================
+
+	${func.get_fortranFunction()}c.c								version ${prod.get_productVersion()} 
+
+=======================================================================
+						${func.get_functionName()}
+											
+	${func.get_functionShortDescription()}
+	${func.get_functionDescription()}
+
+	Inputs :
+#**##foreach ($param in $func.parameters)
+#*    *##if (${param.is_inputParameter()})
+#*        *#		${param.get_parameterName()}: #*
+	      *##if (${param.get_parameterType()} == "int")integer,
+#*        *##elseif (${param.get_parameterType()} == "double")double,
+#*        *##elseif (${param.get_parameterType()} == "int[]")integer array of dimension ${param.get_nbRows()},
+#*        *##elseif (${param.get_parameterType()} == "double[]")double array of dimension ${param.get_nbRows()},
+#*        *##elseif (${param.get_parameterType()} == "int[][]")integer array of dimension ${param.get_nbRows()} by ${param.get_nbColumns()},
+#*        *##elseif (${param.get_parameterType()} == "double[][]")double array of dimension ${param.get_nbRows()} by ${param.get_nbColumns()},
+#*        *##elseif (${param.get_parameterType()} == "function")function,
+#*        *##end
+#*        *#			${param.get_parameterDescription()}
+#*    *##end
+#**##end
+
+	Outputs :
+#**##foreach ($param in $func.parameters)
+#*    *##if (!${param.is_inputParameter()})
+#*        *#		${param.get_parameterName()}: #*
+	      *##if (${param.get_parameterType()} == "int")integer,
+#*        *##elseif (${param.get_parameterType()} == "double")double,
+#*        *##elseif (${param.get_parameterType()} == "int[]")integer array of dimension ${param.get_nbRows()},
+#*        *##elseif (${param.get_parameterType()} == "double[]")double array of dimension ${param.get_nbRows()},
+#*        *##elseif (${param.get_parameterType()} == "int[][]")integer array of dimension ${param.get_nbRows()} by ${param.get_nbColumns()},
+#*        *##elseif (${param.get_parameterType()} == "double[][]")double array of dimension ${param.get_nbRows()} by ${param.get_nbColumns()},
+#*        *##end
+#*        *#			${param.get_parameterDescription()}
+#*    *##end
+#**##end
+
+	Return :
+		retcode	: integer, error code
+				  = 0, successful exit,
+				  != 0, see error codes list in reference manual.
+	Call :
+		${func.get_fortranFunction()}
+		gw${func.get_fortranFunction()}
+
+=======================================================================*/
+#set ($diese="#")
+${diese}include <stdio.h>
+${diese}include <string.h>
+${diese}include <stdlib.h>
+
+${diese}ifdef RELEASE_C
+${diese}include <float.h>
+${diese}endif /* RELEASE_C */
+
+${diese}include "utils.h"
+${diese}include "numx-f.h"
+${diese}include "numx-c.h"
+${diese}ifdef WINDOWS
+${diese}define DLLIMPORT __declspec (dllexport)
+
+
+/* function synopsis */
+DLLIMPORT 
+${diese}endif /*WINDOWS*/
+int
+${diese}ifdef VBDNET
+	__stdcall
+#endif
+${func.get_functionName()}(#*
+  *##foreach ($param in $func.parameters)
+#*    *##if (${param.get_parameterOrder()} % 3 == 1)
+#*        *#
+#*        *#	#*
+      *##end#*
+      *##if ((${param.get_parameterType()} == "int") || (${param.get_parameterType()} == "int[]") || (${param.get_parameterType()} == "int[][]"))
+#*        *#int * ${param.get_parameterName()}#*
+      *##elseif ((${param.get_parameterType()} == "double") || (${param.get_parameterType()} == "double[]") || (${param.get_parameterType()} == "double[][]"))
+#*        *#double * ${param.get_parameterName()}#*
+      *##elseif (${param.get_parameterType()} == "function")
+#*        *##if (((${param.get_parameterName()}=="userpo")||(${param.get_parameterName()}=="simext"))||(${param.get_parameterName()}=="simul"))
+#*			*#${param.getFunctionHeaderByParameterName()}#*
+#*        *##else
+#*			*#${param.get_parameterName()}#*
+		  *##end
+      *##end#*
+      *##if (!(${param.get_parameterOrder()} == ${func.parameters.size()}))#*
+          *#, #*
+      *##end
+#**##end){
+	/* error code */
+	int retcode = 0;
+#**##if (!${func.is_test()})
+	int i, j;
+
+	/* pointers declaration fortran work */
+#set ($existingw=0)
+#**##if (!$func.getGetWorkspaces().isEmpty())
+#*		*##set ($existingw=1)
+#**##end
+#**##if ($existingw == 1)
+#**##set ($gwtype = $func.getGetWorkspaces().get(0).get_gwType())
+#*	*##if ($gwtype == "all")
+#*		*#	int *iworkptr;
+#*		*#	double *dworkptr;
+#*		*#	int li, ld;
+#*	*##elseif ($gwtype == "iwork")
+#*		*#	int *iworkptr;
+#*		*#	int li, ld;
+#*	*##elseif ($gwtype == "dwork")
+#*		*#	double *dworkptr;
+#*		*#	int li, ld;
+#*	*##end
+#**##end	
+#**##end #* end istest  *#
+#**##foreach ($fixedParameter in $func.fixedParameter)
+#*	*##if ((${fixedParameter.get_fixedParameterType()}=="int")||(${fixedParameter.get_fixedParameterType()}=="double"))
+#*		*#	${fixedParameter.get_fixedParameterType()} ${fixedParameter.get_fixedParameterName()} = ${fixedParameter.get_fixedParameterValue()};
+#*	*##else
+#*		*#	${fixedParameter.get_fixedParameterType()} ${fixedParameter.get_fixedParameterName()};
+#*	*##end
+#**##end	
+	/* Fixed parameters */
+#**##foreach ($param in $func.parameters)
+#*	*##if (${param.is_inputParameter()})
+#*		*##foreach ($sum in $param.get_Sums())
+#*					*#	int	${sum.get_sumName()} = 0;
+#*		*##end
+#*	*##end
+#**##end
+	${diese}ifdef RELEASE_C /* code security */
+		${diese}ifdef WINDOWS
+			_fpreset();
+			_set_SSE2_enable(0);
+		${diese}endif /*WINDOWS*/
+		retcode = checkSysInfo();
+		if ( retcode != 0 ) {
+			retcode = 40 + retcode;
+		}
+	${diese}endif /* RELEASE_C */
+	
+#**##if (!${func.is_test()})	
+	if(retcode == 0){
+		/* make parameters integrity check here before math call */
+#**##foreach ($param in $func.parameters)
+#*	*##if (${param.is_inputParameter()})
+#*		*##if ((${param.get_parameterType()} == "int[]")||(${param.get_parameterType()} == "double[]") || (${param.get_parameterType()} == "int[][]")||(${param.get_parameterType()} == "double[][]"))		
+#*				*#		if (${param.get_parameterName()} == NULL){
+#*				*#			retcode = 300 + ${param.get_parameterOrder()};
+#*				*#		}
+#*		*##end
+#*	*##end
+#**##end				
+#**##foreach ($param in $func.parameters)
+#*		  *##if (${param.is_inputParameter()})
+#*			*##foreach ($sum in $param.get_Sums())
+#*				*##if ((${param.get_parameterType()} == "int[]")||(${param.get_parameterType()} == "double[]") )
+#*					*##if (${sum.get_sumType()} == "normal")	
+#*						*#		for (i=0; i < ${param.get_nbRows()}; i++){
+#*						*#			${sum.get_sumName()} += ${sum.get_sumValue()};
+#*						*#		}
+#*					*##elseif (${sum.get_sumType()} == "equalCond")	
+#*						*#		for (i=0; i < ${param.get_nbRows()}; i++){
+#*						*#			if (${sum.get_condValue1()} ${sum.get_condType()} ${sum.get_condValue2()}){
+#*						*#					${sum.get_sumName()} = ${sum.get_sumValue()};
+#*						*#			}
+#*						*#		}
+#*					*##elseif (${sum.get_sumType()} == "sumCond")	
+#*						*#		for (i=0; i < ${param.get_nbRows()}; i++){
+#*						*#			if (${sum.get_condValue1()} ${sum.get_condType()} ${sum.get_condValue2()}){
+#*						*#					${sum.get_sumName()} += ${sum.get_sumValue()};
+#*						*#			}
+#*						*#		}
+#*					*##end
+#*				*##end
+#*			*##end
+#*		*##end
+#*    *##if (${param.is_inputParameter()})
+#*        *##foreach ($constr in $param.get_Constraints())
+#*				*##if ((${param.get_parameterType()} == "int[]")||(${param.get_parameterType()} == "double[]"))
+#*					*#		if (retcode == 0){
+#*					*##if (${constr.get_constraintType()} == "lowerThenFor")
+#*					*#				for (i=${constr.get_firstIndex()}; i < ${constr.get_lastIndex()}; i++){
+#*					*#					if (${param.get_parameterName()}[i] < ${constr.get_constraintValue()}){
+#*					*##else
+#*						*#			for (i=0; i < ${param.get_nbRows()}; i++){
+#*						*##if (${constr.get_constraintType()} == "lowerOrEqual")
+#*						*#				if (${param.get_parameterName()}[i] <= ${constr.get_constraintValue()}){
+#*						*##elseif (${constr.get_constraintType()} == "greaterOrEqual")
+#*						*#				if (${param.get_parameterName()}[i] >= ${constr.get_constraintValue()}){
+#*						*##elseif (${constr.get_constraintType()} == "lowerThen")
+#*						*#				if (${param.get_parameterName()}[i] < ${constr.get_constraintValue()}){
+#*						*##elseif (${constr.get_constraintType()} == "greaterThen")
+#*						*#				if (${param.get_parameterName()}[i] > ${constr.get_constraintValue()}){
+#*						*##elseif (${constr.get_constraintType()} =="between")
+#*						*#				if ((${param.get_parameterName()}[i] <= ${constr.get_constraintValue()}) && 
+											(${param.get_parameterName()}[i] > ${constr.get_constraintValue2()})){
+#*						*##end
+#*					*##end
+#*					*#					retcode = 300 + ${param.get_parameterOrder()};
+#*					*#					break;
+#*					*#				}
+#*					*#			}
+#*					*#		}
+#*				*##elseif ((${param.get_parameterType()} == "int")||(${param.get_parameterType()} == "double"))
+#*					*#
+#*					*##if (${constr.get_constraintType()} == "lowerOrEqual")
+#*					*#		if (*${param.get_parameterName()} <= ${constr.get_constraintValue()}){
+#*					*##elseif (${constr.get_constraintType()} == "greaterOrEqual")
+#*					*#		if (*${param.get_parameterName()} >= ${constr.get_constraintValue()}){
+#*					*##elseif (${constr.get_constraintType()} == "lowerThen")
+#*					*#		if (*${param.get_parameterName()} < ${constr.get_constraintValue()}){
+#*					*##elseif (${constr.get_constraintType()} == "greaterThen")
+#*					*#		if (*${param.get_parameterName()} > ${constr.get_constraintValue()}){
+#*					*##elseif (${constr.get_constraintType()} == "equal")
+#*					*#		if (*${param.get_parameterName()} == ${constr.get_constraintValue()}){
+#*					*##elseif (${constr.get_constraintType()} == "between")
+#*						*#					if ((*${param.get_parameterName()} <= ${constr.get_constraintValue()}) && 
+#*						*#						(*${param.get_parameterName()} > ${constr.get_constraintValue2()})){
+#*					*##elseif (${constr.get_constraintType()} == "specialAnd")
+#*					*#		if ((${constr.get_constraintValue()}) && (${constr.get_constraintValue2()})){
+#*					*##end
+#*					*#			retcode = 300 + ${param.get_parameterOrder()};
+#*					*#		}
+#*				*##elseif ((${param.get_parameterType()} == "int[][]")||(${param.get_parameterType()} == "double[][]"))
+#*				*#		if (retcode == 0){
+#*				*#			for (i=0; i < ${param.get_nbRows()}; i++){
+#*				*#				for (j=0; j < ${param.get_nbColumns()}; j++){
+#*					*##if ((${constr.get_constraintType()} == "lowerOrEqualTranspose")||(${constr.get_constraintType()} == "greaterOrEqualTranspose") ||	(${constr.get_constraintType()} == "lowerThenTranspose")||(${constr.get_constraintType()} == "greaterThenTranspose"))
+#*					*#			${diese}ifdef TRANSPOSE	
+#*						*##if (${constr.get_constraintType()} == "lowerOrEqualTranspose")
+#*						*#					if (${param.get_parameterName()}[i*(${param.get_nbColumns()}) + j] <= ${constr.get_constraintValue()}){
+#*						*##elseif (${constr.get_constraintType()} == "greaterOrEqualTranspose")
+#*						*#					if (${param.get_parameterName()}[i*(${param.get_nbColumns()}) + j] >= ${constr.get_constraintValue()}){
+#*						*##elseif (${constr.get_constraintType()} == "lowerThenTranspose")
+#*						*#					if (${param.get_parameterName()}[i*(${param.get_nbColumns()}) + j] < ${constr.get_constraintValue()}){
+#*						*##elseif (${constr.get_constraintType()} == "greaterThenTranspose")
+#*						*#					if (${param.get_parameterName()}[i*(${param.get_nbColumns()}) + j] > ${constr.get_constraintValue()}){
+#*						*##end
+#*					*#						retcode = 300 + ${param.get_parameterOrder()};
+#*					*#						break;
+#*					*#					}
+#*					*#			${diese}else
+#*						*##if (${constr.get_constraintType()} == "lowerOrEqualTranspose")
+#*						*#					if (${param.get_parameterName()}[j*(${param.get_nbRows()}) + i] <= ${constr.get_constraintValue()}){
+#*						*##elseif (${constr.get_constraintType()} == "greaterOrEqualTranspose")
+#*						*#					if (${param.get_parameterName()}[j*(${param.get_nbRows()}) + i] >= ${constr.get_constraintValue()}){
+#*						*##elseif (${constr.get_constraintType()} == "lowerThenTranspose")
+#*						*#					if (${param.get_parameterName()}[j*(${param.get_nbRows()}) + i] < ${constr.get_constraintValue()}){
+#*						*##elseif (${constr.get_constraintType()} == "greaterThenTranspose")
+#*						*#					if (${param.get_parameterName()}[j*(${param.get_nbRows()}) + i] > ${constr.get_constraintValue()}){
+#*						*##end	
+#*					*#						retcode = 300 + ${param.get_parameterOrder()};
+#*					*#						break;
+#*					*#					}
+#*					*#				${diese}endif /* TRANSPOSE	 */ 
+#*					*#				}
+#*					*##elseif ((${constr.get_constraintType()} == "lowerOrEqual")||(${constr.get_constraintType()} == "greaterOrEqual") ||	(${constr.get_constraintType()} == "lowerThen")||(${constr.get_constraintType()} == "greaterThen")||(${constr.get_constraintType()} == "between"))
+#*						*##if (${constr.get_constraintType()} == "lowerOrEqual")
+#*						*#					if (${param.get_parameterName()}[j*(${param.get_nbRows()}) + i] <= ${constr.get_constraintValue()}){
+#*						*##elseif (${constr.get_constraintType()} == "greaterOrEqual")
+#*						*#					if (${param.get_parameterName()}[j*(${param.get_nbRows()}) + i] >= ${constr.get_constraintValue()}){
+#*						*##elseif (${constr.get_constraintType()} == "lowerThen")
+#*						*#					if (${param.get_parameterName()}[j*(${param.get_nbRows()}) + i] < ${constr.get_constraintValue()}){
+#*						*##elseif (${constr.get_constraintType()} == "greaterThen")
+#*						*#					if (${param.get_parameterName()}[j*(${param.get_nbRows()}) + i] > ${constr.get_constraintValue()}){
+#*						*##elseif (${constr.get_constraintType()} == "between")
+#*						*#					if ((${param.get_parameterName()}[j*(${param.get_nbRows()}) + i] <= ${constr.get_constraintValue()}) && 
+(${param.get_parameterName()}[j*(${param.get_nbRows()}) + i] > ${constr.get_constraintValue2()})){
+#*						*##end	
+#*					*#						retcode = 300 + ${param.get_parameterOrder()};
+#*					*#						break;
+#*					*#					}
+#*					*#				}
+#*					*##end
+#*				*#			}
+#*				*#		}
+#*				*##end
+#*        *##end
+#*    *##end
+#**##end
+
+		/* initialization of outputs */
+#**##foreach ($param in $func.parameters)
+#*    *##if (!${param.is_inputParameter()})
+#*        *##if (${param.get_parameterType()} == "int[]")
+#*			  *#		memset(${param.get_parameterName()}, 0, (${param.get_nbRows()}) * sizeof(int));
+#*        *##elseif (${param.get_parameterType()} == "int[][]")
+#*            *#		memset(${param.get_parameterName()}, 0, (${param.get_nbRows()}) * (${param.get_nbColumns()}) * sizeof(int));
+#*        *##elseif (${param.get_parameterType()} == "double[]")
+#*            *#		memset(${param.get_parameterName()}, 0, (${param.get_nbRows()}) * sizeof(double));
+#*        *##elseif (${param.get_parameterType()} == "double[][]")
+#*            *#		memset(${param.get_parameterName()}, 0, (${param.get_nbRows()}) * (${param.get_nbColumns()}) * sizeof(double));
+#*        *##end
+#*    *##end
+#**##end
+
+		if (retcode == 0) {		
+#set ($i=1)#*
+*##set ($existingw=0)#*
+
+*##foreach ($gw in $func.getGetWorkspaces())#*
+		*##if ($i == 1)#*
+			*#			/* memory allocation (fortran work) */
+#*			*#			gw#*
+			*##if (${func.gwFunctionName_is_defined()})
+#*				*#${func.get_gwFunctionName()}_(#*
+#*			*##else#*
+				*#${func.get_fortranFunction()}_(#*
+			*##end				
+			*##set ($i= $i + 1)#*
+		*##end#*
+		*#${gw.get_gwName()}, #*
+#**##end
+*##if ($i == 2)#*
+*#&li, &ld);#*
+*##set ($existingw=1)
+#**##end#*
+
+*##if ($existingw == 1)
+#**##set ($gwtype = $func.getGetWorkspaces().get(0).get_gwType())
+#*	*##if ($gwtype == "all")
+#*		*#			iworkptr = (int *) malloc( li * sizeof(int));
+#*		*#			if (iworkptr == NULL) {
+#*		*#				retcode = 2;
+#*		*#			} else {
+#*		*#				dworkptr = (double*) malloc( ld * sizeof(double));
+#*		*#				if (dworkptr == NULL) {
+#*		*#					free(iworkptr); retcode = 2;
+#*		*#				} else {
+#*	*##elseif ($gwtype == "iwork")
+#*		*#			iworkptr = (int *) malloc( li * sizeof(int));
+#*		*#			if (iworkptr == NULL) {
+#*		*#				retcode = 2;
+#*		*#			} else {
+#*	*##elseif ($gwtype == "dwork")
+#*		*#			dworkptr = (double*) malloc( ld * sizeof(double));
+#*		*#			if (dworkptr == NULL) {
+#*		*#				retcode = 2;
+#*		*#			} else {
+#*	*##end
+#**##end	
+#set($i=0)	
+#set($k=-1)
+#**##foreach ($fixedParameter in $func.fixedParameter)
+#*	*##if ((${fixedParameter.get_fixedParameterType()}=="int *")&&(${fixedParameter.get_fixedParameterValue()}!="0"))
+#*		*##set($fixedParameterName=${fixedParameter.get_fixedParameterName()})
+#*		*#					${fixedParameter.get_fixedParameterName()} = (int *) malloc(${fixedParameter.get_fixedParameterValue()}*sizeof(int));
+#*	*##elseif ((${fixedParameter.get_fixedParameterType()}=="double *")&&(${fixedParameter.get_fixedParameterValue()}!="0."))
+#*		*#					${fixedParameter.get_fixedParameterName()} = (double *) malloc(${fixedParameter.get_fixedParameterValue()}*sizeof(double));
+#*	*##end
+#*	*##if (((${fixedParameter.get_fixedParameterType()}=="int *")||(${fixedParameter.get_fixedParameterType()}=="double *"))&&(${fixedParameter.get_fixedParameterValue()}!="0"))
+#*		*#					if (${fixedParameter.get_fixedParameterName()} == NULL){
+#**##if ($existingw == 1)
+#*	*##if ($gwtype == "all")
+#*		*#						free(iworkptr); free(dworkptr);#*
+	*##elseif ($gwtype == "iwork")
+#*		*#						free(iworkptr); #*
+	*##elseif ($gwtype == "dwork")
+#*		*#						free(dworkptr);#*
+	*##end
+#**##end		
+#*		*##set($j=0)#*
+		*##set($i=0)#*
+		*##foreach ($j in [0..${k}])#*
+			*##if (((${func.fixedParameter.get(${j}).get_fixedParameterType()}=="int *")||(${func.fixedParameter.get(${j}).get_fixedParameterType()}=="double *"))&&(${func.fixedParameter.get(${j}).get_fixedParameterValue()}!="0"))
+#*				*#							free(${func.fixedParameter.get(${j}).get_fixedParameterName()});#*
+				*##set($i=$i+1)#*
+			*##end#*
+		*##end#*
+		*#retcode = 2;
+		
+							} else {
+#*	*##end
+#set($k=$k+1)
+#**##end	
+					${diese}ifdef TRANSPOSE
+						/* transpose matrices for fortran runtime */
+#**##foreach ($param in $func.parameters)
+#*    *##if (${param.is_inputParameter()})
+#*        *##if (${param.get_parameterType()} == "int[][]")
+#*            *#						transposeIntMatrix(${param.get_parameterName()}, ${param.get_nbRows()}, ${param.get_nbColumns()});
+#*        *##elseif (${param.get_parameterType()} == "double[][]")
+#*            *#						transposeDoubleMatrix(${param.get_parameterName()}, ${param.get_nbRows()}, ${param.get_nbColumns()});
+#*        *##end
+#*    *##end
+#**##end
+					${diese}endif /* TRANSPOSE */
+					
+#set($ifunc=0)						
+#**##foreach ($param in $func.parameters)
+#*    *##if ((!${param.is_inputParameter()}) && (${param.is_outFunction()}))
+#*        *#*${param.get_parameterName()}#*
+          *# = #*
+				*##set($ifunc=$ifunc+1)#*
+    *##end
+#**##end
+					${func.get_fortranFunction()}#*
+								 *##if (${func.is_fortran()})#* 
+									*#_(#*
+								 *##else#* 
+									*#(#*
+								 *##end#*
+										*#/* inputs */#*
+  *##foreach ($param in $func.parameters)
+#*    *##if (${param.is_inputParameter()})
+#*        *##if (${param.get_parameterOrder()} % 3 == 1)
+#*            *#
+#*            *#							#*
+          *##end
+#*        *##if ((((${param.get_parameterName()}=="userpo")||(${param.get_parameterName()}=="simext"))||(${param.get_parameterName()}=="simul")) &&(${param.get_parameterType()} == "function"))
+#*            *#*F77_FUNCTION(${param.get_parameterName()})#*
+          		*##if (!(${param.is_lastInput()}))#*
+              		*#, #*
+          		*##end#*
+          *##else#*  
+              *#${param.get_parameterName()}#*
+          		*##if (!(${param.is_lastInput()}))#*
+              		*#, #*
+          		*##end#*
+          *##end#*
+      *##end
+#**##end
+#**##if ($existingw == 1)
+
+#*		*#							/* work spaces */
+#*	*##if ($gwtype == "all")
+#*		*#							iworkptr, dworkptr,#* 
+*##*	*##elseif ($gwtype == "iwork")
+#*		*#							iworkptr,#* 
+*##*	*##elseif ($gwtype == "dwork")
+#*		*#							dworkptr,#* 
+*##*	*##end										
+#**##end	
+#**##foreach ($fixedParameter in $func.fixedParameter)	#*
+	*##if ((${fixedParameter.get_fixedParameterType()}=="int *")||(${fixedParameter.get_fixedParameterType()}=="double *"))
+#*		*#${fixedParameter.get_fixedParameterName()},#* 
+	*##elseif ((${fixedParameter.get_fixedParameterType()}=="int")||(${fixedParameter.get_fixedParameterType()}=="double"))
+#*		*#&${fixedParameter.get_fixedParameterName()},#* 
+	*##end
+#**##end
+			
+#*		*#							/* outputs */
+#*		*#							#*
+*##foreach ($param in $func.parameters)
+#*    *##if ((!${param.is_inputParameter()}) && (!${param.is_outFunction()}))
+#*        *##if (${param.get_parameterOrder()} % 3 == 1)
+#*            *#
+#*            *#							#*
+          *##end
+#*            *#${param.get_parameterName()}#*
+          *##if (!(${param.get_parameterOrder()} == ${func.parameters.size()}))#*
+              *#, #*
+          *##end#*
+      *##end
+#end);
+
+					${diese}ifdef TRANSPOSE  
+						/* re-transpose matrices */
+#**##foreach ($param in $func.parameters)
+#*    *##if (${param.get_parameterType()} == "int[][]")
+#*        *#						transposeIntMatrix(${param.get_parameterName()}, ${param.get_nbColumns()}, ${param.get_nbRows()});
+#*    *##elseif (${param.get_parameterType()} == "double[][]")
+#*        *#						transposeDoubleMatrix(${param.get_parameterName()}, ${param.get_nbColumns()}, ${param.get_nbRows()});
+#*    *##end
+#**##end
+					${diese}endif /* TRANSPOSE */
+						
+#**##if ($ifunc == 0)	
+					retcode = getReturnCode(*info);
+#**##else
+					retcode = getReturnCode(0);		
+#**##end					
+
+#**##if ($existingw == 1)
+#*	*##if ($gwtype == "all")
+#*		*#					/* memory desallocation (fortran work) */ 
+#*		*#					free(iworkptr);
+#*		*#					free(dworkptr);
+#*		*#				}
+#*		*#			}
+#*	*##elseif ($gwtype == "iwork")
+#*		*#				/* memory desallocation (fortran work) */ 
+#*		*#				free(iworkptr);
+#*		*#			}
+#*	*##elseif ($gwtype == "dwork")
+#*		*#			/* memory desallocation (fortran work) */ 
+#*		*#				free(dworkptr);
+#*		*#			}
+#*	*##end
+#**##end					
+
+#set($j=0)
+#if ($i > 0)
+#**##foreach ($j in [${i}..0])
+#*	*#}#*
+  *##end	
+#end			
+		}
+	}
+#**##end #* end istest  *#
+	${diese}ifdef RELEASE_C
+		${diese}ifdef WINDOWS
+			_fpreset();
+		${diese}endif /*WINDOWS*/
+	${diese}endif /* RELEASE_C */
+
+	/* error code (=0 successful) */
+	return (retcode);
+}
+

@@ -1,0 +1,32 @@
+#if (${prod.get_productShortName()} == "NumX")
+#**##set ($prodname="NumX")
+#end
+#if (${prod.get_productShortName()} == "RNE")
+#**##set ($prodname="RNE")
+#end
+Module Test${prod.get_productShortName()}${mod.get_moduleNameNoSpace()}
+    Function testModule(ByVal inputPath As String, ByVal refPath As String) As Boolean
+
+        Dim allOK As Boolean
+        allOK = True
+
+        If ${prod.get_productShortName()}${mod.get_moduleNameNoSpace()}.${prodname}${mod.get_moduleNameLowerNoSpace()}Test <> 0 Then
+            allOK = False
+        End If
+        Utilities.printDetailResult(result:=allOK, msg:="Call of ${prod.get_productShortName()} ${mod.get_moduleName()} module")
+
+        If allOK Then
+        
+#foreach ($func in $mod.functions)
+#**##if (${func.is_release()} && !${func.is_onlyC()} && ${func.get_functionName()} != "${prodname}${mod.get_moduleNameLowerNoSpace()}Test")
+#*    *#            allOK = (New Test${func.get_functionName()}).testAll(inputPath, refPath, "${func.get_functionName()}") And allOK
+#*    *#
+#**##end
+#end
+        End If
+
+        Return allOK
+
+    End Function
+
+End Module

@@ -1,0 +1,87 @@
+Microsoft Visual Studio Solution File, Format Version 8.00
+#set( $countperm = 10 )
+#set( $ProjectGUIDC = "6709D3AC-ED44-43E4-BE68-4DB3D8F4DC" )
+#set( $ProjectGUIDJAVA = "9F113DAA-866E-4870-B356-EB23C0B57A" )
+#set( $ProjectGUIDVB = "9C1E0C96-F3BA-4385-A62F-4F85D6A86B" )
+#set( $count = $countperm)
+#set( $countnotc = $countperm)
+#set( $prodName = ${prod.get_productShortNameLower()})
+#foreach ($mod in $prod.modules)
+#if (${mod.is_release()})
+#set( $modName = ${mod.get_moduleNameLowerScore()} )
+#set( $ModProjectGUID = "$ProjectGUIDC$count" )
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "${prodName}-${modName}-c", "${prodName}-${modName}-c.vcproj", "{$ModProjectGUID}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "${prodName}-${modName}-matlab", "${prodName}-${modName}-matlab.vcproj", "{$ModProjectGUID}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+#if (!${mod.is_onlyC()})
+#set( $ModProjectGUID = "$ProjectGUIDJAVA$countnotc" )
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "${prodName}-${modName}-java", "${prodName}-${modName}-java.vcproj", "{$ModProjectGUID}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+#set( $ModProjectGUID = "$ProjectGUIDVB$countnotc" )
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "${prodName}-${modName}-vb", "${prodName}-${modName}-vb.vcproj", "{$ModProjectGUID}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+#set( $countnotc = $countnotc + 1 )
+#end
+#set( $count = $count + 1 )
+#end#*
+*##end
+Global
+	GlobalSection(SolutionConfiguration) = preSolution
+		Debug = Debug
+		NoCheckMacDebug = NoCheckMacDebug
+		NoCheckMacRelease = NoCheckMacRelease
+		Release = Release
+	EndGlobalSection
+	GlobalSection(ProjectConfiguration) = postSolution
+#set( $count = $countperm)
+#set( $countnotc = $countperm)
+#foreach ($mod in $prod.modules)
+#if (${mod.is_release()})
+#set( $ModProjectGUID = "$ProjectGUIDC$count" )
+		{$ModProjectGUID}.Debug.ActiveCfg = Debug|Win32
+		{$ModProjectGUID}.Debug.Build.0 = Debug|Win32
+		{$ModProjectGUID}.NoCheckMacDebug.ActiveCfg = NoCheckMacDebug|Win32
+		{$ModProjectGUID}.NoCheckMacDebug.Build.0 = NoCheckMacDebug|Win32
+		{$ModProjectGUID}.NoCheckMacRelease.ActiveCfg = NoCheckMacRelease|Win32
+		{$ModProjectGUID}.NoCheckMacRelease.Build.0 = NoCheckMacRelease|Win32
+		{$ModProjectGUID}.Release.ActiveCfg = Release|Win32
+		{$ModProjectGUID}.Release.Build.0 = Release|Win32
+#if (!${mod.is_onlyC()})
+#set( $ModProjectGUID = "$ProjectGUIDJAVA$countnotc" )
+		{$ModProjectGUID}.Debug.ActiveCfg = Debug|Win32
+		{$ModProjectGUID}.Debug.Build.0 = Debug|Win32
+		{$ModProjectGUID}.NoCheckMacDebug.ActiveCfg = NoCheckMacDebug|Win32
+		{$ModProjectGUID}.NoCheckMacDebug.Build.0 = NoCheckMacDebug|Win32
+		{$ModProjectGUID}.NoCheckMacRelease.ActiveCfg = NoCheckMacRelease|Win32
+		{$ModProjectGUID}.NoCheckMacRelease.Build.0 = NoCheckMacRelease|Win32
+		{$ModProjectGUID}.Release.ActiveCfg = Release|Win32
+		{$ModProjectGUID}.Release.Build.0 = Release|Win32
+#set( $ModProjectGUID = "$ProjectGUIDVB$countnotc" )
+		{$ModProjectGUID}.Debug.ActiveCfg = Debug|Win32
+		{$ModProjectGUID}.Debug.Build.0 = Debug|Win32
+		{$ModProjectGUID}.NoCheckMacDebug.ActiveCfg = NoCheckMacDebug|Win32
+		{$ModProjectGUID}.NoCheckMacDebug.Build.0 = NoCheckMacDebug|Win32
+		{$ModProjectGUID}.NoCheckMacRelease.ActiveCfg = NoCheckMacRelease|Win32
+		{$ModProjectGUID}.NoCheckMacRelease.Build.0 = NoCheckMacRelease|Win32
+		{$ModProjectGUID}.Release.ActiveCfg = Release|Win32
+		{$ModProjectGUID}.Release.Build.0 = Release|Win32
+#set( $countnotc = $countnotc + 1 )
+#end		
+#set( $count = $count + 1 )
+#end
+#end
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+	EndGlobalSection
+	GlobalSection(ExtensibilityAddIns) = postSolution
+	EndGlobalSection
+EndGlobal

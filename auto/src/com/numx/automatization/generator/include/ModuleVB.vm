@@ -1,0 +1,91 @@
+Attribute VB_Name = "${prod.get_productShortName()}${mod.get_moduleNameNoSpace()}"
+'************************************************************************************
+'
+'    ${prod.get_productName()} - ${mod.get_moduleName()} module
+'    Visual Basic Module (.bas)                                           version ${prod.get_productVersion()}
+'
+'    This file describes functions signatures. For a detailed description of
+'    the functions see the Functional Manual and the WinHelp documentations.
+'
+'************************************************************************************
+'
+'    Copyright (c) ${year} NumX
+'    All rights reserved.
+'
+'    This software is the confidential and proprietary information
+'    of NumX. You shall not disclose such Confidential
+'    Information and shall use it only in accordance with the terms
+'    of the licence agreement you entered into with NumX.
+'
+'**********************************************************************************
+'
+'
+
+#foreach ($func in $mod.functions)
+#**##if (!${func.is_onlyC()} && ${func.is_release()})
+#*    *#
+#*    *#'**********************************************************************************
+#*    *#'                               ${func.get_functionName()}
+#*    *#'
+#*    *#'   ${func.get_functionShortDescription()}
+#*    *#'   ${func.get_functionDescription()}
+#*    *#'
+#*    *#'**********************************************************************************
+#*    *#'
+#*    *#'INPUTS
+#*    *#'
+#*    *##foreach ($param in $func.parameters)
+#*        *##if (${param.is_inputParameter()})
+#*            *#'   ${param.get_parameterName()}: #*
+	          *##if (${param.get_parameterType()} == "int")integer,
+#*            *##elseif (${param.get_parameterType()} == "double")double,
+#*            *##elseif (${param.get_parameterType()} == "int[]")integer array of dimension ${param.get_nbRows()},
+#*            *##elseif (${param.get_parameterType()} == "double[]")double array of dimension ${param.get_nbRows()},
+#*            *##elseif (${param.get_parameterType()} == "int[][]")integer array of dimension ${param.get_nbRows()} by ${param.get_nbColumns()},
+#*            *##elseif (${param.get_parameterType()} == "double[][]")double array of dimension ${param.get_nbRows()} by ${param.get_nbColumns()},
+#*            *##end
+#*            *#'       ${param.get_parameterDescription()}
+#*        *##end
+#*    *##end
+#*    *#'
+#*    *#'OUTPUTS
+#*    *#'
+#*    *##foreach ($param in $func.parameters)
+#*        *##if (!${param.is_inputParameter()})
+#*            *#'   ${param.get_parameterName()}: #*
+#*            *##if (${param.get_parameterType()} == "int")integer,
+#*            *##elseif (${param.get_parameterType()} == "double")double,
+#*            *##elseif (${param.get_parameterType()} == "int[]")integer array of dimension ${param.get_nbRows()},
+#*            *##elseif (${param.get_parameterType()} == "double[]")double array of dimension ${param.get_nbRows()},
+#*            *##elseif (${param.get_parameterType()} == "int[][]")integer array of dimension ${param.get_nbRows()} by ${param.get_nbColumns()},
+#*            *##elseif (${param.get_parameterType()} == "double[][]")double array of dimension ${param.get_nbRows()} by ${param.get_nbColumns()},
+#*            *##end
+#*            *#'       ${param.get_parameterDescription()}
+#*        *##end
+#*    *##end
+#*    *#'
+#*    *#'RETURN PARAMETER
+#*    *#'       integer, error code
+#*    *#'       = 0, successful exit,
+#*    *#'       != 0, see error codes list
+#*    *#'**********************************************************************************
+#*    *#Declare Function ${func.get_functionName()} Lib "${prod.get_productShortNameLower()}-${mod.get_moduleNameLowerScore()}-vb-${prod.get_productVersion()}.dll" ( #*
+      *##foreach ($param in $func.parameters)
+#*        *##if (${param.get_parameterOrder()} % 3 == 1)
+#*            *# _
+#*            *#	#*
+          *##end
+#*        *#${param.get_parameterName()} As #*
+          *##if ((${param.get_parameterType()} == "int") || (${param.get_parameterType()} == "int[]") || (${param.get_parameterType()} == "int[][]"))
+#*            *#Long#*
+          *##elseif ((${param.get_parameterType()} == "double") || (${param.get_parameterType()} == "double[]") || (${param.get_parameterType()} == "double[][]"))
+#*            *#Double#*
+          *##end#*
+          *##if (!(${param.get_parameterOrder()} == ${func.parameters.size()}))#*
+              *#, #*
+          *##end
+#*    *##end
+#*    *#) As Long
+#*    *#	
+#**##end
+#end

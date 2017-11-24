@@ -1,0 +1,11 @@
+#set( $modName = ${mod.get_moduleNameLowerScore()} )
+#if ( $modName == 'linear-algebra')
+		#set( $modName = 'linear_algebra' )
+#end
+LIBRARY ${prod.get_productShortNameLower()}_${modName}_c_matlab.dll
+EXPORTS
+#foreach ($func in $mod.functions)
+#if (${func.is_release()})
+${func.get_functionName()}
+#end
+#end

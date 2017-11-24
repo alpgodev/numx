@@ -1,0 +1,41 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+
+<!--
+	Copyright (C) 2004 Markus KARG
+
+	This file is part of JNI-RA-Sample.
+
+	JNI-RA-Sample is free software; you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation; either version 2 of the License, or
+	(at your option) any later version.
+
+	JNI-RA-Sample is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
+
+	You should have received a copy of the GNU General Public License
+	along with JNI-RA-Sample; if not, write to the Free Software
+	Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+-->
+
+<jonas-connector xmlns="http://www.objectweb.org/jonas/ns" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.objectweb.org/jonas/ns http://www.objectweb.org/jonas/ns/jonas-connector_4_0.xsd" >
+	<rarlink></rarlink>
+	<native-lib>nativelib</native-lib>
+	<log-enabled>false</log-enabled>  <log-topic></log-topic>
+	<pool-params>
+		<pool-init>0</pool-init>
+		<pool-min>0</pool-min>
+		<pool-max>-1</pool-max>
+		<pool-max-age>0</pool-max-age>
+		<pstmt-max>10</pstmt-max>
+	</pool-params>
+	<jdbc-conn-params>
+		<jdbc-check-level>0</jdbc-check-level>
+	</jdbc-conn-params>
+	<jonas-connection-definition>
+		<description>Native outbound allows calling native methods from EJBs, Servlets and JSPs.</description>
+		<jndi-name>eis/${prod.get_productShortName()}Connection</jndi-name>
+	</jonas-connection-definition>
+</jonas-connector>

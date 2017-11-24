@@ -1,0 +1,55 @@
+Attribute VB_Name = "NormErrorCodes"
+'************************************************************************************
+'
+'    NumX Error Codes List
+'    Visual Basic Module (.bas)                                           version ${prod.get_productVersion()}
+'
+'    This file describes functions signatures. For a detailed description of
+'    the functions see the Functional Manual and the WinHelp documentations.
+'
+'************************************************************************************
+'
+'    Copyright (c) $year NumX
+'    All rights reserved.
+'
+'    This software is the confidential and proprietary information
+'    of NumX. You shall not disclose such Confidential
+'    Information and shall use it only in accordance with the terms
+'    of the licence agreement you entered into with NumX.
+'
+'**********************************************************************************
+'
+'
+
+' 0: successful termination
+Public Const RETURN_CODE_OK = 0
+
+' 2: memory allocation problem - no computation performed
+Public Const RETURN_CODE_MEMORY_PROBLEM = 2
+
+' 30i: illegal value(s) of the i-th argument - no computation performed
+Public Const RETURN_CODE_MIN_BAD_PARAM = 301
+Public Const RETURN_CODE_MAX_BAD_PARAM = 399
+
+' 41: license maximum date has expired - no computation performed
+Public Const RETURN_CODE_MAX_DATE_EXPIRED = 41
+
+' 42: date in license key has expired - no computation performed
+Public Const RETURN_CODE_KEY_DATE_EXPIRED = 42
+
+' 43: bad mac address in license key - no computation performed
+Public Const RETURN_CODE_BAD_KEY_MAC = 43
+
+' 44: no license key or missing field in key - no computation performed
+Public Const RETURN_CODE_NO_KEY_OR_FIELD = 44
+
+' 45: bad field in license key - no computation performed
+Public Const RETURN_CODE_BAD_FIELD_IN_KEY = 45
+
+' 5: numerical problem in computation - no computation performed
+' for further information see diagnostic argument info
+Public Const RETURN_CODE_ERROR = 5
+
+' 6: warning - computation performed (but not optimal)
+' for further information see diagnostic argument info
+Public Const RETURN_CODE_WARNING = 6

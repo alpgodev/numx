@@ -1,0 +1,124 @@
+/*=======================================================================
+
+	${prod.get_productName()} - ${mod.get_moduleName()} module
+	C/C++ header file									version ${prod.get_productVersion()}
+
+	Copyright (c) $year NumX
+	All rights reserved.
+
+	This software is the confidential and proprietary information
+	of NumX. You shall not disclose such Confidential
+	Information and shall use it only in accordance with the terms
+	of the licence agreement you entered into with NumX.
+
+==========================================================================*/
+
+/*
+	All parameters are passed by reference. 
+
+	1. For the following types the argument is passed as follows:
+
+		int a;
+		double b;
+		int[ROWS*COLUMNS] M;
+		double[ROWS*COLUMNS] N; 
+
+		in the function call we declare: 
+
+		function(....,&a,&b,M,N,...)
+
+	2. For pointers:
+
+		int *a;
+		double *b;
+
+		a = malloc (ROWS*COLUMNS*sizeof(int));
+		b = malloc (ROWS*COLUMNS*sizeof(double));
+
+		in the function call we declare: 
+
+		function(....,a,b,...)
+
+	WARNING: The array sizes must be equal to the specified dimensions
+			given here after.
+
+*/
+#set($diese="#")
+${diese}ifndef F77_ADD_UNDERSCORE
+${diese} define F77_ADD_UNDERSCORE 1
+${diese}endif
+
+${diese}if F77_ADD_UNDERSCORE
+${diese} define F77_FUNCTION(f) f${diese}${diese}_
+${diese} define F77_FUNCTION2(f) f${diese}${diese}__
+${diese}else
+${diese} define F77_FUNCTION(f) f
+${diese} define F77_FUNCTION2(f) f
+${diese}endif
+
+#foreach ($func in $mod.functions)
+#if (${func.is_release()})
+#**#/**********************************************************************************
+#**#								${func.get_functionName()}
+#**#							
+#**#	${func.get_functionShortDescription()}
+#**#	${func.get_functionDescription()}
+#**#
+#**#***********************************************************************************
+#**#
+#**#INPUTS
+#**##foreach ($param in $func.parameters)
+#*    *##if (${param.is_inputParameter()})
+#*        *#	${param.get_parameterName()}: #*
+	      *##if (${param.get_parameterType()} == "int")integer,
+#*        *##elseif (${param.get_parameterType()} == "double")double,
+#*        *##elseif (${param.get_parameterType()} == "int[]")integer array of dimension ${param.get_nbRows()},
+#*        *##elseif (${param.get_parameterType()} == "double[]")double array of dimension ${param.get_nbRows()},
+#*        *##elseif (${param.get_parameterType()} == "int[][]")integer array of dimension ${param.get_nbRows()} by ${param.get_nbColumns()},
+#*        *##elseif (${param.get_parameterType()} == "double[][]")double array of dimension ${param.get_nbRows()} by ${param.get_nbColumns()},
+#*        *##elseif (${param.get_parameterType()} == "function")function,
+#*        *##end
+#*        *#		${param.get_parameterDescription()}
+#*    *##end
+#**##end
+#**#
+#**#OUTPUTS
+#**##foreach ($param in $func.parameters)
+#*    *##if (!${param.is_inputParameter()})
+#*        *#	${param.get_parameterName()}: #*
+	      *##if (${param.get_parameterType()} == "int")integer,
+#*        *##elseif (${param.get_parameterType()} == "double")double,
+#*        *##elseif (${param.get_parameterType()} == "int[]")integer array of dimension ${param.get_nbRows()},
+#*        *##elseif (${param.get_parameterType()} == "double[]")double array of dimension ${param.get_nbRows()},
+#*        *##elseif (${param.get_parameterType()} == "int[][]")integer array of dimension ${param.get_nbRows()} by ${param.get_nbColumns()},
+#*        *##elseif (${param.get_parameterType()} == "double[][]")double array of dimension ${param.get_nbRows()} by ${param.get_nbColumns()},
+#*        *##end
+#*        *#		${param.get_parameterDescription()}
+#*    *##end
+#**##end
+#**#	
+#**#RETURN PARAMETER
+#**#	integer, error code
+#**#	= 0, successful exit,
+#**#	!= 0, see error codes list
+#**#*/
+#**#extern "C" int ${func.get_functionName()}(#*
+  *##foreach ($param in $func.parameters)
+#*    *##if (${param.get_parameterOrder()} % 3 == 1)
+#*        *#
+#*        *#	#*
+      *##end#*
+      *##if ((${param.get_parameterType()} == "int") || (${param.get_parameterType()} == "int[]") || (${param.get_parameterType()} == "int[][]"))
+#*        *#int * ${param.get_parameterName()}#*
+      *##elseif ((${param.get_parameterType()} == "double") || (${param.get_parameterType()} == "double[]") || (${param.get_parameterType()} == "double[][]"))
+#*        *#double * ${param.get_parameterName()}#*
+      *##elseif (${param.get_parameterType()} == "function")
+#*        *#${param.getFunctionHeaderByParameterName()}#*
+      *##end#*
+      *##if (!(${param.get_parameterOrder()} == ${func.parameters.size()}))#*
+          *#, #*
+      *##end#*
+  *##end);
+#**#
+#end
+#end

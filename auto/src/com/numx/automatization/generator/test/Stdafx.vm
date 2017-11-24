@@ -1,0 +1,22 @@
+#set ($diese = "#")
+// stdafx.h : Fichier Include pour les fichiers Include système standard,
+// ou les fichiers Include spécifiques aux projets qui sont utilisés fréquemment,
+// et sont rarement modifiés
+//
+
+${diese}include <iostream>
+${diese}include <string.h>
+${diese}include <stdio.h>
+${diese}include <stdlib.h>
+${diese}include <math.h>
+${diese}include <fstream>
+//${diese}include <tchar.h>
+//${diese}include <conio.h>
+
+#foreach ($mod in $prod.modules)
+#if (${mod.is_release()})
+${diese}include "../../../lib/include/${prod.get_productShortName()}${mod.get_moduleNameNoSpace()}.h"
+#end
+#end
+
+using namespace std;

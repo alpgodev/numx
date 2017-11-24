@@ -1,0 +1,699 @@
+<!-- saved from url=(0022)http://internet.e-mail -->
+<html xmlns:v="urn:schemas-microsoft-com:vml"
+xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:w="urn:schemas-microsoft-com:office:word"
+xmlns="http://www.w3.org/TR/REC-html40">
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=windows-1252">
+<meta name=ProgId content=Word.Document>
+<meta name=Generator content="Microsoft Word 11">
+<meta name=Originator content="Microsoft Word 11">
+<link rel=File-List href="signature_fichiers/filelist.xml">
+<link rel=Edit-Time-Data href="signature_fichiers/editdata.mso">
+<link rel=OLE-Object-Data href="signature_fichiers/oledata.mso">
+<!--[if !mso]>
+<style>
+v\:* {behavior:url(#default#VML);}
+o\:* {behavior:url(#default#VML);}
+w\:* {behavior:url(#default#VML);}
+.shape {behavior:url(#default#VML);}
+</style>
+<![endif]-->
+<title>${prod.get_productName()}</title>
+<!--[if gte mso 9]><xml>
+ <o:DocumentProperties>
+  <o:Author>volle</o:Author>
+  <o:LastAuthor>volle</o:LastAuthor>
+  <o:Revision>2</o:Revision>
+  <o:TotalTime>10</o:TotalTime>
+  <o:Created>2006-11-09T09:46:00Z</o:Created>
+  <o:LastSaved>2006-11-09T09:46:00Z</o:LastSaved>
+  <o:Pages>1</o:Pages>
+  <o:Words>1276</o:Words>
+  <o:Characters>7019</o:Characters>
+  <o:Company> </o:Company>
+  <o:Lines>58</o:Lines>
+  <o:Paragraphs>16</o:Paragraphs>
+  <o:CharactersWithSpaces>8279</o:CharactersWithSpaces>
+  <o:Version>11.5606</o:Version>
+ </o:DocumentProperties>
+</xml><![endif]--><!--[if gte mso 9]><xml>
+ <w:WordDocument>
+  <w:SpellingState>Clean</w:SpellingState>
+  <w:GrammarState>Clean</w:GrammarState>
+  <w:HyphenationZone>21</w:HyphenationZone>
+  <w:PunctuationKerning/>
+  <w:ValidateAgainstSchemas/>
+  <w:SaveIfXMLInvalid>false</w:SaveIfXMLInvalid>
+  <w:IgnoreMixedContent>false</w:IgnoreMixedContent>
+  <w:AlwaysShowPlaceholderText>false</w:AlwaysShowPlaceholderText>
+  <w:Compatibility>
+   <w:BreakWrappedTables/>
+   <w:SnapToGridInCell/>
+   <w:WrapTextWithPunct/>
+   <w:UseAsianBreakRules/>
+   <w:DontGrowAutofit/>
+  </w:Compatibility>
+  <w:BrowserLevel>MicrosoftInternetExplorer4</w:BrowserLevel>
+ </w:WordDocument>
+</xml><![endif]--><!--[if gte mso 9]><xml>
+ <w:LatentStyles DefLockedState="false" LatentStyleCount="156">
+ </w:LatentStyles>
+</xml><![endif]-->
+<style>
+<!--
+ /* Font Definitions */
+ @font-face
+	{font-family:Verdana;
+	panose-1:2 11 6 4 3 5 4 4 2 4;
+	mso-font-charset:0;
+	mso-generic-font-family:swiss;
+	mso-font-pitch:variable;
+	mso-font-signature:536871559 0 0 0 415 0;}
+@font-face
+	{font-family:"Arial Narrow";
+	panose-1:2 11 5 6 2 2 2 3 2 4;
+	mso-font-charset:0;
+	mso-generic-font-family:swiss;
+	mso-font-pitch:variable;
+	mso-font-signature:647 0 0 0 159 0;}
+ /* Style Definitions */
+ p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{mso-style-parent:"";
+	margin:0pt;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:"Times New Roman";}
+h1
+	{mso-style-next:Normal;
+	margin-top:12.0pt;
+	margin-right:0pt;
+	margin-bottom:3.0pt;
+	margin-left:0pt;
+	mso-pagination:widow-orphan;
+	page-break-after:avoid;
+	mso-outline-level:1;
+	font-size:16.0pt;
+	font-family:Arial;
+	mso-font-kerning:16.0pt;}
+h2
+	{mso-style-update:auto;
+	mso-style-next:Normal;
+	margin-top:12.0pt;
+	margin-right:0pt;
+	margin-bottom:3.0pt;
+	margin-left:108.0pt;
+	text-indent:0pt;
+	mso-pagination:widow-orphan;
+	page-break-after:avoid;
+	mso-outline-level:2;
+	mso-list:l0 level2 lfo1;
+	tab-stops:list 108.0pt;
+	background:#D9D9D9;
+	border:none;
+	mso-border-left-alt:solid navy 6.0pt;
+	padding:0pt;
+	mso-padding-alt:0pt 0pt 0pt 4.0pt;
+	font-size:14.0pt;
+	font-family:Verdana;
+	mso-bidi-font-family:Arial;
+	color:#333399;
+	font-weight:normal;
+	mso-bidi-font-weight:bold;
+	mso-bidi-font-style:italic;}
+h3
+	{mso-style-next:Normal;
+	margin-top:12.0pt;
+	margin-right:0pt;
+	margin-bottom:3.0pt;
+	margin-left:144.0pt;
+	text-indent:0pt;
+	mso-pagination:widow-orphan;
+	page-break-after:avoid;
+	mso-outline-level:3;
+	mso-list:l0 level3 lfo1;
+	tab-stops:list 162.0pt;
+	font-size:13.0pt;
+	font-family:Arial;}
+h4
+	{mso-style-next:Normal;
+	margin-top:12.0pt;
+	margin-right:0pt;
+	margin-bottom:3.0pt;
+	margin-left:180.0pt;
+	text-indent:0pt;
+	mso-pagination:widow-orphan;
+	page-break-after:avoid;
+	mso-outline-level:4;
+	mso-list:l0 level4 lfo1;
+	tab-stops:list 198.0pt;
+	font-size:14.0pt;
+	font-family:"Times New Roman";}
+h5
+	{mso-style-next:Normal;
+	margin-top:12.0pt;
+	margin-right:0pt;
+	margin-bottom:3.0pt;
+	margin-left:216.0pt;
+	text-indent:0pt;
+	mso-pagination:widow-orphan;
+	mso-outline-level:5;
+	mso-list:l0 level5 lfo1;
+	tab-stops:list 234.0pt;
+	font-size:13.0pt;
+	font-family:"Times New Roman";
+	font-style:italic;}
+h6
+	{mso-style-next:Normal;
+	margin-top:12.0pt;
+	margin-right:0pt;
+	margin-bottom:3.0pt;
+	margin-left:252.0pt;
+	text-indent:0pt;
+	mso-pagination:widow-orphan;
+	mso-outline-level:6;
+	mso-list:l0 level6 lfo1;
+	tab-stops:list 270.0pt;
+	font-size:11.0pt;
+	font-family:"Times New Roman";}
+p.MsoHeading7, li.MsoHeading7, div.MsoHeading7
+	{mso-style-next:Normal;
+	margin-top:12.0pt;
+	margin-right:0pt;
+	margin-bottom:3.0pt;
+	margin-left:288.0pt;
+	text-indent:0pt;
+	mso-pagination:widow-orphan;
+	mso-outline-level:7;
+	mso-list:l0 level7 lfo1;
+	tab-stops:list 306.0pt;
+	font-size:12.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:"Times New Roman";}
+p.MsoHeading8, li.MsoHeading8, div.MsoHeading8
+	{mso-style-next:Normal;
+	margin-top:12.0pt;
+	margin-right:0pt;
+	margin-bottom:3.0pt;
+	margin-left:324.0pt;
+	text-indent:0pt;
+	mso-pagination:widow-orphan;
+	mso-outline-level:8;
+	mso-list:l0 level8 lfo1;
+	tab-stops:list 342.0pt;
+	font-size:12.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:"Times New Roman";
+	font-style:italic;}
+p.MsoHeading9, li.MsoHeading9, div.MsoHeading9
+	{mso-style-next:Normal;
+	margin-top:12.0pt;
+	margin-right:0pt;
+	margin-bottom:3.0pt;
+	margin-left:360.0pt;
+	text-indent:0pt;
+	mso-pagination:widow-orphan;
+	mso-outline-level:9;
+	mso-list:l0 level9 lfo1;
+	tab-stops:list 378.0pt;
+	font-size:11.0pt;
+	font-family:Arial;
+	mso-fareast-font-family:"Times New Roman";}
+p.MsoHeader, li.MsoHeader, div.MsoHeader
+	{margin:0pt;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	tab-stops:center 226.8pt right 453.6pt;
+	font-size:12.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:"Times New Roman";}
+p.normaldt, li.normaldt, div.normaldt
+	{mso-style-name:normaldt;
+	mso-style-update:auto;
+	mso-style-link:"normaldt Char";
+	margin-top:10.0pt;
+	margin-right:-5.4pt;
+	margin-bottom:0pt;
+	margin-left:63.0pt;
+	margin-bottom:.0001pt;
+	text-align:justify;
+	mso-pagination:widow-orphan;
+	mso-hyphenate:none;
+	font-size:10.0pt;
+	font-family:Arial;
+	mso-fareast-font-family:"Times New Roman";
+	mso-ansi-language:EN-GB;
+	mso-fareast-language:#0400;}
+span.normaldtChar
+	{mso-style-name:"normaldt Char";
+	mso-style-locked:yes;
+	mso-style-link:normaldt;
+	font-family:Arial;
+	mso-ascii-font-family:Arial;
+	mso-hansi-font-family:Arial;
+	mso-bidi-font-family:Arial;
+	mso-ansi-language:EN-GB;
+	mso-bidi-language:AR-SA;}
+p.StyleStyleStyleTitre2Droite45ptGauche117ptDr1, li.StyleStyleStyleTitre2Droite45ptGauche117ptDr1, div.StyleStyleStyleTitre2Droite45ptGauche117ptDr1
+	{mso-style-name:"Style Style Style Titre 2 + Droite \:  45 pt + Gauche \:  117 pt + Dr\.\.\.1";
+	mso-style-update:auto;
+	margin-top:12.0pt;
+	margin-right:54.0pt;
+	margin-bottom:3.0pt;
+	margin-left:117.0pt;
+	mso-pagination:widow-orphan;
+	page-break-after:avoid;
+	mso-outline-level:2;
+	tab-stops:117.0pt;
+	background:#D9D9D9;
+	border:none;
+	mso-border-left-alt:solid navy 6.0pt;
+	padding:0pt;
+	mso-padding-alt:0pt 0pt 0pt 4.0pt;
+	font-size:11.0pt;
+	mso-bidi-font-size:10.0pt;
+	font-family:Arial;
+	mso-fareast-font-family:"Times New Roman";
+	color:navy;
+	font-weight:bold;
+	mso-bidi-font-weight:normal;}
+p.StyleTitre1Gauche54ptDroite54pt, li.StyleTitre1Gauche54ptDroite54pt, div.StyleTitre1Gauche54ptDroite54pt
+	{mso-style-name:"Style Titre 1 + Gauche \:  54 pt Droite \:  54 pt";
+	mso-style-parent:"Titre 1";
+	margin-top:12.0pt;
+	margin-right:54.0pt;
+	margin-bottom:16.0pt;
+	margin-left:72.0pt;
+	text-indent:0pt;
+	mso-pagination:widow-orphan;
+	page-break-after:avoid;
+	mso-outline-level:1;
+	mso-list:l0 level1 lfo1;
+	tab-stops:list 90.0pt;
+	background:silver;
+	border:none;
+	mso-border-top-alt:solid silver 3.0pt;
+	mso-border-bottom-alt:solid silver 3.0pt;
+	padding:0pt;
+	mso-padding-alt:1.0pt 0pt 1.0pt 0pt;
+	font-size:16.0pt;
+	mso-bidi-font-size:14.0pt;
+	font-family:"Arial Narrow";
+	mso-fareast-font-family:"Times New Roman";
+	mso-bidi-font-family:"Times New Roman";
+	color:navy;
+	mso-font-kerning:16.0pt;
+	mso-ansi-language:EN-GB;
+	font-weight:bold;
+	mso-bidi-font-weight:normal;}
+p.StyleStyleTitre2Droite45ptGauche117pt, li.StyleStyleTitre2Droite45ptGauche117pt, div.StyleStyleTitre2Droite45ptGauche117pt
+	{mso-style-name:"Style Style Titre 2 + Droite \:  45 pt + Gauche \:  117 pt";
+	margin-top:12.0pt;
+	margin-right:45.0pt;
+	margin-bottom:3.0pt;
+	margin-left:117.0pt;
+	text-indent:0pt;
+	mso-pagination:widow-orphan;
+	page-break-after:avoid;
+	mso-outline-level:2;
+	tab-stops:list 18.0pt;
+	background:#D9D9D9;
+	border:none;
+	mso-border-left-alt:solid navy 6.0pt;
+	padding:0pt;
+	mso-padding-alt:0pt 0pt 0pt 4.0pt;
+	font-size:14.0pt;
+	mso-bidi-font-size:10.0pt;
+	font-family:Verdana;
+	mso-fareast-font-family:"Times New Roman";
+	mso-bidi-font-family:"Times New Roman";
+	color:#333399;}
+span.SpellE
+	{mso-style-name:"";
+	mso-spl-e:yes;}
+span.GramE
+	{mso-style-name:"";
+	mso-gram-e:yes;}
+@page Section1
+	{size:595.3pt 841.9pt;
+	margin:70.85pt 70.85pt 70.85pt 70.85pt;
+	mso-header-margin:35.4pt;
+	mso-footer-margin:35.4pt;
+	mso-paper-source:0;}
+div.Section1
+	{page:Section1;}
+ /* List Definitions */
+ @list l0
+	{mso-list-id:959411786;
+	mso-list-template-ids:726964930;}
+@list l0:level1
+	{mso-level-number-format:roman-upper;
+	mso-level-style-link:"Style Titre 1 + Gauche \:  54 pt Droite \:  54 pt";
+	mso-level-tab-stop:90.0pt;
+	mso-level-number-position:left;
+	margin-left:72.0pt;
+	text-indent:0pt;}
+@list l0:level2
+	{mso-level-style-link:"Titre 2";
+	mso-level-tab-stop:108.0pt;
+	mso-level-number-position:left;
+	margin-left:108.0pt;
+	text-indent:0pt;}
+@list l0:level3
+	{mso-level-style-link:"Titre 3";
+	mso-level-tab-stop:162.0pt;
+	mso-level-number-position:left;
+	margin-left:144.0pt;
+	text-indent:0pt;}
+@list l0:level4
+	{mso-level-number-format:alpha-lower;
+	mso-level-style-link:"Titre 4";
+	mso-level-text:"%4\)";
+	mso-level-tab-stop:198.0pt;
+	mso-level-number-position:left;
+	margin-left:180.0pt;
+	text-indent:0pt;}
+@list l0:level5
+	{mso-level-style-link:"Titre 5";
+	mso-level-text:"\(%5\)";
+	mso-level-tab-stop:234.0pt;
+	mso-level-number-position:left;
+	margin-left:216.0pt;
+	text-indent:0pt;}
+@list l0:level6
+	{mso-level-number-format:alpha-lower;
+	mso-level-style-link:"Titre 6";
+	mso-level-text:"\(%6\)";
+	mso-level-tab-stop:270.0pt;
+	mso-level-number-position:left;
+	margin-left:252.0pt;
+	text-indent:0pt;}
+@list l0:level7
+	{mso-level-number-format:roman-lower;
+	mso-level-style-link:"Titre 7";
+	mso-level-text:"\(%7\)";
+	mso-level-tab-stop:306.0pt;
+	mso-level-number-position:left;
+	margin-left:288.0pt;
+	text-indent:0pt;}
+@list l0:level8
+	{mso-level-number-format:alpha-lower;
+	mso-level-style-link:"Titre 8";
+	mso-level-text:"\(%8\)";
+	mso-level-tab-stop:342.0pt;
+	mso-level-number-position:left;
+	margin-left:324.0pt;
+	text-indent:0pt;}
+@list l0:level9
+	{mso-level-number-format:roman-lower;
+	mso-level-style-link:"Titre 9";
+	mso-level-text:"\(%9\)";
+	mso-level-tab-stop:378.0pt;
+	mso-level-number-position:left;
+	margin-left:360.0pt;
+	text-indent:0pt;}
+ol
+	{margin-bottom:0pt;}
+ul
+	{margin-bottom:0pt;}
+-->
+</style>
+<!--[if gte mso 10]>
+<style>
+ /* Style Definitions */
+ table.MsoNormalTable
+	{mso-style-name:"Tableau Normal";
+	mso-tstyle-rowband-size:0;
+	mso-tstyle-colband-size:0;
+	mso-style-noshow:yes;
+	mso-style-parent:"";
+	mso-padding-alt:0pt 5.4pt 0pt 5.4pt;
+	mso-para-margin:0pt;
+	mso-para-margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:"Times New Roman";
+	mso-ansi-language:#0400;
+	mso-fareast-language:#0400;
+	mso-bidi-language:#0400;}
+table.MsoTableGrid
+	{mso-style-name:"Grille du tableau";
+	mso-tstyle-rowband-size:0;
+	mso-tstyle-colband-size:0;
+	border:solid windowtext 1.0pt;
+	mso-border-alt:solid windowtext .5pt;
+	mso-padding-alt:0pt 5.4pt 0pt 5.4pt;
+	mso-border-insideh:.5pt solid windowtext;
+	mso-border-insidev:.5pt solid windowtext;
+	mso-para-margin-top:6.0pt;
+	mso-para-margin-right:0pt;
+	mso-para-margin-bottom:0pt;
+	mso-para-margin-left:28.35pt;
+	mso-para-margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:"Times New Roman";
+	mso-ansi-language:#0400;
+	mso-fareast-language:#0400;
+	mso-bidi-language:#0400;}
+</style>
+<![endif]--><!--[if gte mso 9]><xml>
+ <o:shapedefaults v:ext="edit" spidmax="2050"/>
+</xml><![endif]--><!--[if gte mso 9]><xml>
+ <o:shapelayout v:ext="edit">
+  <o:idmap v:ext="edit" data="1"/>
+ </o:shapelayout></xml><![endif]-->
+</head>
+
+<body lang=FR style='tab-interval:35.4pt'>
+
+<div class=Section1>
+
+#foreach($mod in $prod.modules)
+#if (${mod.is_release()})
+	<p class=normaldt style='margin-left:0pt'><b style='mso-bidi-font-weight:normal'><span
+	lang=EN-GB style='font-size:24.0pt;font-family:"Arial Narrow";color:#20476C'>${mod.get_moduleName()} Module</span></b><span lang=EN-GB style='font-size:
+	24.0pt'><o:p></o:p></span></p>
+	
+	#foreach($func in $mod.functions)
+	#if (${func.is_release()})
+		<p class=normaldt><span lang=EN-GB><o:p>&nbsp;</o:p></span></p>
+		
+		<div style='mso-element:para-border-div;border:solid #DEE0DD 1.0pt;mso-border-alt:
+		solid #DEE0DD .5pt;padding:4.0pt 4.0pt 4.0pt 6.0pt;background:#DEE0DD;
+		margin-left:7.1pt;margin-right:0pt'>
+		
+		<p class=MsoNormal style='background:#DEE0DD;border:none;mso-border-alt:solid #DEE0DD .5pt;
+		padding:0pt;mso-padding-alt:4.0pt 4.0pt 4.0pt 6.0pt'><span class=SpellE><span
+		lang=EN-GB style='font-size:16.0pt;font-family:"Arial Narrow";mso-bidi-font-family:
+		Arial;color:#20476C;mso-ansi-language:EN-GB'>${func.get_functionName()}</span></span><span
+		lang=EN-GB style='font-size:16.0pt;font-family:"Arial Narrow";mso-bidi-font-family:
+		Arial;color:#20476C;mso-ansi-language:EN-GB'> &#150; ${func.get_functionShortDescription()}<o:p></o:p></span></p>
+		
+		</div>
+		
+		<p class=normaldt><span lang=EN-GB><o:p>&nbsp;</o:p></span></p>
+		
+		<div style='mso-element:para-border-div;border:solid #DEE0DD 1.0pt;border-left:
+		solid #0A2C4B 4.5pt;mso-border-alt:solid #DEE0DD .5pt;mso-border-left-alt:solid #0A2C4B 4.5pt;
+		padding:0pt 4.0pt 0pt 4.0pt;background:#DEE0DD;margin-left:49.65pt;margin-right:
+		0pt'>
+		
+		<p class=MsoNormal style='background:#DEE0DD;border:none;mso-border-alt:solid #DEE0DD .5pt;
+		mso-border-left-alt:solid #0A2C4B 4.5pt;padding:0pt;mso-padding-alt:0pt 4.0pt 0pt 4.0pt'><span
+		lang=EN-GB style='font-size:13.5pt;font-family:Arial;color:#20476C;mso-ansi-language:
+		EN-GB'>Overview<o:p></o:p></span></p>
+		
+		</div>
+		
+		<p class=normaldt><span class=GramE><span lang=EN-GB>${func.get_functionDescription()}</span></span></p>
+		
+		<p class=normaldt><span lang=EN-GB><o:p>&nbsp;</o:p></span></p>
+		
+		<div style='mso-element:para-border-div;border:solid #DEE0DD 1.0pt;border-left:
+		solid #0A2C4B 4.5pt;mso-border-alt:solid #DEE0DD .5pt;mso-border-left-alt:solid #0A2C4B 4.5pt;
+		padding:0pt 4.0pt 0pt 4.0pt;background:#DEE0DD;margin-left:49.65pt;margin-right:
+		0pt'>
+		
+		<p class=MsoNormal style='background:#DEE0DD;border:none;mso-border-alt:solid #DEE0DD .5pt;
+		mso-border-left-alt:solid #0A2C4B 4.5pt;padding:0pt;mso-padding-alt:0pt 4.0pt 0pt 4.0pt'><span
+		lang=EN-GB style='font-size:13.5pt;font-family:Arial;color:#20476C;mso-ansi-language:
+		EN-GB'>Inputs<o:p></o:p></span></p>
+		
+		</div>
+		
+		<p class=normaldt><span lang=EN-GB><o:p>&nbsp;</o:p></span></p>
+		
+		<table class=MsoTableGrid border=1 cellspacing=0 cellpadding=0 width=552
+		 style='width:414.0pt;margin-left:50.4pt;border-collapse:collapse;border:none;
+		 mso-border-alt:solid windowtext .5pt;mso-yfti-tbllook:480;mso-padding-alt:
+		 0pt 5.4pt 0pt 5.4pt;mso-border-insideh:.5pt solid windowtext;mso-border-insidev:
+		 .5pt solid windowtext'>
+		 <tr style='mso-yfti-irow:0;mso-yfti-firstrow:yes'>
+		  <td width=192 valign=top style='width:144.0pt;border:solid windowtext 1.0pt;
+		  mso-border-alt:solid windowtext .5pt;background:#CCCCCC;padding:0pt 5.4pt 0pt 5.4pt'>
+		  <p class=normaldt align=center style='margin-left:0pt;text-align:center'><b
+		  style='mso-bidi-font-weight:normal'><span lang=EN-GB style='font-size:8.0pt'>Variable<o:p></o:p></span></b></p>
+		  </td>
+		  <td width=48 valign=top style='width:36.0pt;border:solid windowtext 1.0pt;
+		  border-left:none;mso-border-left-alt:solid windowtext .5pt;mso-border-alt:
+		  solid windowtext .5pt;background:#CCCCCC;padding:0pt 5.4pt 0pt 5.4pt'>
+		  <p class=normaldt align=center style='margin-left:0pt;text-align:center'><b
+		  style='mso-bidi-font-weight:normal'><span lang=EN-GB style='font-size:8.0pt'>Type<o:p></o:p></span></b></p>
+		  </td>
+		  <td width=312 valign=top style='width:234.0pt;border:solid windowtext 1.0pt;
+		  border-left:none;mso-border-left-alt:solid windowtext .5pt;mso-border-alt:
+		  solid windowtext .5pt;background:#CCCCCC;padding:0pt 5.4pt 0pt 5.4pt'>
+		  <p class=normaldt align=center style='margin-left:0pt;text-align:center'><b
+		  style='mso-bidi-font-weight:normal'><span lang=EN-GB style='font-size:8.0pt'>Description<o:p></o:p></span></b></p>
+		  </td>
+		 </tr> 
+		#foreach($param in $func.parameters)
+			#if (${param.is_inputParameter()})
+				 <tr style='mso-yfti-irow:2'>
+				  <td width=192 valign=top style='width:144.0pt;border:solid windowtext 1.0pt;
+				  border-top:none;mso-border-top-alt:solid windowtext .5pt;mso-border-alt:solid windowtext .5pt;
+				  padding:0pt 5.4pt 0pt 5.4pt'>
+				  <p class=normaldt style='margin-left:0pt'><span class=SpellE><b
+				  style='mso-bidi-font-weight:normal'><span lang=EN-GB style='font-size:8.0pt'>${param.get_parameterName()}</span></b></span><span
+				  lang=EN-GB style='font-size:8.0pt'>
+				 #if ((${param.get_parameterType()} == "int[]") || (${param.get_parameterType()} == "double[]"))
+				  [<span class=SpellE>${param.get_nbRows()}</span>]
+				 #elseif ((${param.get_parameterType()} == "int[][]") || (${param.get_parameterType()} == "double[][]"))
+				  [<span class=SpellE>${param.get_nbRows()}</span>, <span
+				  class=SpellE>${param.get_nbColumns()}</span>]
+				 #end
+				  <o:p></o:p></span></p>
+				  </td>
+				  <td width=48 valign=top style='width:36.0pt;border-top:none;border-left:none;
+				  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+				  mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
+				  mso-border-alt:solid windowtext .5pt;padding:0pt 5.4pt 0pt 5.4pt'>
+				  <p class=normaldt style='margin-left:0pt'><span lang=EN-GB style='font-size:
+				  8.0pt'>
+				 #if ((${param.get_parameterType()} == "int") || (${param.get_parameterType()} == "int[]") || (${param.get_parameterType()} == "int[][]"))
+				  Integer
+				 #elseif ((${param.get_parameterType()} == "double") || (${param.get_parameterType()} == "double[]") || (${param.get_parameterType()} == "double[][]"))
+				  Real
+				 #elseif (${param.get_parameterType()} == "function")
+				  Function
+				 #end
+				  <o:p></o:p></span></p>
+				  </td>
+				  <td width=312 valign=top style='width:234.0pt;border-top:none;border-left:
+				  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+				  mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
+				  mso-border-alt:solid windowtext .5pt;padding:0pt 5.4pt 0pt 5.4pt'>
+				  <p class=normaldt style='margin-top:10.0pt;margin-right:3.6pt;margin-bottom:
+				  0pt;margin-left:0pt;margin-bottom:.0001pt'><span lang=EN-GB style='font-size:
+				  8.0pt'>${param.get_parameterDescription()}<o:p></o:p></span></p>
+				  </td>
+				 </tr>
+			#end##of if
+		#end##of for each param
+		</table>
+		
+		<p class=normaldt><span lang=EN-GB><o:p>&nbsp;</o:p></span></p>
+		
+		<div style='mso-element:para-border-div;border:solid #DEE0DD 1.0pt;border-left:
+		solid #0A2C4B 4.5pt;mso-border-alt:solid #DEE0DD .5pt;mso-border-left-alt:solid #0A2C4B 4.5pt;
+		padding:0pt 4.0pt 0pt 4.0pt;background:#DEE0DD;margin-left:49.65pt;margin-right:
+		0pt'>
+		
+		<p class=MsoNormal style='background:#DEE0DD;border:none;mso-border-alt:solid #DEE0DD .5pt;
+		mso-border-left-alt:solid #0A2C4B 4.5pt;padding:0pt;mso-padding-alt:0pt 4.0pt 0pt 4.0pt'><span
+		lang=EN-GB style='font-size:13.5pt;font-family:Arial;color:#20476C;mso-ansi-language:
+		EN-GB'>Outputs<o:p></o:p></span></p>
+		
+		</div>
+		
+		<p class=normaldt><b style='mso-bidi-font-weight:normal'><span
+		style='font-size:11.0pt;mso-bidi-font-size:10.0pt;color:navy;mso-ansi-language:
+		FR;mso-fareast-language:FR'><o:p>&nbsp;</o:p></span></b></p>
+		
+		<table class=MsoTableGrid border=1 cellspacing=0 cellpadding=0 width=552
+		 style='width:414.0pt;margin-left:50.4pt;border-collapse:collapse;border:none;
+		 mso-border-alt:solid windowtext .5pt;mso-yfti-tbllook:480;mso-padding-alt:
+		 0pt 5.4pt 0pt 5.4pt;mso-border-insideh:.5pt solid windowtext;mso-border-insidev:
+		 .5pt solid windowtext'>
+		 <tr style='mso-yfti-irow:0;mso-yfti-firstrow:yes'>
+		  <td width=192 valign=top style='width:144.0pt;border:solid windowtext 1.0pt;
+		  mso-border-alt:solid windowtext .5pt;background:#CCCCCC;padding:0pt 5.4pt 0pt 5.4pt'>
+		  <p class=normaldt align=center style='margin-left:0pt;text-align:center'><b
+		  style='mso-bidi-font-weight:normal'><span lang=EN-GB style='font-size:8.0pt'>Variable<o:p></o:p></span></b></p>
+		  </td>
+		  <td width=48 valign=top style='width:36.0pt;border:solid windowtext 1.0pt;
+		  border-left:none;mso-border-left-alt:solid windowtext .5pt;mso-border-alt:
+		  solid windowtext .5pt;background:#CCCCCC;padding:0pt 5.4pt 0pt 5.4pt'>
+		  <p class=normaldt align=center style='margin-left:0pt;text-align:center'><b
+		  style='mso-bidi-font-weight:normal'><span lang=EN-GB style='font-size:8.0pt'>Type<o:p></o:p></span></b></p>
+		  </td>
+		  <td width=312 valign=top style='width:234.0pt;border:solid windowtext 1.0pt;
+		  border-left:none;mso-border-left-alt:solid windowtext .5pt;mso-border-alt:
+		  solid windowtext .5pt;background:#CCCCCC;padding:0pt 5.4pt 0pt 5.4pt'>
+		  <p class=normaldt align=center style='margin-left:0pt;text-align:center'><b
+		  style='mso-bidi-font-weight:normal'><span lang=EN-GB style='font-size:8.0pt'>Description<o:p></o:p></span></b></p>
+		  </td>
+		 </tr>
+		#foreach($param in $func.parameters)
+			#if (!${param.is_inputParameter()})
+				 <tr style='mso-yfti-irow:2'>
+				  <td width=192 valign=top style='width:144.0pt;border:solid windowtext 1.0pt;
+				  border-top:none;mso-border-top-alt:solid windowtext .5pt;mso-border-alt:solid windowtext .5pt;
+				  padding:0pt 5.4pt 0pt 5.4pt'>
+				  <p class=normaldt style='margin-left:0pt'><span class=SpellE><b
+				  style='mso-bidi-font-weight:normal'><span lang=EN-GB style='font-size:8.0pt'>${param.get_parameterName()}</span></b></span><span
+				  lang=EN-GB style='font-size:8.0pt'>
+				 #if ((${param.get_parameterType()} == "int[]") || (${param.get_parameterType()} == "double[]"))
+				  [<span class=SpellE>${param.get_nbRows()}</span>]
+				 #elseif ((${param.get_parameterType()} == "int[][]") || (${param.get_parameterType()} == "double[][]"))
+				  [<span class=SpellE>${param.get_nbRows()}</span>, <span
+				  class=SpellE>${param.get_nbColumns()}</span>]
+				 #end
+				  <o:p></o:p></span></p>
+				  </td>
+				  <td width=48 valign=top style='width:36.0pt;border-top:none;border-left:none;
+				  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+				  mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
+				  mso-border-alt:solid windowtext .5pt;padding:0pt 5.4pt 0pt 5.4pt'>
+				  <p class=normaldt style='margin-left:0pt'><span lang=EN-GB style='font-size:
+				  8.0pt'>
+				 #if ((${param.get_parameterType()} == "int") || (${param.get_parameterType()} == "int[]") || (${param.get_parameterType()} == "int[][]"))
+				  Integer
+				 #elseif ((${param.get_parameterType()} == "double") || (${param.get_parameterType()} == "double[]") || (${param.get_parameterType()} == "double[][]"))
+				  Real
+				 #end
+				  <o:p></o:p></span></p>
+				  </td>
+				  <td width=312 valign=top style='width:234.0pt;border-top:none;border-left:
+				  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+				  mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
+				  mso-border-alt:solid windowtext .5pt;padding:0pt 5.4pt 0pt 5.4pt'>
+				  <p class=normaldt style='margin-top:10.0pt;margin-right:3.6pt;margin-bottom:
+				  0pt;margin-left:0pt;margin-bottom:.0001pt'><span lang=EN-GB style='font-size:
+				  8.0pt'>${param.get_parameterDescription()}<o:p></o:p></span></p>
+				  </td>
+				 </tr>
+			#end##of if
+		#end##of foreach param
+		</table>
+		
+		<p class=MsoNormal style='margin-top:0pt;margin-right:54.0pt;margin-bottom:
+		0pt;margin-left:54.0pt;margin-bottom:.0001pt'><span lang=EN-GB
+		style='font-size:9.0pt;mso-ansi-language:EN-GB'><o:p>&nbsp;</o:p></span></p>
+		
+		<p class=MsoNormal style='margin-top:0pt;margin-right:54.0pt;margin-bottom:
+		0pt;margin-left:54.0pt;margin-bottom:.0001pt'><span lang=EN-GB
+		style='font-size:9.0pt;mso-ansi-language:EN-GB'><o:p>&nbsp;</o:p></span></p>
+	#end
+	#end##of for each function
+#end
+#end##of for each mod
+</div>
+
+</body>
+
+</html>

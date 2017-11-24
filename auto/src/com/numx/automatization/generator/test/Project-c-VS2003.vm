@@ -1,0 +1,208 @@
+#if (${prod.get_productShortName()} == "NumX")
+#**##set ($prodname="NumX")
+#end
+#if (${prod.get_productShortName()} == "RNE")
+#**##set ($prodname="RNE")
+#end
+<?xml version="1.0" encoding="Windows-1252"?>
+<VisualStudioProject
+	ProjectType="Visual C++"
+	Version="7.10"
+	Name="${prod.get_productShortNameLower()}"
+	ProjectGUID="{7ED615CC-1411-4C1D-BFFA-5B976D621FA6}"
+	RootNamespace="${prod.get_productShortNameLower()}"
+	Keyword="ManagedCProj">
+	<Platforms>
+		<Platform
+			Name="Win32"/>
+	</Platforms>
+	<Configurations>
+		<Configuration
+			Name="Debug|Win32"
+			OutputDirectory="$(SolutionDir)"
+			IntermediateDirectory="$(ConfigurationName)"
+			ConfigurationType="1"
+			CharacterSet="2"
+			ManagedExtensions="FALSE">
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="0"
+				PreprocessorDefinitions="WIN32;_DEBUG"
+				MinimalRebuild="FALSE"
+				BasicRuntimeChecks="0"
+				RuntimeLibrary="1"
+				UsePrecompiledHeader="0"
+				WarningLevel="3"
+				DebugInformationFormat="3"/>
+			<Tool
+				Name="VCCustomBuildTool"/>
+			<Tool
+				Name="VCLinkerTool"
+				AdditionalDependencies="#*
+*##foreach ($mod in $prod.modules)#*
+*##if (${mod.is_release()})#*
+  *#${prod.get_productShortNameLower()}-${mod.get_moduleNameLowerScore()}-c-${prod.get_productVersion()}.lib #*
+*##end#*
+*##end#*
+*#"
+				OutputFile="$(OutDir)\$(ProjectName).exe"
+				LinkIncremental="2"
+				AdditionalLibraryDirectories="../../../../release/lib/win32"
+				GenerateDebugInformation="TRUE"
+				AssemblyDebug="1"/>
+			<Tool
+				Name="VCMIDLTool"/>
+			<Tool
+				Name="VCPostBuildEventTool"/>
+			<Tool
+				Name="VCPreBuildEventTool"/>
+			<Tool
+				Name="VCPreLinkEventTool"/>
+			<Tool
+				Name="VCResourceCompilerTool"/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"/>
+			<Tool
+				Name="VCWebDeploymentTool"/>
+			<Tool
+				Name="VCManagedWrapperGeneratorTool"/>
+			<Tool
+				Name="VCAuxiliaryManagedWrapperGeneratorTool"/>
+		</Configuration>
+		<Configuration
+			Name="Release|Win32"
+			OutputDirectory="$(SolutionDir)"
+			IntermediateDirectory="$(ConfigurationName)"
+			ConfigurationType="1"
+			CharacterSet="2"
+			ManagedExtensions="FALSE">
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="3"
+				GlobalOptimizations="TRUE"
+				FavorSizeOrSpeed="1"
+				OptimizeForProcessor="3"
+				AdditionalIncludeDirectories=""
+				PreprocessorDefinitions="WIN32;NDEBUG"
+				MinimalRebuild="FALSE"
+				RuntimeLibrary="4"
+				EnableEnhancedInstructionSet="2"
+				UsePrecompiledHeader="0"
+				WarningLevel="3"
+				DebugInformationFormat="3"/>
+			<Tool
+				Name="VCCustomBuildTool"/>
+			<Tool
+				Name="VCLinkerTool"
+				AdditionalDependencies="#*
+*##foreach ($mod in $prod.modules)#*
+*##if (${mod.is_release()})#*
+  *#${prod.get_productShortNameLower()}-${mod.get_moduleNameLowerScore()}-c-${prod.get_productVersion()}.lib #*
+*##end#*
+*##end#*
+*#"
+				OutputFile="$(OutDir)\$(ProjectName).exe"
+				LinkIncremental="1"
+				AdditionalLibraryDirectories="..\..\..\..\release\lib\win32"
+				GenerateDebugInformation="FALSE"/>
+			<Tool
+				Name="VCMIDLTool"/>
+			<Tool
+				Name="VCPostBuildEventTool"/>
+			<Tool
+				Name="VCPreBuildEventTool"/>
+			<Tool
+				Name="VCPreLinkEventTool"/>
+			<Tool
+				Name="VCResourceCompilerTool"/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"/>
+			<Tool
+				Name="VCWebDeploymentTool"/>
+			<Tool
+				Name="VCManagedWrapperGeneratorTool"/>
+			<Tool
+				Name="VCAuxiliaryManagedWrapperGeneratorTool"/>
+		</Configuration>
+	</Configurations>
+	<References>
+		<AssemblyReference
+			RelativePath="mscorlib.dll"/>
+		<AssemblyReference
+			RelativePath="System.dll"/>
+		<AssemblyReference
+			RelativePath="System.Data.dll"/>
+	</References>
+	<Files>
+		<Filter
+			Name="Source Files"
+			Filter="cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx"
+			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}">
+			<File
+				RelativePath="..\..\..\src\cpp\StdAfx.cpp">
+			</File>
+			<File
+				RelativePath="..\..\..\src\cpp\Test${prod.get_productShortName()}.cpp">
+			</File>
+#foreach ($mod in $prod.modules)
+#if (${mod.is_release()})
+#**#			<File
+#**#				RelativePath="..\..\..\src\cpp\Test${prod.get_productShortName()}${mod.get_moduleNameNoSpace()}.cpp">
+#**#			</File>
+#**##foreach ($func in $mod.functions)
+#*    *##if (${func.is_release()} && ${func.get_functionName()} != "${prodname}${mod.get_moduleNameLowerNoSpace()}Test")
+#*        *#			<File
+#*        *#				RelativePath="..\..\..\src\cpp\Test${func.get_functionName()}.cpp">
+#*        *#			</File>
+#*    *##end
+#**##end
+#end
+#end
+			<File
+				RelativePath="..\..\..\src\cpp\TestNumXfunctions.cpp">
+			</File>
+			<File
+				RelativePath="..\..\..\src\cpp\Utilities.cpp">
+			</File>
+		</Filter>
+		<Filter
+			Name="Header Files"
+			Filter="h;hpp;hxx;hm;inl;inc;xsd"
+			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}">
+			<File
+				RelativePath="..\..\..\src\cpp\StdAfx.h">
+			</File>
+#foreach ($mod in $prod.modules)
+#if (${mod.is_release()})
+#**#			<File
+#**#				RelativePath="..\..\..\src\cpp\Test${prod.get_productShortName()}${mod.get_moduleNameNoSpace()}.h">
+#**#			</File>
+#**##foreach ($func in $mod.functions)
+#*    *##if (${func.is_release()} && ${func.get_functionName()} != "${prodname}${mod.get_moduleNameLowerNoSpace()}Test")
+#*        *#			<File
+#*        *#				RelativePath="..\..\..\src\cpp\Test${func.get_functionName()}.h">
+#*        *#			</File>
+#*    *##end
+#**##end
+#end
+#end
+			<File
+				RelativePath="..\..\..\src\cpp\TestNumXfunctions.h">
+			</File>
+			<File
+				RelativePath="..\..\..\src\cpp\Utilities.h">
+			</File>
+		</Filter>
+		<Filter
+			Name="Resource Files"
+			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx"
+			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}">
+		</Filter>
+	</Files>
+	<Globals>
+	</Globals>
+</VisualStudioProject>

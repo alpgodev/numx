@@ -1,0 +1,58 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<HTML>
+<HEAD>
+<meta name="GENERATOR" content="Microsoft&reg; HTML Help Workshop 4.1">
+<!-- Sitemap 1.0 -->
+</HEAD><BODY>
+<OBJECT type="text/site properties">
+	<param name="Window Styles" value="0x800025">
+</OBJECT>
+<UL>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Integration of numX&reg; components">
+		<param name="Local" value="Integration.html">
+		</OBJECT>
+	<UL>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Installation of the library">
+			<param name="Local" value="Installation.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Import of the module">
+			<param name="Local" value="Import.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Use of the module">
+			<param name="Local" value="Use.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Example of use">
+			<param name="Local" value="Example.html">
+			</OBJECT>
+	</UL>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Functions description">
+		<param name="Local" value="FunctionsDescription.html">
+		</OBJECT>
+	<UL>
+#foreach ($mod in $prod.modules)
+#**##if (!${mod.is_onlyC()} && ${mod.is_release()})
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="${mod.get_moduleName()}">
+			<param name="Local" value="${mod.get_moduleNameNoSpace()}.html">
+			</OBJECT>
+		<UL>
+#*    *##foreach ($func in $mod.functions)
+#*        *##if (!${func.is_onlyC()} && ${func.is_release()})
+			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="${func.get_functionName()}">
+				<param name="Local" value="${func.get_functionName()}.html">
+				</OBJECT>
+#*        *##end
+#*    *##end
+		</UL>
+#**##end
+#end
+	</UL>
+</UL>
+</BODY></HTML>

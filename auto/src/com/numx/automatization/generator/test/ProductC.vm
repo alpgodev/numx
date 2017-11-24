@@ -1,0 +1,51 @@
+#set ($diese="#")
+${diese}include "StdAfx.h"
+${diese}include "Utilities.h"
+//${diese}include <windows.h>
+
+#foreach ($mod in $prod.modules)
+#if (${mod.is_release()})
+${diese}include "Test${prod.get_productShortName()}${mod.get_moduleNameNoSpace()}.h"
+#end
+#end
+
+int main(int argc, char* argv[])
+{
+	bool OK = true;
+	bool allOK = true;
+
+	if (argc > 1) {
+		if (strcmp(argv[1], "details") == 0) {
+			Utilities::setShowDetails(true);
+		} else if (strcmp(argv[1], "modules") == 0) {
+			Utilities::setShowModules(true);
+		}
+	}
+
+	string inputPath = "../../data/input/";
+	string refPath = "../../data/ref/";
+	string outputDir = "../../report/${prod.get_productShortName()}/";
+	//CreateDirectory(outputDir.c_str(), NULL);
+	outputDir = "../../report/${prod.get_productShortName()}/cpp/";
+	//CreateDirectory(outputDir.c_str(), NULL);
+	
+	printf("\n---------- Testing ${prod.get_productName()} for C++ ----------\n");
+	
+#foreach ($mod in $prod.modules)
+#if (${mod.is_release()})
+	
+	/***** ${mod.get_moduleName()} *****/		
+	Test${prod.get_productShortName()}${mod.get_moduleNameNoSpace()} t${prod.get_productShortName()}${mod.get_moduleNameNoSpace()};
+	OK = t${prod.get_productShortName()}${mod.get_moduleNameNoSpace()}.test(inputPath + "${mod.get_moduleNameLowerScore()}/", refPath + "${mod.get_moduleNameLowerScore()}/",
+				 outputDir + "${mod.get_moduleNameLowerScore()}/");
+	Utilities::printModuleResult(OK, "----Test ${prod.get_productShortName()} ${mod.get_moduleName()} module----");
+	allOK = OK && allOK;
+	
+#end
+#end
+	Utilities::printResult(allOK, "------Test ${prod.get_productName()} for C++------");
+
+	printf("\n---------------------------------------------\n");
+
+	return 0;
+}
