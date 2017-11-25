@@ -1,12 +1,10 @@
 #!/bin/sh
 echo ""
-echo "***--- NumX v1.0 - Mac OS X installation ---***"
-echo "               (c) 2014 - NumX                 "
-echo ""
+echo "***--- NumX v1.0 - installation ---***"
 echo ""
 echo "***--- Generating C/JAVA APIs, .h, javadoc ... ---***"
 echo ""
-#rm api/c/*/*.c api/jni/*/*.c # ne pas effacer mcvar.c
+#rm api/c/*/*.c api/jni/*/*.c 
 cd auto
 ant clean
 ant C_API

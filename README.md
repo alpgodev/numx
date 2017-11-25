@@ -1,7 +1,7 @@
 # numx
-Library for Portfolio Optimization and Risk Analysis.
+High-Performance Library for Portfolio Optimization and Risk Analysis.
 
-VERSION 1.0  :  October 2017
+Version 1.0
 
 ### Currently supported systems are:
 
@@ -9,13 +9,13 @@ VERSION 1.0  :  October 2017
 - Linux
 - Mac OS X
 
-### COMPILING NumX (C and JAVA APIs)
+### Compiling NumX (C and JAVA APIs)
 
 NumX can be installed with make. Configuration have to be set in the make.inc file.
 
 Running ```./install.sh``` should do the job ;)
 
-### INSTALLING NumX
+### Installing NumX
 
 1. Add “numx.jar" to your CLASSPATH
 
@@ -24,9 +24,9 @@ Running ```./install.sh``` should do the job ;)
    don't want to do this, extract the dynamic library from numx.jar
    and copy it somewhere where it can be found.
 
-   For Linux, use LD_LIBRARY_PATH, for Windows, PATH
+   For Linux/OS X, use LD_LIBRARY_PATH, for Windows, PATH
  
-### TESTING NumX
+### Testing NumX
 
 We recommend that you run the testing. 
 
